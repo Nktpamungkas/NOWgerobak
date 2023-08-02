@@ -3,7 +3,7 @@ ini_set("error_reporting", 0);
 $Gerobak  = isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
 $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
 ?>
-<center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center>
+<!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
 <div class="container-fluid">
   <form role="form" method="post" enctype="multipart/form-data" name="form1">
     <div class="card card-success">
