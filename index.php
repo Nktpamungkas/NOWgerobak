@@ -261,6 +261,9 @@ $(document).on('click', '.detail_timeend', function (e) {
 </script>
 <script>
   $(function () {
+    $("#cekGerobakTable").DataTable({
+      order: [ 4, 'asc' ]
+    } );
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "excel", "pdf"]

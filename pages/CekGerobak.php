@@ -1,8 +1,9 @@
-<?php
+<?php 
+ini_set("error_reporting", 0);
 $Gerobak  = isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
 $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
 ?>
-<!-- Main content -->
+<center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center>
 <div class="container-fluid">
   <form role="form" method="post" enctype="multipart/form-data" name="form1">
     <div class="card card-success">
@@ -18,17 +19,20 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
           </button>
         </div>
       </div>
-      <!-- /.card-header -->
       <div class="card-body">
         <div class="form-group row">
-          <label for="tgl" class="col-sm-1 control-label">Tanggal</label>
+          <label for="tgl" class="col-sm-1 control-label">Tanggal Awal</label>
           <div class="col-sm-2">
             <div class="input-group date">
-              <div class="input-group-addon"> <i class="fa fa-calendar"></i> </div>
               <input name="tgl" type="date" class="form-control pull-right" placeholder="Tanggal Awal" value="<?php echo $Tgl; ?>" autocomplete="off" />
             </div>
           </div>
-          <!-- /.input group -->
+          <label for="tgl" class="col-sm-1 control-label">Tanggal Akhir</label>
+          <div class="col-sm-2">
+            <div class="input-group date">
+              <input name="tgl2" type="date" class="form-control pull-right" placeholder="Tanggal Akhir" value="<?php echo $_POST['tgl2']; ?>" autocomplete="off" />
+            </div>
+          </div>
         </div>
         <div class="form-group row">
           <label for="gerobak" class="col-sm-1 control-label">No Gerobak</label>
@@ -37,43 +41,9 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
           </div>
           <!-- /.input group -->
         </div>
-        <!-- <div class="form-group row">
-               <label for="gerobak" class="col-md-1 col-form-label">Gerobak</label>  
-				          <div class="col-sm-4">
-                    <select class="form-control select2bs4" style="width: 100%;" name="gerobak">
-				              <option value="">Pilih</option>	 
-                      <option value="GRB1" <?php if ($Gerobak == "GRB1") {
-                                              echo "SELECTED";
-                                            } ?>>GRB1</option>
-                      <option value="GRB2" <?php if ($Gerobak == "GRB2") {
-                                              echo "SELECTED";
-                                            } ?>>GRB2</option>
-                      <option value="GRB3" <?php if ($Gerobak == "GRB3") {
-                                              echo "SELECTED";
-                                            } ?>>GRB3</option>
-                      <option value="GRB4" <?php if ($Gerobak == "GRB4") {
-                                              echo "SELECTED";
-                                            } ?>>GRB4</option>
-                      <option value="GRB5" <?php if ($Gerobak == "GRB5") {
-                                              echo "SELECTED";
-                                            } ?>>GRB5</option>
-                      <option value="GRB6" <?php if ($Gerobak == "GRB6") {
-                                              echo "SELECTED";
-                                            } ?>>GRB6</option>
-                      <option value="GRB7" <?php if ($Gerobak == "GRB7") {
-                                              echo "SELECTED";
-                                            } ?>>GRB7</option>
-                      <option value="GRB8" <?php if ($Gerobak == "GRB8") {
-                                              echo "SELECTED";
-                                            } ?>>GRB8</option>
-                    </select>
-				          </div>	 
-            </div> -->
         <button class="btn btn-info" type="submit">Cari Data</button>
       </div>
-
     </div>
-    <!-- /.card-body -->
 </div>
 
 <div class="card card-warning">
@@ -82,30 +52,30 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
   </div>
   <!-- /.card-header -->
   <div class="card-body">
-    <table id="example1" class="table table-sm table-bordered table-striped" style="font-size: 13px; text-align: center;">
-      <thead>
-        <tr>
-          <th valign="middle" style="text-align: center">Prod. Order</th>
-          <th valign="middle" style="text-align: center">Project</th>
-          <th valign="middle" style="text-align: center">Buyer</th>
-          <th valign="middle" style="text-align: center">Tgl Import</th>
-          <th valign="middle" style="text-align: center">Full Item</th>
-          <th valign="middle" style="text-align: center">Jenis Kain</th>
-          <th valign="middle" style="text-align: center">Warna</th>
-          <th valign="middle" style="text-align: center">Work Center</th>
-          <th valign="middle" style="text-align: center">Operation Code</th>
-          <th valign="middle" style="text-align: center">Characteristic Code</th>
-          <th valign="middle" style="text-align: center">Gerobak</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-
+  <table id="cekGerobakTable" class="table table-sm table-bordered table-striped" style="font-size: 13px; text-align: center;">
+    <thead>
+      <tr>
+        <th valign="middle" style="text-align: center">Prod. Order</th>
+        <th valign="middle" style="text-align: center">Project</th>
+        <th valign="middle" style="text-align: center">Buyer</th>
+        <th valign="middle" style="text-align: center">Tgl Import</th>
+        <th valign="middle" style="text-align: center">Full Item</th>
+        <th valign="middle" style="text-align: center">Jenis Kain</th>
+        <th valign="middle" style="text-align: center">Warna</th>
+        <th valign="middle" style="text-align: center">Work Center</th>
+        <th valign="middle" style="text-align: center">Operation Code</th>
+        <th valign="middle" style="text-align: center">Characteristic Code</th>
+        <th valign="middle" style="text-align: center">Gerobak</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php
         $no = 1;
         $c = 0;
+        $tgl2 = $_POST['tgl2'];
 
         if ($Tgl != '') {
-          $tanggal = " AND VARCHAR_FORMAT(QUALITYDOCUMENTBEAN.IMPORTDATETIME,'YYYY-MM-DD')='$Tgl' ";
+          $tanggal = " AND VARCHAR_FORMAT(QUALITYDOCUMENTBEAN.IMPORTDATETIME,'YYYY-MM-DD') BETWEEN '$Tgl' AND '$tgl2'";
         } else {
           $tanggal = "";
         }
@@ -127,42 +97,10 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
                         QUALITYDOCUMENT.OPERATIONCODE,
                         QUALITYDOCLINE.CHARACTERISTICCODE,
                         QUALITYDOCLINE.VALUEQUANTITY,
-                        PRODUCT.LONGDESCRIPTION AS JENIS_KAIN,
-                        ITXVIEWCOLOR.WARNA,
-                        A.PROJECTCODE, 
-                        ORDERPARTNERBRAND.LONGDESCRIPTION AS BUYER, 
                         QUALITYDOCUMENTBEAN.IMPORTDATETIME
                       FROM QUALITYDOCUMENT QUALITYDOCUMENT 
                       LEFT JOIN QUALITYDOCLINE QUALITYDOCLINE ON QUALITYDOCUMENT.PRODUCTIONORDERCODE = QUALITYDOCLINE.QUALITYDOCPRODUCTIONORDERCODE AND 
                                           QUALITYDOCUMENT.HEADERLINE = QUALITYDOCLINE.QUALITYDOCUMENTHEADERLINE
-                      LEFT JOIN PRODUCT PRODUCT ON 
-                                        QUALITYDOCUMENT.ITEMTYPEAFICODE = PRODUCT.ITEMTYPECODE AND 
-                                        QUALITYDOCUMENT.SUBCODE01 = PRODUCT.SUBCODE01 AND 
-                                        QUALITYDOCUMENT.SUBCODE02 = PRODUCT.SUBCODE02 AND 
-                                        QUALITYDOCUMENT.SUBCODE03 = PRODUCT.SUBCODE03 AND 
-                                        QUALITYDOCUMENT.SUBCODE04 = PRODUCT.SUBCODE04 AND 
-                                        QUALITYDOCUMENT.SUBCODE05 = PRODUCT.SUBCODE05 AND 
-                                        QUALITYDOCUMENT.SUBCODE06 = PRODUCT.SUBCODE06 AND 
-                                        QUALITYDOCUMENT.SUBCODE07 = PRODUCT.SUBCODE07 AND 
-                                        QUALITYDOCUMENT.SUBCODE08 = PRODUCT.SUBCODE08 AND 
-                                        QUALITYDOCUMENT.SUBCODE09 = PRODUCT.SUBCODE09 AND 
-                                        QUALITYDOCUMENT.SUBCODE10 = PRODUCT.SUBCODE10
-                      LEFT JOIN ITXVIEWCOLOR ITXVIEWCOLOR ON 
-                                        QUALITYDOCUMENT.ITEMTYPEAFICODE = ITXVIEWCOLOR.ITEMTYPECODE AND 
-                                        QUALITYDOCUMENT.SUBCODE01 = ITXVIEWCOLOR.SUBCODE01 AND 
-                                        QUALITYDOCUMENT.SUBCODE02 = ITXVIEWCOLOR.SUBCODE02 AND 
-                                        QUALITYDOCUMENT.SUBCODE03 = ITXVIEWCOLOR.SUBCODE03 AND 
-                                        QUALITYDOCUMENT.SUBCODE04 = ITXVIEWCOLOR.SUBCODE04 AND 
-                                        QUALITYDOCUMENT.SUBCODE05 = ITXVIEWCOLOR.SUBCODE05 AND 
-                                        QUALITYDOCUMENT.SUBCODE06 = ITXVIEWCOLOR.SUBCODE06 AND 
-                                        QUALITYDOCUMENT.SUBCODE07 = ITXVIEWCOLOR.SUBCODE07 AND 
-                                        QUALITYDOCUMENT.SUBCODE08 = ITXVIEWCOLOR.SUBCODE08 AND 
-                                        QUALITYDOCUMENT.SUBCODE09 = ITXVIEWCOLOR.SUBCODE09 AND 
-                                        QUALITYDOCUMENT.SUBCODE10 = ITXVIEWCOLOR.SUBCODE10
-                      LEFT JOIN ITXVIEWKK A ON A.PRODUCTIONORDERCODE = QUALITYDOCUMENT.PRODUCTIONORDERCODE
-                      LEFT JOIN SALESORDER SALESORDER ON SALESORDER.CODE = A.PROJECTCODE 
-                      LEFT JOIN ORDERPARTNERBRAND ORDERPARTNERBRAND ON SALESORDER.ORDPRNCUSTOMERSUPPLIERCODE = ORDERPARTNERBRAND.ORDPRNCUSTOMERSUPPLIERCODE 
-                                                      AND SALESORDER.ORDERPARTNERBRANDCODE = ORDERPARTNERBRAND.CODE 
                       LEFT JOIN QUALITYDOCUMENTBEAN QUALITYDOCUMENTBEAN ON QUALITYDOCUMENT.PRODUCTIONORDERCODE = QUALITYDOCUMENTBEAN.PRODUCTIONORDERCODE AND 
                                                                               QUALITYDOCUMENT.HEADERNUMBERID = QUALITYDOCUMENTBEAN.HEADERNUMBERID AND 
                                                                               QUALITYDOCUMENT.HEADERLINE = QUALITYDOCUMENTBEAN.HEADERLINE
@@ -188,10 +126,6 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
                         QUALITYDOCUMENT.OPERATIONCODE,
                         QUALITYDOCLINE.CHARACTERISTICCODE,
                         QUALITYDOCLINE.VALUEQUANTITY,
-                        PRODUCT.LONGDESCRIPTION,
-                        ITXVIEWCOLOR.WARNA,
-                        A.PROJECTCODE, 
-                        ORDERPARTNERBRAND.LONGDESCRIPTION,
                         QUALITYDOCUMENTBEAN.IMPORTDATETIME
                       ORDER BY 
                         QUALITYDOCUMENTBEAN.IMPORTDATETIME DESC";
@@ -221,37 +155,37 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
                         QUALITYDOCUMENTBEAN.IMPORTDATETIME
                       FROM QUALITYDOCUMENT QUALITYDOCUMENT 
                       LEFT JOIN QUALITYDOCLINE QUALITYDOCLINE ON QUALITYDOCUMENT.PRODUCTIONORDERCODE = QUALITYDOCLINE.QUALITYDOCPRODUCTIONORDERCODE AND QUALITYDOCUMENT.HEADERLINE = QUALITYDOCLINE.QUALITYDOCUMENTHEADERLINE
-                      LEFT JOIN PRODUCT PRODUCT ON 
-                      QUALITYDOCUMENT.ITEMTYPEAFICODE = PRODUCT.ITEMTYPECODE AND 
-                      QUALITYDOCUMENT.SUBCODE01 = PRODUCT.SUBCODE01 AND 
-                      QUALITYDOCUMENT.SUBCODE02 = PRODUCT.SUBCODE02 AND 
-                      QUALITYDOCUMENT.SUBCODE03 = PRODUCT.SUBCODE03 AND 
-                      QUALITYDOCUMENT.SUBCODE04 = PRODUCT.SUBCODE04 AND 
-                      QUALITYDOCUMENT.SUBCODE05 = PRODUCT.SUBCODE05 AND 
-                      QUALITYDOCUMENT.SUBCODE06 = PRODUCT.SUBCODE06 AND 
-                      QUALITYDOCUMENT.SUBCODE07 = PRODUCT.SUBCODE07 AND 
-                      QUALITYDOCUMENT.SUBCODE08 = PRODUCT.SUBCODE08 AND 
-                      QUALITYDOCUMENT.SUBCODE09 = PRODUCT.SUBCODE09 AND 
-                      QUALITYDOCUMENT.SUBCODE10 = PRODUCT.SUBCODE10
-                      LEFT JOIN ITXVIEWCOLOR ITXVIEWCOLOR ON 
-                      QUALITYDOCUMENT.ITEMTYPEAFICODE = ITXVIEWCOLOR.ITEMTYPECODE AND 
-                      QUALITYDOCUMENT.SUBCODE01 = ITXVIEWCOLOR.SUBCODE01 AND 
-                      QUALITYDOCUMENT.SUBCODE02 = ITXVIEWCOLOR.SUBCODE02 AND 
-                      QUALITYDOCUMENT.SUBCODE03 = ITXVIEWCOLOR.SUBCODE03 AND 
-                      QUALITYDOCUMENT.SUBCODE04 = ITXVIEWCOLOR.SUBCODE04 AND 
-                      QUALITYDOCUMENT.SUBCODE05 = ITXVIEWCOLOR.SUBCODE05 AND 
-                      QUALITYDOCUMENT.SUBCODE06 = ITXVIEWCOLOR.SUBCODE06 AND 
-                      QUALITYDOCUMENT.SUBCODE07 = ITXVIEWCOLOR.SUBCODE07 AND 
-                      QUALITYDOCUMENT.SUBCODE08 = ITXVIEWCOLOR.SUBCODE08 AND 
-                      QUALITYDOCUMENT.SUBCODE09 = ITXVIEWCOLOR.SUBCODE09 AND 
-                      QUALITYDOCUMENT.SUBCODE10 = ITXVIEWCOLOR.SUBCODE10
-                      LEFT JOIN ITXVIEWKK A ON A.PRODUCTIONORDERCODE = QUALITYDOCUMENT.PRODUCTIONORDERCODE
-                      LEFT JOIN SALESORDER SALESORDER 
-                      ON A.PROJECTCODE = SALESORDER.CODE 
-                      LEFT JOIN ORDERPARTNERBRAND ORDERPARTNERBRAND 
-                      ON SALESORDER.ORDPRNCUSTOMERSUPPLIERCODE = ORDERPARTNERBRAND.ORDPRNCUSTOMERSUPPLIERCODE AND SALESORDER.ORDERPARTNERBRANDCODE = ORDERPARTNERBRAND.CODE 
-                      LEFT JOIN QUALITYDOCUMENTBEAN QUALITYDOCUMENTBEAN ON QUALITYDOCUMENT.PRODUCTIONORDERCODE = QUALITYDOCUMENTBEAN.PRODUCTIONORDERCODE AND 
-                        QUALITYDOCUMENT.HEADERNUMBERID = QUALITYDOCUMENTBEAN.HEADERNUMBERID AND QUALITYDOCUMENT.HEADERLINE = QUALITYDOCUMENTBEAN.HEADERLINE
+                      -- LEFT JOIN PRODUCT PRODUCT ON 
+                      --                 QUALITYDOCUMENT.ITEMTYPEAFICODE = PRODUCT.ITEMTYPECODE AND 
+                      --                 QUALITYDOCUMENT.SUBCODE01 = PRODUCT.SUBCODE01 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE02 = PRODUCT.SUBCODE02 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE03 = PRODUCT.SUBCODE03 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE04 = PRODUCT.SUBCODE04 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE05 = PRODUCT.SUBCODE05 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE06 = PRODUCT.SUBCODE06 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE07 = PRODUCT.SUBCODE07 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE08 = PRODUCT.SUBCODE08 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE09 = PRODUCT.SUBCODE09 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE10 = PRODUCT.SUBCODE10
+                      -- LEFT JOIN ITXVIEWCOLOR ITXVIEWCOLOR ON 
+                      --                 QUALITYDOCUMENT.ITEMTYPEAFICODE = ITXVIEWCOLOR.ITEMTYPECODE AND 
+                      --                 QUALITYDOCUMENT.SUBCODE01 = ITXVIEWCOLOR.SUBCODE01 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE02 = ITXVIEWCOLOR.SUBCODE02 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE03 = ITXVIEWCOLOR.SUBCODE03 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE04 = ITXVIEWCOLOR.SUBCODE04 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE05 = ITXVIEWCOLOR.SUBCODE05 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE06 = ITXVIEWCOLOR.SUBCODE06 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE07 = ITXVIEWCOLOR.SUBCODE07 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE08 = ITXVIEWCOLOR.SUBCODE08 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE09 = ITXVIEWCOLOR.SUBCODE09 AND 
+                      --                 QUALITYDOCUMENT.SUBCODE10 = ITXVIEWCOLOR.SUBCODE10
+                      -- LEFT JOIN ITXVIEWKK A ON A.PRODUCTIONORDERCODE = QUALITYDOCUMENT.PRODUCTIONORDERCODE
+                      -- LEFT JOIN SALESORDER SALESORDER ON A.PROJECTCODE = SALESORDER.CODE 
+                      -- LEFT JOIN ORDERPARTNERBRAND ORDERPARTNERBRAND ON SALESORDER.ORDPRNCUSTOMERSUPPLIERCODE = ORDERPARTNERBRAND.ORDPRNCUSTOMERSUPPLIERCODE 
+                                                                    -- AND SALESORDER.ORDERPARTNERBRANDCODE = ORDERPARTNERBRAND.CODE 
+                      LEFT JOIN QUALITYDOCUMENTBEAN QUALITYDOCUMENTBEAN ON QUALITYDOCUMENT.PRODUCTIONORDERCODE = QUALITYDOCUMENTBEAN.PRODUCTIONORDERCODE 
+                                                                    AND QUALITYDOCUMENT.HEADERNUMBERID = QUALITYDOCUMENTBEAN.HEADERNUMBERID 
+                                                                    AND QUALITYDOCUMENT.HEADERLINE = QUALITYDOCUMENTBEAN.HEADERLINE
                       WHERE 
                         QUALITYDOCLINE.CHARACTERISTICCODE LIKE 'GRB%' AND 
                         QUALITYDOCLINE.VALUEQUANTITY IS NOT NULL AND 
@@ -285,30 +219,46 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
                         QUALITYDOCUMENTBEAN.IMPORTDATETIME DESC";
           $stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));
         }
-        //}				  
         while ($rowdb2 = db2_fetch_assoc($stmt)) {
           $grb = explode(".", $rowdb2['VALUEQUANTITY']);
-        ?>
-          <tr>
-            <td style="text-align: center"><?php echo $rowdb2['PRODUCTIONORDERCODE']; ?></td>
-            <td style="text-align: center"><?php echo $rowdb2['PROJECTCODE']; ?></td>
-            <td style="text-align: center"><?php echo $rowdb2['BUYER']; ?></td>
-            <td style="text-align: center"><?php echo SUBSTR($rowdb2['IMPORTDATETIME'], 0, 10); ?></td>
-            <td style="text-align: center"><?php echo trim($rowdb2['ITEMTYPEAFICODE']) . " " . trim($rowdb2['SUBCODE01']) . "-" . trim($rowdb2['SUBCODE02']) . "-" . trim($rowdb2['SUBCODE03']) . "-" . trim($rowdb2['SUBCODE04']) . "-" . trim($rowdb2['SUBCODE05']) . "-" . trim($rowdb2['SUBCODE06']) . "-" . trim($rowdb2['SUBCODE07']) . "-" . trim($rowdb2['SUBCODE08']) . "-" . trim($rowdb2['SUBCODE09']) . "-" . trim($rowdb2['SUBCODE10']); ?></td>
-            <td style="text-align: left"><?php echo $rowdb2['JENIS_KAIN']; ?></td>
-            <td style="text-align: center"><?php echo $rowdb2['WARNA']; ?></td>
-            <td style="text-align: center"><?php echo $rowdb2['WORKCENTERCODE']; ?></td>
-            <td style="text-align: center"><?php echo $rowdb2['OPERATIONCODE']; ?></td>
-            <td style="text-align: center"><?php echo $rowdb2['CHARACTERISTICCODE']; ?></td>
-            <td style="text-align: center"><?php echo $grb[0]; ?></td>
-          </tr>
 
-        <?php
-          $no++;
-        } ?>
-      </tbody>
+          $ITXVIEWKK  = db2_exec($conn1, "SELECT * FROM ITXVIEWKK WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'");
+          $dt_ITXVIEWKK  = db2_fetch_assoc($ITXVIEWKK);
 
-    </table>
+          $sql_pelanggan_buyer 	= db2_exec($conn1, "SELECT TRIM(LANGGANAN) AS PELANGGAN, TRIM(BUYER) AS BUYER FROM ITXVIEW_PELANGGAN 
+                                            WHERE ORDPRNCUSTOMERSUPPLIERCODE = '$dt_ITXVIEWKK[ORDPRNCUSTOMERSUPPLIERCODE]' AND CODE = '$dt_ITXVIEWKK[PROJECTCODE]'");
+          $dt_pelanggan_buyer		= db2_fetch_assoc($sql_pelanggan_buyer);
+
+          $sql_warna		= db2_exec($conn1, "SELECT DISTINCT TRIM(WARNA) AS WARNA FROM ITXVIEWCOLOR 
+                                                              WHERE ITEMTYPECODE = '$dt_ITXVIEWKK[ITEMTYPEAFICODE]' 
+                                                              AND SUBCODE01 = '$dt_ITXVIEWKK[SUBCODE01]' 
+                                                              AND SUBCODE02 = '$dt_ITXVIEWKK[SUBCODE02]'
+                                                              AND SUBCODE03 = '$dt_ITXVIEWKK[SUBCODE03]' 
+                                                              AND SUBCODE04 = '$dt_ITXVIEWKK[SUBCODE04]'
+                                                              AND SUBCODE05 = '$dt_ITXVIEWKK[SUBCODE05]' 
+                                                              AND SUBCODE06 = '$dt_ITXVIEWKK[SUBCODE06]'
+                                                              AND SUBCODE07 = '$dt_ITXVIEWKK[SUBCODE07]' 
+                                                              AND SUBCODE08 = '$dt_ITXVIEWKK[SUBCODE08]'
+                                                              AND SUBCODE09 = '$dt_ITXVIEWKK[SUBCODE09]' 
+                                                              AND SUBCODE10 = '$dt_ITXVIEWKK[SUBCODE10]'");
+          $dt_warna		= db2_fetch_assoc($sql_warna);
+      ?>
+      <tr>
+        <td style="text-align: center"><?php echo $rowdb2['PRODUCTIONORDERCODE']; ?></td>
+        <td style="text-align: center"><?= $dt_ITXVIEWKK['PROJECTCODE']; ?></td>
+        <td style="text-align: center"><?= $dt_pelanggan_buyer['PELANGGAN'].'('.$dt_pelanggan_buyer['BUYER'].')'; ?></td>
+        <td style="text-align: center"><?php echo SUBSTR($rowdb2['IMPORTDATETIME'], 0, 10); ?></td>
+        <td style="text-align: center"><?php echo trim($rowdb2['ITEMTYPEAFICODE']) . " " . trim($rowdb2['SUBCODE01']) . "-" . trim($rowdb2['SUBCODE02']) . "-" . trim($rowdb2['SUBCODE03']) . "-" . trim($rowdb2['SUBCODE04']) . "-" . trim($rowdb2['SUBCODE05']) . "-" . trim($rowdb2['SUBCODE06']) . "-" . trim($rowdb2['SUBCODE07']) . "-" . trim($rowdb2['SUBCODE08']) . "-" . trim($rowdb2['SUBCODE09']) . "-" . trim($rowdb2['SUBCODE10']); ?></td>
+        <td style="text-align: left"><?= $dt_ITXVIEWKK['ITEMDESCRIPTION']; ?></td>
+        <td style="text-align: center"><?= $dt_warna['WARNA']; ?></td>
+        <td style="text-align: center"><?php echo $rowdb2['WORKCENTERCODE']; ?></td>
+        <td style="text-align: center"><?php echo $rowdb2['OPERATIONCODE']; ?></td>
+        <td style="text-align: center"><?php echo $rowdb2['CHARACTERISTICCODE']; ?></td>
+        <td style="text-align: center"><?php echo $grb[0]; ?></td>
+      </tr>
+      <?php $no++; } ?>
+    </tbody>
+  </table>
   </div>
   <!-- /.card-body -->
 </div>
