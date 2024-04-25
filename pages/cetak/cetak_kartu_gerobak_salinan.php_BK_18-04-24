@@ -255,17 +255,6 @@ ORDER BY PRODUCTIONDEMAND.CODE ASC";
           <td colspan="3"><table width="100%" border="0">
             <tbody>
               <tr>
-                <td width="20%" align="right">P. ORDERCODE</td>
-                <td width="5%" align="left">:</td>
-                <td width="70%" align="left"><strong><?php echo $rowdb2['PRODUCTIONORDERCODE'];?></strong></td>
-              </tr>
-            </tbody>
-          </table></td>
-      </tr>
-      <tr>
-          <td colspan="3"><table width="100%" border="0">
-            <tbody>
-              <tr>
                 <td width="20%" align="right">P. DEMAND DESCRIPTION</td>
                 <td width="5%" align="left">:</td>
                 <td width="70%" align="left"><?php echo $rowdb2['DESCRIPTION'];?></td>

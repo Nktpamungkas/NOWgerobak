@@ -45,19 +45,19 @@
             </div>
           </div>
           <!-- ./col -->
-          <!-- <div class="col-lg-3 col-6">
-            <div class="small-box bg-success">
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
               <div class="inner">
-                <h3>TO</h3>
+                <h3>HTG</h3>
 
-                <p>Transfer Out</p>
+                <p>Hasil Timbang Gerobak (Proses Timbang Kain)</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="TransferOut" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="HasilTimbang" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-          </div> -->
+          </div>
           <!-- ./col -->
           <!-- <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">

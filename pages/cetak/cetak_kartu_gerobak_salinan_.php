@@ -9,7 +9,6 @@ $sqlDB2 ="SELECT
 PRODUCTIONDEMAND.CODE,
 A.PRODUCTIONORDERCODE,
 PRODUCTIONDEMAND.ITEMTYPEAFICODE,
-PRODUCTIONDEMAND.DESCRIPTION,
 TRIM(PRODUCTIONDEMAND.SUBCODE01) AS SUBCODE01,
 TRIM(PRODUCTIONDEMAND.SUBCODE02) AS SUBCODE02,
 TRIM(PRODUCTIONDEMAND.SUBCODE03) AS SUBCODE03,
@@ -84,16 +83,14 @@ ORDER BY PRODUCTIONDEMAND.CODE ASC";
 	$stmt   = db2_exec($conn1,$sqlDB2, array('cursor'=>DB2_SCROLLABLE));
   $rowdb2 = db2_fetch_assoc($stmt);
 
-  $sqlQTY="SELECT 
-  ORDERCODE,
-  PRODUCTIONORDERCODE,
-  USERPRIMARYQUANTITY,
-  USERPRIMARYUOMCODE,
-  USERSECONDARYQUANTITY, 
-  USERSECONDARYUOMCODE
-  FROM
-  ITXVIEW_RESERVATION_KK 
-  WHERE ORDERCODE = '$Demand'";	
+  $sqlQTY="SELECT
+  PRODUCTIONDEMAND.CODE,
+  PRODUCTIONDEMAND.USERPRIMARYQUANTITY,
+  PRODUCTIONDEMAND.USERPRIMARYUOMCODE,
+  PRODUCTIONDEMAND.USERSECONDARYQUANTITY,
+  PRODUCTIONDEMAND.USERSECONDARYUOMCODE
+  FROM PRODUCTIONDEMAND PRODUCTIONDEMAND
+  WHERE PRODUCTIONDEMAND.CODE='$Demand'";	
       $stmt1   = db2_exec($conn1,$sqlQTY, array('cursor'=>DB2_SCROLLABLE));	
       $rowQTY = db2_fetch_assoc($stmt1);
 ?>
@@ -250,28 +247,6 @@ ORDER BY PRODUCTIONDEMAND.CODE ASC";
         <td width="50%" scope="col" align="center" >
           <h3>&nbsp;</h3>
         </td>
-      </tr>
-      <tr>
-          <td colspan="3"><table width="100%" border="0">
-            <tbody>
-              <tr>
-                <td width="20%" align="right">P. ORDERCODE</td>
-                <td width="5%" align="left">:</td>
-                <td width="70%" align="left"><strong><?php echo $rowdb2['PRODUCTIONORDERCODE'];?></strong></td>
-              </tr>
-            </tbody>
-          </table></td>
-      </tr>
-      <tr>
-          <td colspan="3"><table width="100%" border="0">
-            <tbody>
-              <tr>
-                <td width="20%" align="right">P. DEMAND DESCRIPTION</td>
-                <td width="5%" align="left">:</td>
-                <td width="70%" align="left"><?php echo $rowdb2['DESCRIPTION'];?></td>
-              </tr>
-            </tbody>
-          </table></td>
       </tr>
       <tr>
           <td colspan="3"><table width="100%" border="0">

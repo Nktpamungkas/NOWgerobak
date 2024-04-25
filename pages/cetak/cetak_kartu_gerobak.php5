@@ -84,18 +84,27 @@ ORDER BY PRODUCTIONDEMAND.CODE ASC";
 	$stmt   = db2_exec($conn1,$sqlDB2, array('cursor'=>DB2_SCROLLABLE));
   $rowdb2 = db2_fetch_assoc($stmt);
 
-  $sqlQTY="SELECT 
-  ORDERCODE,
-  PRODUCTIONORDERCODE,
-  USERPRIMARYQUANTITY,
-  USERPRIMARYUOMCODE,
-  USERSECONDARYQUANTITY, 
-  USERSECONDARYUOMCODE
-  FROM
-  ITXVIEW_RESERVATION_KK 
-  WHERE ORDERCODE = '$Demand'";	
-      $stmt1   = db2_exec($conn1,$sqlQTY, array('cursor'=>DB2_SCROLLABLE));	
-      $rowQTY = db2_fetch_assoc($stmt1);
+  $sqlBK="SELECT 
+  PRODUCTIONORDER.CODE,
+  PRODUCTIONRESERVATION.PRODUCTIONORDERCODE,
+  PRODUCTIONRESERVATION.ITEMTYPEAFICODE,
+  SUM(PRODUCTIONRESERVATION.USEDUSERPRIMARYQUANTITY) AS USERPRIMARYQUANTITY,
+  PRODUCTIONRESERVATION.USERPRIMARYUOMCODE,
+  SUM(PRODUCTIONRESERVATION.USEDUSERSECONDARYQUANTITY) AS USERSECONDARYQUANTITY,
+  PRODUCTIONRESERVATION.USERSECONDARYUOMCODE
+  FROM PRODUCTIONORDER PRODUCTIONORDER
+  LEFT JOIN PRODUCTIONRESERVATION PRODUCTIONRESERVATION 
+  ON PRODUCTIONORDER.CODE = PRODUCTIONRESERVATION.PRODUCTIONORDERCODE 
+  WHERE (PRODUCTIONRESERVATION.ITEMTYPEAFICODE ='KGF' OR PRODUCTIONRESERVATION.ITEMTYPEAFICODE ='KFF')
+  AND PRODUCTIONORDER.CODE='$rowdb2[PRODUCTIONORDERCODE]'
+  GROUP BY 
+  PRODUCTIONORDER.CODE,
+  PRODUCTIONRESERVATION.PRODUCTIONORDERCODE,
+  PRODUCTIONRESERVATION.ITEMTYPEAFICODE,
+  PRODUCTIONRESERVATION.USERPRIMARYUOMCODE,
+  PRODUCTIONRESERVATION.USERSECONDARYUOMCODE";	
+      $stmt1   = db2_exec($conn1,$sqlBK, array('cursor'=>DB2_SCROLLABLE));	
+      $rowBK = db2_fetch_assoc($stmt1);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -345,7 +354,7 @@ ORDER BY PRODUCTIONDEMAND.CODE ASC";
               <tr>
                 <td width="20%" align="right">QTY</td>
                 <td width="5%" align="left">:</td>
-                <td width="70%" align="left"><?php echo number_format($rowQTY['USERPRIMARYQUANTITY'],2)." ".$rowQTY['USERPRIMARYUOMCODE']; ?></td>
+                <td width="70%" align="left"><?php echo number_format($rowBK['USERPRIMARYQUANTITY'],2)." ".$rowBK['USERPRIMARYUOMCODE']; ?></td>
               </tr>
             </tbody>
           </table></td>
@@ -356,7 +365,7 @@ ORDER BY PRODUCTIONDEMAND.CODE ASC";
               <tr>
                 <td width="20%" align="right">&nbsp;</td>
                 <td width="5%" align="left">&nbsp;</td>
-                <td width="70%" align="left"><?php echo number_format($rowQTY['USERSECONDARYQUANTITY'],2)." ".$rowQTY['USERSECONDARYUOMCODE']; ?></td>
+                <td width="70%" align="left"><?php echo number_format($rowBK['USERSECONDARYQUANTITY'],2)." ".$rowBK['USERSECONDARYUOMCODE']; ?></td>
               </tr>
             </tbody>
           </table></td>

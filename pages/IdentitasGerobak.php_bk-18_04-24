@@ -92,12 +92,6 @@ $sqlBK ="SELECT
                     </div>	 
               </div>
               <div class="form-group row">
-                <label for="demand" class="col-md-1 col-form-label">Prod. Ordercode</label>  
-                    <div class="col-sm-2">
-                    <input class="form-control form-control-sm" readonly value="<?php if($rowdb2['PRODUCTIONORDERCODE']!=""){echo $rowdb2['PRODUCTIONORDERCODE'];}?>" type="text" name="prodeuctionordercode" id="prodeuctionordercode" placeholder="">	
-                    </div>	 
-              </div>
-              <div class="form-group row">
                 <label for="deliv" class="col-md-1 col-form-label">P.Demand Description</label>  
                     <div class="col-sm-2">
                       <input class="form-control form-control-sm" readonly value="<?php if($rowdb2['DESCRIPTION']!=""){echo $rowdb2['DESCRIPTION'];}?>" type="text" name="demand_desc" id="demand_desc" placeholder="">	

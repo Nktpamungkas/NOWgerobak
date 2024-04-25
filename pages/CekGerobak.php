@@ -4,8 +4,9 @@ $Gerobak  = isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
 $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
 ?>
 <!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
+<form role="form" method="post" enctype="multipart/form-data" name="form1">
 <div class="container-fluid">
-  <form role="form" method="post" enctype="multipart/form-data" name="form1">
+  
     <div class="card card-success">
       <div class="card-header">
         <h3 class="card-title">Filter Data Gerobak</h3>
