@@ -1,0 +1,20 @@
+RewriteEngine On
+
+RewriteRule ^login$ login.php [L]
+RewriteRule ^lockscreen$ lockscreen.php [L]
+RewriteRule ^logout$ login.php?act=logout [L]
+RewriteRule ^Home$ index.php?p=Home [L]
+RewriteRule ^IdentitasGerobak$ index.php?p=IdentitasGerobak [L]
+RewriteRule ^IdentitasGerobak-$ index.php?p=IdentitasGerobak [L]
+RewriteRule ^IdentitasGerobak-([0-9_]+)$ index.php?p=IdentitasGerobak&demand=$1 [L]
+RewriteRule ^CetakKartuGerobak$ index.php?p=CetakKartuGerobak [L]
+RewriteRule ^CetakKartuGerobak-$ index.php?p=CetakKartuGerobak [L]
+RewriteRule ^CetakKartuGerobak-([0-9_]+)$ index.php?p=CetakKartuGerobak&demand=$1 [L] 
+RewriteRule ^CekGerobak$ index.php?p=CekGerobak [L]
+RewriteRule ^CekGerobak-$ index.php?p=CekGerobak [L]
+RewriteRule ^CekGerobak-([a-zA-Z0-9_-]+)$ index.php?p=CekGerobak&gerobak=$1 [L]
+RewriteRule ^HasilTimbang$ index.php?p=HasilTimbang [L]
+RewriteRule ^MasterGerobak$ index.php?p=MasterGerobak [L]
+RewriteRule ^LaporanKain$ index.php?p=LaporanKain [L]
+
+Options All -Indexes
