@@ -2,7 +2,9 @@
 ini_set("error_reporting", 0);
 $Gerobak 	= isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
 $Tgl  		= isset($_POST['tgl']) ? $_POST['tgl'] : '';
+$Tgl2  		= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
+
 
 ?>
 <!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
@@ -27,7 +29,7 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
           <label for="tgl" class="col-sm-1 control-label">Tanggal Awal</label>
           <div class="col-sm-2">
             <div class="input-group date">
-              <input name="tgl" type="date" class="form-control pull-right" placeholder="Tanggal Awal" value="<?php echo $Tgl; ?>" autocomplete="off" />
+              <input name="tgl" type="date" class="form-control pull-right" placeholder="Tanggal Awal" value="<?php echo $_POST['tgl']; ?>" autocomplete="off" />
             </div>
           </div>
           <label for="tgl" class="col-sm-1 control-label">Tanggal Akhir</label>
@@ -58,7 +60,7 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
 
 <div class="card card-warning">
   <div class="card-header">
-    <h3 class="card-title">Detail Data Gerobak</h3>
+    <h3 class="card-title">Detail Data Gerobak <?php if($Tgl!=""){echo $Tgl." s/d ".$Tgl2;} ?></h3>
   </div>
   <!-- /.card-header -->
   <div class="card-body">
@@ -81,11 +83,9 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
       <?php
         $no = 1;
         $c = 0;
-        $tgl2 = date('Y-m-d', strtotime($_POST['tgl2']));
-		$Tgl =date('Y-m-d', strtotime($_POST['tgl']));
-		
-		if($_POST['tgl']!=""){
-		$where1 = " AND tgl_update between '$Tgl' AND '$tgl2' ";	
+        		
+		if($Tgl!=""){
+		$where1 = " AND DATE_FORMAT(tgl_update, '%Y-%m-%d') BETWEEN '$Tgl' AND '$Tgl2' ";	
 		}else{
 		$where1 = " ";	
 		}
@@ -101,7 +101,12 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
 		}else{
 		$where3 = " ";	
 		}
-		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 ";
+		if($Tgl=="" and $Gerobak=="" and $ProdOrder==""){
+		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') ORDER BY id DESC LIMIT 100 ";	
+		}else{
+		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 ";	
+		}
+		
 		$sql = mysqli_query($conr,$query);
 		while ($r=mysqli_fetch_array($sql)){          
       ?>
