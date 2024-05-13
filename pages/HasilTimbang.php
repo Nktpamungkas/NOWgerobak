@@ -4,6 +4,7 @@ $Gerobak 	= isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
 $Tgl  		= isset($_POST['tgl']) ? $_POST['tgl'] : '';
 $Tgl2  		= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
+$NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
 
 
 ?>
@@ -52,6 +53,13 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
             <input name="prodorder" type="text" class="form-control pull-right" id="prodorder" placeholder="Prod. Order" value="<?php echo $ProdOrder;  ?>" autocomplete="off" />
           </div>
           <!-- /.input group -->
+        </div>
+		<div class="form-group row">
+          <label for="nodemand" class="col-sm-1 control-label">No Demand</label>
+          <div class="col-sm-3">
+            <input name="nodemand" type="text" class="form-control pull-right" id="nodemand" placeholder="No Demand" value="<?php echo $NoDemand;  ?>" autocomplete="off" />
+          </div>
+          <!-- /.input group -->
         </div>  
         <button class="btn btn-info" type="submit">Cari Data</button>
       </div>
@@ -69,12 +77,16 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
       <tr>
         <th valign="middle" style="text-align: center">Prod. Order</th>
         <th valign="middle" style="text-align: center">Prod. Demand</th>
+        <th valign="middle" style="text-align: center">No Hanger</th>
         <th valign="middle" style="text-align: center">Proses</th>
         <th valign="middle" style="text-align: center">Ket.</th>
         <th valign="middle" style="text-align: center">No Gerobak</th>
         <th valign="middle" style="text-align: center">Berat </th>
         <th valign="middle" style="text-align: center">Berat Kosong</th>
         <th valign="middle" style="text-align: center">Berat Kain</th>
+        <th valign="middle" style="text-align: center">Roll</th>
+        <th valign="middle" style="text-align: center">Bagi Kain</th>
+        <th valign="middle" style="text-align: center">Selisih</th>
         <th valign="middle" style="text-align: center">Tgl Update</th>
         <th valign="middle" style="text-align: center">UserID</th>
         </tr>
@@ -101,10 +113,17 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
 		}else{
 		$where3 = " ";	
 		}
-		if($Tgl=="" and $Gerobak=="" and $ProdOrder==""){
-		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') ORDER BY id DESC LIMIT 100 ";	
+		
+		if($NoDemand!=""){
+		$where4 = " AND no_demand='$NoDemand' ";	
 		}else{
-		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 ";	
+		$where4 = " ";	
+		}
+		
+		if($Tgl=="" and $Gerobak=="" and $ProdOrder=="" and $NoDemand=="" ){
+		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') ORDER BY id DESC LIMIT 500 ";	
+		}else{
+		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 $where4 ORDER BY id DESC";	
 		}
 		
 		$sql = mysqli_query($conr,$query);
@@ -113,12 +132,16 @@ $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
       <tr>
         <td ><?php echo $r['prod_order']; ?></td>
         <td ><?php echo $r['no_demand']; ?></td>
+        <td ><?php echo $r['no_hanger']; ?></td>
         <td ><?php echo $r['proses']; ?></td>
         <td ><?php echo $r['ket']; ?></td>
         <td ><?php echo $r['no_gerobak']; ?></td>
         <td align="right" ><?php echo $r['berat']; ?></td>
         <td align="right" ><?php echo $r['berat_kosong']; ?></td>
         <td align="right"><?php echo number_format(round($r['berat']-$r['berat_kosong'],2),2); ?></td>
+        <td><?php echo $r['rol_bagi']; ?></td>
+        <td><?php echo $r['bagi_kain']; ?></td>
+        <td align="right"><?php echo number_format(($r['bagi_kain']-round($r['berat']-$r['berat_kosong'],2)),2); ?></td>
         <td ><?php echo $r['tgl_update']; ?></td>
         <td align="left"><?php echo $r['userid']; ?></td>
         </tr>
