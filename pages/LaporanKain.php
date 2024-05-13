@@ -66,7 +66,7 @@ $NoHanger	= isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
         <th rowspan="2" valign="middle" style="text-align: center">Lot</th>
         <th rowspan="2" valign="middle" style="text-align: center">Prod. Demand</th>
         <th rowspan="2" valign="middle" style="text-align: center">Prod. Order</th>
-        <th colspan="21" valign="middle" style="text-align: center">POTONG KAIN (KG)</th>
+        <th colspan="20" valign="middle" style="text-align: center">POTONG KAIN (KG)</th>
         <th rowspan="2" valign="middle" style="text-align: center">TOTAL</th>
         <th rowspan="2" valign="middle" style="text-align: center">ROLL</th>
         <th rowspan="2" valign="middle" style="text-align: center">PACKING</th>
@@ -78,7 +78,6 @@ $NoHanger	= isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
         <th valign="middle" style="text-align: center">BAT2</th>
         <th valign="middle" style="text-align: center">SCO1</th>
         <th valign="middle" style="text-align: center">DYE2</th>
-        <th valign="middle" style="text-align: center">OPW1</th>
         <th valign="middle" style="text-align: center">OVN1</th>
         <th valign="middle" style="text-align: center">OVD1</th>
         <th valign="middle" style="text-align: center">PRE1</th>
@@ -669,7 +668,28 @@ GROUP BY
 LEFT OUTER JOIN ELEMENTSINSPECTION e ON a.PRODUCTIONDEMANDCODE =e.DEMANDCODE AND e.INSPECTIONSTATION='Inspect Pa'
 WHERE a.PRODUCTIONORDERCODE ='".$r['prdorder']."'";			
 $stmt2 = db2_exec($conn1, $sqlto, array('cursor' => DB2_SCROLLABLE));
-$rowto = db2_fetch_assoc($stmt2);			
+$rowto = db2_fetch_assoc($stmt2);
+
+$sqlto1 = " SELECT
+	p.CODE,
+	a.VALUESTRING AS ORIGINALPDCODE,
+	a2.VALUESTRING AS SALINAN_GANTIKAIN,
+	u.LONGDESCRIPTION
+FROM
+	PRODUCTIONDEMAND p
+LEFT OUTER JOIN ADSTORAGE a ON
+	a.UNIQUEID = p.ABSUNIQUEID
+	AND a.FIELDNAME = 'OriginalPDCode'
+LEFT OUTER JOIN ADSTORAGE a2 ON
+	a2.UNIQUEID = p.ABSUNIQUEID
+	AND a2.FIELDNAME = 'DefectTypeCode'
+LEFT OUTER JOIN USERGENERICGROUP u ON
+	u.CODE = a2.VALUESTRING
+WHERE
+	p.CODE = '".$r['demandno']."'";			
+$stmt2S = db2_exec($conn1, $sqlto1, array('cursor' => DB2_SCROLLABLE));
+$rowto1 = db2_fetch_assoc($stmt2S);
+			
       ?>
       <tr>
         <td align="left" ><?php echo $r['pelanggan']; ?></td>
@@ -683,7 +703,6 @@ $rowto = db2_fetch_assoc($stmt2);
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php if($r['brtkain_BAT2']>0){ echo $r['brtkain_BAT2']; }else { echo "0"; } ?>"><?php if($r['BAT2']!=""){ echo round($r['bagi_kain']-$r['brtkain_BAT2'],2); }else{ echo "0"; }  ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php if($r['brtkain_SCO1']>0){ echo $r['brtkain_SCO1']; }else { echo "0"; } ?>"><?php if($r['SCO1']>0){ echo $r['SCO1']; }else{ echo "0"; }  ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php if($r['brtkain_DYE2']>0){ echo $r['brtkain_DYE2']; }else{ echo "0"; } ?>"><?php if($r['DYE2']>0){ echo $r['DYE2']; } else{ echo "0"; } ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo $r['brtkain_OPW1']; ?>"><?php if($r['OPW1']!=""){echo $r['OPW1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo $r['brtkain_OVN1']; ?>"><?php if($r['OVN1']!=""){echo $r['OVN1'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo $r['brtkain_OVD1']; ?>"><?php if($r['OVD1']!=""){echo $r['OVD1'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']." After: ".$r['aPRE1']; ?>"><?php if($r['PRE1']!=""){echo $r['PRE1'];}else{echo "0";} ?></span></td>
@@ -705,8 +724,8 @@ $rowto = db2_fetch_assoc($stmt2);
         <td align="center"><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
         <td align="center"><?php if($rowto['TOTAL_KG']>0){echo $rowto['TOTAL_KG'];}else{echo "0";} ?></td>
         <td align="center"><?php if($rowto['TOTAL_KG']>0){echo round((round($r['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
-        <td ><?php echo $r['demandno']; ?></td>
-        <td align="center">&nbsp;</td>
+        <td align="left"><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
+        <td align="left"><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
         </tr>
       <?php 
 		$no++; } 
