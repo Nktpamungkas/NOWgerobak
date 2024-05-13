@@ -202,6 +202,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <script type="text/javascript">
+$(document).on('click', '.show_detail', function(e) {
+    var m = $(this).attr("id");	
+    $.ajax({
+      url: "pages/show_detail.php",
+      type: "GET",
+      data: {
+        id: m,
+      },
+      success: function(ajaxData) {
+        $("#DetailShow").html(ajaxData);
+        $("#DetailShow").modal('show', {
+          backdrop: 'true'
+        });  
+      }
+    });
+  });
+	
 $(document).on('click', '.detail_gerobak', function (e) {
   var m = $(this).attr("id");
   var a = $(this).attr("wct");
