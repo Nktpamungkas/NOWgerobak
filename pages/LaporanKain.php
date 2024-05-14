@@ -1294,7 +1294,7 @@ $rowto1 = db2_fetch_assoc($stmt2S);
 			
       ?>
 <?php if($Packing=="sudah"){ 
-	  if($rowto['TOTAL_KG']>0){?>		
+	  if($rowto['TOTAL_KG']>0){?> 		
       <tr>
         <td align="left" ><?php echo $r['pelanggan']; ?></td>
         <td align="left" ><?php echo $r['warna']; ?></td>
@@ -1302,7 +1302,7 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td ><?php echo $r['rol_bagi']; ?></td>
         <td align="right" ><?php echo round($r['bagi_kain'],2); ?></td>
         <td ><?php echo $r['lot']; ?></td>
-        <td ><?php echo $r['demandno']; ?></td>
+        <td ><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
         <td ><?php echo $r['prdorder']; ?></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bagi_kain']; echo " After: ".$r['aBAT2'];  ?>"><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0 and $r['aPRE1']>0){ echo $r['bSCO1']-$r['aPRE1']; }else{ echo "0"; }  ?></span></td>
