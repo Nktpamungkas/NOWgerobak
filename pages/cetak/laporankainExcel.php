@@ -1,111 +1,58 @@
+<?php
+header("Content-type: application/octet-stream");
+header("Content-Disposition: attachment; filename=laporankain.xls");//ganti nama sesuai keperluan
+header("Pragma: no-cache");
+header("Expires: 0");
+//disini script laporan anda
+?>
 <?php 
 ini_set("error_reporting", 0);
-$NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
-$ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
-$NoHanger	= isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
-$Packing	= isset($_POST['packing']) ? $_POST['packing'] : '';
+session_start();
+include "../../koneksi.php";
+$NoDemand 	= isset($_GET['demand']) ? $_GET['demand'] : '';
+$ProdOrder	= isset($_GET['prod']) ? $_GET['prod'] : '';
+$NoHanger	= isset($_GET['hanger']) ? $_GET['hanger'] : '';
+$Packing	= isset($_GET['packing']) ? $_GET['packing'] : '';
 
 ?>
-<!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
-<form role="form" method="post" enctype="multipart/form-data" name="form1">
-<div class="container-fluid">
-  
-    <div class="card card-success">
-      <div class="card-header">
-        <h3 class="card-title">Filter Data Gerobak</h3>
-
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse">
-            <i class="fas fa-minus"></i>
-          </button>
-          <button type="button" class="btn btn-tool" data-card-widget="remove">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
-      <div class="card-body">        
-        <div class="form-group row">
-          <label for="nodemand" class="col-sm-1 control-label">No Demand</label>
-          <div class="col-sm-3">
-            <input name="nodemand" type="text" class="form-control pull-right" id="nodemand" placeholder="No Demand" value="<?php echo $NoDemand;  ?>" autocomplete="off" />
-          </div>
-          <!-- /.input group -->
-        </div>
-		<div class="form-group row">
-          <label for="prodorder" class="col-sm-1 control-label">Prod. Order</label>
-          <div class="col-sm-3">
-            <input name="prodorder" type="text" class="form-control pull-right" id="prodorder" placeholder="Prod. Order" value="<?php echo $ProdOrder;  ?>" autocomplete="off" />
-          </div>
-          <!-- /.input group -->
-        </div> 
-		<div class="form-group row">
-          <label for="No Hanger" class="col-sm-1 control-label">No Hanger</label>
-          <div class="col-sm-3">
-            <input name="nohanger" type="text" class="form-control pull-right" id="nohanger" placeholder="No Hanger" value="<?php echo $NoHanger;  ?>" autocomplete="off" />
-          </div>
-          <!-- /.input group -->
-        </div> 
-		<div class="form-group row">
-          <label for="Packing" class="col-sm-1 control-label">Packing</label>
-          <div class="col-sm-3">
-			<select name="packing" class="form-control" id="packing">
-				<option value="belum" <?php if($Packing=="belum"){ echo "SELECTED"; } ?>>Belum Selesai</option>
-				<option value="sudah" <?php if($Packing=="sudah"){ echo "SELECTED"; } ?>>Sudah Selesai</option>
-			</select>
-          </div>
-          <!-- /.input group -->
-        </div>   
-        <button class="btn btn-info" type="submit">Cari Data</button>
-      </div>
-    </div>
-</div>
-
-<div class="card card-warning">
-  <div class="card-header">
-    <h3 class="card-title">Detail Data Gerobak</h3>
-	<a href="pages/cetak/laporankainExcel.php?demand=<?php echo $NoDemand;?>&prod=<?php echo $ProdOrder;?>&hanger=<?php echo $NoHanger;?>&packing=<?php echo $Packing;?>" class="btn btn-danger float-right">Cetak</a>  
-  </div>
-  	
-  <!-- /.card-header -->
-  <div class="card-body">  	  
-  <table id="example1" class="table table-sm table-bordered table-striped" style="font-size: 11px; text-align: center;">
+  <table border="1">
     <thead>
       <tr>
-        <th rowspan="2" valign="middle" style="text-align: center">Pelanggan</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Warna</th>
-        <th rowspan="2" valign="middle" style="text-align: center">No Hanger</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Roll Bagi Kain</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Bagi Kain</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Lot</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Prod. Demand</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Prod. Order</th>
-        <th colspan="18" valign="middle" style="text-align: center">POTONG KAIN (KG)</th>
-        <th rowspan="2" valign="middle" style="text-align: center">TOTAL</th>
-        <th rowspan="2" valign="middle" style="text-align: center">ROLL</th>
-        <th rowspan="2" valign="middle" style="text-align: center">PACKING</th>
-        <th rowspan="2" valign="middle" style="text-align: center">LOSS %</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Original PD</th>
-        <th rowspan="2" valign="middle" style="text-align: center">Ket Salinan</th>
+        <th rowspan="2">Pelanggan</th>
+        <th rowspan="2">Warna</th>
+        <th rowspan="2">No Hanger</th>
+        <th rowspan="2">Roll Bagi Kain</th>
+        <th rowspan="2">Bagi Kain</th>
+        <th rowspan="2">Lot</th>
+        <th rowspan="2">Prod. Demand</th>
+        <th rowspan="2">Prod. Order</th>
+        <th colspan="18">POTONG KAIN (KG)</th>
+        <th rowspan="2">TOTAL</th>
+        <th rowspan="2">ROLL</th>
+        <th rowspan="2">PACKING</th>
+        <th rowspan="2">LOSS %</th>
+        <th rowspan="2">Original PD</th>
+        <th rowspan="2">Ket Salinan</th>
       </tr>
       <tr>
-        <th valign="middle" style="text-align: center">BAT2</th>
-        <th valign="middle" style="text-align: center">SCO1</th>
-        <th valign="middle" style="text-align: center">DYE2</th>
-        <th valign="middle" style="text-align: center">OVN1</th>
-        <th valign="middle" style="text-align: center">PRE1</th>
-        <th valign="middle" style="text-align: center">SUE1 </th>
-        <th valign="middle" style="text-align: center">SUE2</th>
-        <th valign="middle" style="text-align: center">SUE3</th>
-        <th valign="middle" style="text-align: center">SUE4</th>
-        <th valign="middle" style="text-align: center">RSE2</th>
-        <th valign="middle" style="text-align: center">RSE4</th>
-        <th valign="middle" style="text-align: center">RSE5</th>
-        <th valign="middle" style="text-align: center">FIN1</th>
-        <th valign="middle" style="text-align: center">SHR3</th>
-        <th valign="middle" style="text-align: center">SHR4</th>
-        <th valign="middle" style="text-align: center">FNJ1</th>
-        <th valign="middle" style="text-align: center">INS3</th>
-        <th valign="middle" style="text-align: center">PACK</th>
+        <th>BAT2</th>
+        <th>SCO1</th>
+        <th>DYE2</th>
+        <th>OVN1</th>
+        <th>PRE1</th>
+        <th>SUE1 </th>
+        <th>SUE2</th>
+        <th>SUE3</th>
+        <th>SUE4</th>
+        <th>RSE2</th>
+        <th>RSE4</th>
+        <th>RSE5</th>
+        <th>FIN1</th>
+        <th>SHR3</th>
+        <th>SHR4</th>
+        <th>FNJ1</th>
+        <th>INS3</th>
+        <th>PACK</th>
         </tr>
     </thead>
     <tbody>
@@ -1155,109 +1102,8 @@ order by kp.prod_order DESC
 		
 		$sql = mysqli_query($conr,$query);
 		while ($r=mysqli_fetch_array($sql)){   
-			
-//	    $sql_ITXVIEWKK  = db2_exec($conn1, "SELECT
-//                                            TRIM(PRODUCTIONORDERCODE) AS PRODUCTIONORDERCODE,
-//                                            TRIM(DEAMAND) AS DEMAND,
-//                                            ORIGDLVSALORDERLINEORDERLINE,
-//                                            PROJECTCODE,
-//                                            ORDPRNCUSTOMERSUPPLIERCODE,
-//                                            TRIM(SUBCODE01) AS SUBCODE01, TRIM(SUBCODE02) AS SUBCODE02, TRIM(SUBCODE03) AS SUBCODE03, TRIM(SUBCODE04) AS SUBCODE04,
-//                                            TRIM(SUBCODE05) AS SUBCODE05, TRIM(SUBCODE06) AS SUBCODE06, TRIM(SUBCODE07) AS SUBCODE07, TRIM(SUBCODE08) AS SUBCODE08,
-//                                            TRIM(SUBCODE09) AS SUBCODE09, TRIM(SUBCODE10) AS SUBCODE10, 
-//                                            TRIM(ITEMTYPEAFICODE) AS ITEMTYPEAFICODE,
-//                                            TRIM(DSUBCODE05) AS NO_WARNA,
-//                                            TRIM(DSUBCODE02) || '-' || TRIM(DSUBCODE03)  AS NO_HANGER,
-//                                            TRIM(ITEMDESCRIPTION) AS ITEMDESCRIPTION,
-//                                            DELIVERYDATE,
-//                                            LOT
-//                                        FROM 
-//                                            ITXVIEWKK 
-//                                        WHERE 
-//                                            PRODUCTIONORDERCODE = '".$r['prdorder']."' AND DEAMAND = '".$r['demandno']."'");
-//    $dt_ITXVIEWKK	= db2_fetch_assoc($sql_ITXVIEWKK);
-//
-//    $sql_pelanggan_buyer 	= db2_exec($conn1, "SELECT TRIM(LANGGANAN) AS PELANGGAN, TRIM(BUYER) AS BUYER FROM ITXVIEW_PELANGGAN 
-//                                                        WHERE ORDPRNCUSTOMERSUPPLIERCODE = '$dt_ITXVIEWKK[ORDPRNCUSTOMERSUPPLIERCODE]' AND CODE = '$dt_ITXVIEWKK[PROJECTCODE]'");
-//    $dt_pelanggan_buyer		= db2_fetch_assoc($sql_pelanggan_buyer);
-//	$sql_warna		= db2_exec($conn1, "SELECT DISTINCT TRIM(WARNA) AS WARNA FROM ITXVIEWCOLOR 
-//                                            WHERE ITEMTYPECODE = '$dt_ITXVIEWKK[ITEMTYPEAFICODE]' 
-//                                            AND SUBCODE01 = '$dt_ITXVIEWKK[SUBCODE01]' 
-//                                            AND SUBCODE02 = '$dt_ITXVIEWKK[SUBCODE02]'
-//                                            AND SUBCODE03 = '$dt_ITXVIEWKK[SUBCODE03]' 
-//                                            AND SUBCODE04 = '$dt_ITXVIEWKK[SUBCODE04]'
-//                                            AND SUBCODE05 = '$dt_ITXVIEWKK[SUBCODE05]' 
-//                                            AND SUBCODE06 = '$dt_ITXVIEWKK[SUBCODE06]'
-//                                            AND SUBCODE07 = '$dt_ITXVIEWKK[SUBCODE07]' 
-//                                            AND SUBCODE08 = '$dt_ITXVIEWKK[SUBCODE08]'
-//                                            AND SUBCODE09 = '$dt_ITXVIEWKK[SUBCODE09]' 
-//                                            AND SUBCODE10 = '$dt_ITXVIEWKK[SUBCODE10]'");
-//    $dt_warna		= db2_fetch_assoc($sql_warna);
-//	$sql_roll		= db2_exec($conn1, "SELECT count(*) AS ROLL, sum(s2.USERPRIMARYQUANTITY) AS BERAT, s2.PRODUCTIONORDERCODE
-//                FROM STOCKTRANSACTION s2 
-//                WHERE s2.ITEMTYPECODE ='KGF' AND s2.PRODUCTIONORDERCODE = '".$r['prdorder']."'
-//                GROUP BY s2.PRODUCTIONORDERCODE");
-//    $dt_roll   		= db2_fetch_assoc($sql_roll);	
-			
-			
-//	if($r['pelanggan']==""){
-//	$query1 = "UPDATE kain_proses SET 
-//	pelanggan='".trim($dt_pelanggan_buyer['PELANGGAN'])."',
-//	warna='".trim($dt_warna['WARNA'])."',
-//	lot='".trim($dt_ITXVIEWKK['LOT'])."'
-//	WHERE no_demand='".$r['demandno']."' ";	
-//	$sql1 = mysqli_query($conr,$query1);	
-//	}
-//$sqlto = "SELECT 
-//ELEMENTSINSPECTION.DEMANDCODE,
-//ELEMENTSINSPECTION.OPERATORCODE,
-//ELEMENTSINSPECTION.INSPECTIONSTATION,
-//ELEMENTSINSPECTION.LENGTHUOMCODE,
-//A.TGL_AWAL_INSPEK,
-//A.JAM_AWAL_INSPEK,
-//B.TGL_AKHIR_INSPEK,
-//B.JAM_AKHIR_INSPEK,
-//COUNT(ELEMENTSINSPECTION.ELEMENTCODE) AS TOTAL_ROLL,
-//SUM(ELEMENTSINSPECTION.WEIGHTGROSS) AS TOTAL_KG,
-//SUM(ELEMENTSINSPECTION.LENGTHGROSS) AS TOTAL_YARD
-//FROM ELEMENTSINSPECTION ELEMENTSINSPECTION 
-//LEFT JOIN
-//	(SELECT
-//	ELEMENTSINSPECTION.DEMANDCODE,
-//	ELEMENTSINSPECTION.OPERATORCODE,
-//	LEFT(ELEMENTSINSPECTION.INSPECTIONSTARTDATETIME,10) AS TGL_AWAL_INSPEK,
-//	SUBSTR(ELEMENTSINSPECTION.INSPECTIONSTARTDATETIME,12,5) AS JAM_AWAL_INSPEK
-//	FROM ELEMENTSINSPECTION ELEMENTSINSPECTION 
-//	WHERE ELEMENTSINSPECTION.DEMANDCODE ='".$r['demandno']."'
-//	AND LENGTH(TRIM(ELEMENTSINSPECTION.ELEMENTCODE))=13
-//	ORDER BY ELEMENTSINSPECTION.INSPECTIONSTARTDATETIME ASC LIMIT 1) A
-//ON ELEMENTSINSPECTION.DEMANDCODE = A.DEMANDCODE AND 
-//ELEMENTSINSPECTION.OPERATORCODE = A.OPERATORCODE
-//LEFT JOIN
-//	(SELECT
-//	ELEMENTSINSPECTION.DEMANDCODE,
-//	ELEMENTSINSPECTION.OPERATORCODE,
-//	LEFT(ELEMENTSINSPECTION.INSPECTIONENDDATETIME,10) AS TGL_AKHIR_INSPEK,
-//	SUBSTR(ELEMENTSINSPECTION.INSPECTIONENDDATETIME,12,5) AS JAM_AKHIR_INSPEK
-//	FROM ELEMENTSINSPECTION ELEMENTSINSPECTION 
-//	WHERE ELEMENTSINSPECTION.DEMANDCODE ='".$r['demandno']."'
-//	AND LENGTH(TRIM(ELEMENTSINSPECTION.ELEMENTCODE))=13
-//	ORDER BY ELEMENTSINSPECTION.INSPECTIONSTARTDATETIME DESC LIMIT 1) B
-//ON ELEMENTSINSPECTION.DEMANDCODE = B.DEMANDCODE AND 
-//ELEMENTSINSPECTION.OPERATORCODE = B.OPERATORCODE
-//WHERE ELEMENTSINSPECTION.DEMANDCODE ='".$r['demandno']."'
-//AND LENGTH(TRIM(ELEMENTSINSPECTION.ELEMENTCODE))=13	
-//GROUP BY 
-//ELEMENTSINSPECTION.DEMANDCODE,
-//ELEMENTSINSPECTION.OPERATORCODE,
-//ELEMENTSINSPECTION.INSPECTIONSTATION,
-//ELEMENTSINSPECTION.LENGTHUOMCODE,
-//A.TGL_AWAL_INSPEK,
-//A.JAM_AWAL_INSPEK,
-//B.TGL_AKHIR_INSPEK,
-//B.JAM_AKHIR_INSPEK";
-			
-$sqlto = " SELECT 
+
+			$sqlto = " SELECT 
 COUNT(e.ELEMENTCODE) AS TOTAL_ROLL,
 SUM(e.WEIGHTGROSS) AS TOTAL_KG,
 SUM(e.LENGTHGROSS) AS TOTAL_YARD
@@ -1298,130 +1144,79 @@ $rowto1 = db2_fetch_assoc($stmt2S);
 <?php if($Packing=="sudah"){ 
 	  if($rowto['TOTAL_KG']>0){?> 		
       <tr>
-        <td align="left" ><?php echo $r['pelanggan']; ?></td>
-        <td align="left" ><?php echo $r['warna']; ?></td>
+        <td ><?php echo $r['pelanggan']; ?></td>
+        <td ><?php echo $r['warna']; ?></td>
         <td ><?php echo $r['no_hanger']; ?></td>
         <td ><?php echo $r['rol_bagi']; ?></td>
         <td align="right" ><?php echo round($r['bagi_kain'],2); ?></td>
-        <td ><?php echo $r['lot']; ?></td>
-        <td ><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
-        <td ><?php echo $r['prdorder']; ?></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bagi_kain']; echo " After: ".$r['aBAT2'];  ?>"><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0 and $r['aPRE1']>0){ echo $r['bSCO1']-$r['aPRE1']; }else{ echo "0"; }  ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bPRE1']." After: ".$r['aPRE1']; ?>"><?php if($r['bPRE1']>0 and $r['aPRE1']>0){echo $r['bPRE1']-$r['aPRE1'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE1']." After: ".$r['aSUE1']; ?>"><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE2']." After: ".$r['aSUE2']; ?>"><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE3']." After: ".$r['aSUE3']; ?>"><?php if($r['bSUE3']>0 and $r['aSUE3']>0){echo $r['bSUE3']-$r['aSUE3'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE4']." After: ".$r['aSUE4']; ?>"><?php if($r['bSUE4']>0 and $r['aSUE4']>0){echo $r['bSUE4']-$r['aSUE4'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE2']." After: ".$r['aRSE2']; ?>"><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE4']." After: ".$r['aRSE4']; ?>"><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE5']." After: ".$r['aRSE5']; ?>"><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR3']." After: ".$r['aSHR3']; ?>">
-          <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR4']." After: ".$r['aSHR4']; ?>"><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFNJ1']." After: ".$r['aFNJ1']; ?>"><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bINS3']." After: ".$r['aINS3']; ?>"><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['aINS3']; echo " After: ".$rowto['TOTAL_KG'];  ?>"><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></span></td>
-        <td align="center"><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo $rowto['TOTAL_KG'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo round((round($r['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
-        <td align="left"><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
-        <td align="left"><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
+        <td>`<?php echo $r['lot']; ?></td>
+        <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
+        <td>`<?php echo $r['prdorder']; ?></td>
+        <td><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></td>
+        <td><?php if($r['bSCO1']>0 and $r['aPRE1']>0){ echo $r['bSCO1']-$r['aPRE1']; }else{ echo "0"; }  ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bPRE1']>0 and $r['aPRE1']>0){echo $r['bPRE1']-$r['aPRE1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE3']>0 and $r['aSUE3']>0){echo $r['bSUE3']-$r['aSUE3'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE4']>0 and $r['aSUE4']>0){echo $r['bSUE4']-$r['aSUE4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></td>
+        <td><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></td>
+        <td><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
+        <td><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
+        <td><?php if($rowto['TOTAL_KG']>0){echo $rowto['TOTAL_KG'];}else{echo "0";} ?></td>
+        <td><?php if($rowto['TOTAL_KG']>0){echo round((round($r['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
+        <td><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
+        <td><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
         </tr>
 		<?php }}else{ 
 		if($rowto['TOTAL_KG']==0){
 		?>
 		<tr>
-        <td align="left" ><?php echo $r['pelanggan']; ?></td>
-        <td align="left" ><?php echo $r['warna']; ?></td>
+        <td ><?php echo $r['pelanggan']; ?></td>
+        <td ><?php echo $r['warna']; ?></td>
         <td ><?php echo $r['no_hanger']; ?></td>
         <td ><?php echo $r['rol_bagi']; ?></td>
         <td align="right" ><?php echo round($r['bagi_kain'],2); ?></td>
-        <td ><?php echo $r['lot']; ?></td>
+        <td >`<?php echo $r['lot']; ?></td>
         <td ><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
-        <td ><?php echo $r['prdorder']; ?></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bagi_kain']; echo " After: ".$r['aBAT2'];  ?>"><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0 and $r['aPRE1']>0){ echo $r['bSCO1']-$r['aPRE1']; }else{ echo "0"; }  ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bPRE1']." After: ".$r['aPRE1']; ?>"><?php if($r['bPRE1']>0 and $r['aPRE1']>0){echo $r['bPRE1']-$r['aPRE1'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE1']." After: ".$r['aSUE1']; ?>"><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE2']." After: ".$r['aSUE2']; ?>"><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE3']." After: ".$r['aSUE3']; ?>"><?php if($r['bSUE3']>0 and $r['aSUE3']>0){echo $r['bSUE3']-$r['aSUE3'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE4']." After: ".$r['aSUE4']; ?>"><?php if($r['bSUE4']>0 and $r['aSUE4']>0){echo $r['bSUE4']-$r['aSUE4'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE2']." After: ".$r['aRSE2']; ?>"><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE4']." After: ".$r['aRSE4']; ?>"><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE5']." After: ".$r['aRSE5']; ?>"><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR3']." After: ".$r['aSHR3']; ?>">
-          <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR4']." After: ".$r['aSHR4']; ?>"><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFNJ1']." After: ".$r['aFNJ1']; ?>"><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bINS3']." After: ".$r['aINS3']; ?>"><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['aINS3']; echo " After: ".$rowto['TOTAL_KG'];  ?>"><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></span></td>
-        <td align="center"><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo $rowto['TOTAL_KG'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo round((round($r['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
-        <td align="left"><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
-        <td align="left"><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
+        <td >`<?php echo $r['prdorder']; ?></td>
+        <td ><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></td>
+        <td ><?php if($r['bSCO1']>0 and $r['aPRE1']>0){ echo $r['bSCO1']-$r['aPRE1']; }else{ echo "0"; }  ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bPRE1']>0 and $r['aPRE1']>0){echo $r['bPRE1']-$r['aPRE1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE3']>0 and $r['aSUE3']>0){echo $r['bSUE3']-$r['aSUE3'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSUE4']>0 and $r['aSUE4']>0){echo $r['bSUE4']-$r['aSUE4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>
+        </td>
+        <td><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></td>
+        <td><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></td>
+        <td><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
+        <td><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
+        <td><?php if($rowto['TOTAL_KG']>0){echo $rowto['TOTAL_KG'];}else{echo "0";} ?></td>
+        <td><?php if($rowto['TOTAL_KG']>0){echo round((round($r['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
+        <td><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
+        <td><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
         </tr>
 		<?php } }?>
       <?php 
 		} 
 	  ?>
-		
-    </tbody>
   </table>
-  </div>
-  <!-- /.card-body -->
-</div>
-</form>
-</div><!-- /.container-fluid -->
-<!-- /.content -->
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- SweetAlert2 -->
-<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-<!-- Toastr -->
-<script src="plugins/toastr/toastr.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-
-<script>
-  $(function() {
-    //Datepicker
-    $('#datepicker').datetimepicker({
-      format: 'YYYY-MM-DD'
-    });
-    $('#datepicker1').datetimepicker({
-      format: 'YYYY-MM-DD'
-    });
-    $('#datepicker2').datetimepicker({
-      format: 'YYYY-MM-DD'
-    });
-
-  });
-</script>
-<script type="text/javascript">
-  function checkAll(form1) {
-    for (var i = 0; i < document.forms['form1'].elements.length; i++) {
-      var e = document.forms['form1'].elements[i];
-      if ((e.name != 'allbox') && (e.type == 'checkbox')) {
-        e.checked = document.forms['form1'].allbox.checked;
-
-      }
-    }
-  }
-</script>
-<script>
-  $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-</script>
