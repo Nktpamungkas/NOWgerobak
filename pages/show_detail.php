@@ -8,27 +8,17 @@ $dt = explode(",",$modal_id);
 
 
 ?>
-<div class="modal-dialog modal-lg">
+<div class="modal-dialog modal-xl">
 	<div class="modal-content">
 		<form class="form-horizontal" name="modal_popup" data-toggle="validator" method="post" action=""
 			enctype="multipart/form-data">
 			<div class="modal-header">
-				<h5 class="modal-title">Detail No Gerobak</h5>
+				<h5 class="modal-title">Detail No Gerobak ( Prod. Order : <?php echo $dt[0]; ?> )</h5>				
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body"><i>
-					Prod. Order : <b>
-						<?php echo $dt[0]; ?>
-					</b><br>
-					Proses: <b>
-						<?php echo $dt[1]; ?>
-					</b><br>
-					Ket: <b>
-						<?php echo $dt[2]; ?>
-					</b>
-				</i>
+			<div class="modal-body">
 				<table id="lookup1" class="table table-sm table-bordered table-hover table-striped" width="100%"
 					style="font-size: 14px;">
 					<thead>
@@ -37,6 +27,8 @@ $dt = explode(",",$modal_id);
 							<th>
 								<div align="center">No Gerobak</div>
 							</th>
+							<th><div align="center">Proses</div></th>
+							<th><div align="center">Ket</div></th>
 							<th>
 								<div align="center">Berat</div>
 							</th>
@@ -54,15 +46,24 @@ $dt = explode(",",$modal_id);
 					<tbody>
 						<?php
 						$no = 1;
+						if($dt[0]!="" and $dt[1]!="" and $dt[2]!=""){
 						$query = "
-						SELECT * FROM kain_proses WHERE (ket='before' or ket='after') and prod_order='".$dt[0]."' and proses='".trim($dt[1])."' and ket='".trim($dt[2])."' ORDER BY id DESC
-							";
+						SELECT * FROM kain_proses WHERE (ket='before' or ket='after') and prod_order='".$dt[0]."' and proses='".trim($dt[1])."' and ket='".trim($dt[2])."' ORDER BY no_step ASC
+							";	
+						}else{
+						$query = "
+						SELECT * FROM kain_proses WHERE (ket='before' or ket='after') and prod_order='".$dt[0]."' ORDER BY no_step ASC
+							";	
+						}
+						
 						$sql = mysqli_query($conr,$query);
 						while ($r=mysqli_fetch_array($sql)){
 							$kain=$r['berat']-$r['berat_kosong'];
 							echo "<tr'>
 									<td align=center>$no</td>
 									<td align=center>$r[no_gerobak]</td>
+									<td align=center>$r[proses]</td>
+									<td align=center>$r[ket]</td>
 									<td align=center>$r[berat]</td>
 									<td align=center>$r[berat_kosong]</td>
 									<td align=center>$kain</td>
@@ -81,8 +82,10 @@ $dt = explode(",",$modal_id);
 						  <th>&nbsp;</th>
 						  <th>&nbsp;</th>
 						  <th>&nbsp;</th>
-						  <th>Total</th>
-						  <th><?php echo $tot; ?></th>
+						  <th>&nbsp;</th>
+						  <th>&nbsp;</th>
+						  <th><div align="center">Total</div></th>
+						  <th><div align="center"><?php echo $tot; ?></div></th>
 						  <th>&nbsp;</th>
 						  </tr>
 					</tfoot>
@@ -97,7 +100,16 @@ $dt = explode(",",$modal_id);
 	<!-- /.modal-content -->
 </div>
 <!-- /.modal-dialog -->
-
+<script>
+  $(function () {
+    $('#lookup1').DataTable({
+      "searching": true,
+      "info": true,
+      "responsive": true,
+    }); 	 
+  
+  });
+</script>
 <script>
 	$(function () {
 		$('.select2sts').select2({

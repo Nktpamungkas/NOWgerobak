@@ -203,7 +203,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/adminlte.min.js"></script>
 <script type="text/javascript">
 $(document).on('click', '.show_detail', function(e) {
-    var m = $(this).attr("id");	
+    var m = $(this).attr("id");
+	
+	$(this).before('<div class="loader" id="loader"></div>');
+	
     $.ajax({
       url: "pages/show_detail.php",
       type: "GET",
@@ -214,7 +217,9 @@ $(document).on('click', '.show_detail', function(e) {
         $("#DetailShow").html(ajaxData);
         $("#DetailShow").modal('show', {
           backdrop: 'true'
-        });  
+        });
+		  
+		$("#loader").remove();  
       }
     });
   });
@@ -281,6 +286,11 @@ $(document).on('click', '.detail_timeend', function (e) {
     $("#cekGerobakTable").DataTable({
       order: [ 4, 'asc' ]
     } );
+	$('#lookup1').DataTable({
+      "searching": false,
+      "info": true,
+      "responsive": true,
+    });  
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "excel", "pdf"]

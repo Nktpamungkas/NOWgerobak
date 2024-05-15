@@ -26,7 +26,7 @@ $Packing	= isset($_GET['packing']) ? $_GET['packing'] : '';
         <th rowspan="2">Lot</th>
         <th rowspan="2">Prod. Demand</th>
         <th rowspan="2">Prod. Order</th>
-        <th colspan="18">POTONG KAIN (KG)</th>
+        <th colspan="54">POTONG KAIN (KG)</th>
         <th rowspan="2">TOTAL</th>
         <th rowspan="2">ROLL</th>
         <th rowspan="2">PACKING</th>
@@ -37,9 +37,24 @@ $Packing	= isset($_GET['packing']) ? $_GET['packing'] : '';
       <tr>
         <th>BAT2</th>
         <th>SCO1</th>
+        <th>RLX1</th>
+        <th>CBL1</th>
+        <th>DYE1</th>
         <th>DYE2</th>
-        <th>OVN1</th>
-        <th>PRE1</th>
+        <th>DYE4</th>
+        <th>FEW1</th>
+        <th>FIX1</th>
+        <th>HEW1</th>
+        <th>LVL1</th>
+        <th>RDC1</th>
+        <th>SOA1</th>
+        <th>SOF1</th>
+        <th>STR1</th>
+        <th>NCP1</th>
+        <th>CUR1</th>
+        <th>ROT1</th>
+        <th>TDR1</th>
+        <th>COM2</th>
         <th>SUE1 </th>
         <th>SUE2</th>
         <th>SUE3</th>
@@ -47,11 +62,32 @@ $Packing	= isset($_GET['packing']) ? $_GET['packing'] : '';
         <th>RSE2</th>
         <th>RSE4</th>
         <th>RSE5</th>
-        <th>FIN1</th>
         <th>SHR3</th>
         <th>SHR4</th>
+        <th>STM1</th>
+        <th>PAD1</th>
+        <th>PAD2</th>
+        <th>PRE1</th>
+        <th>OVN1</th>
+        <th>OVN2</th>
+        <th>OVN4</th>
+        <th>OVB1</th>
+        <th>OVB2</th>
+        <th>OVD1</th>
+        <th>OVD2</th>
+        <th>FNU1</th>
+        <th>FNU2</th>
+        <th>CPD1</th>
+        <th>CPT1</th>
+        <th>FIN1</th>
+        <th>BLD1</th>
         <th>FNJ1</th>
+        <th>FNJ2</th>
+        <th>FNJ3</th>
+        <th>CNP1</th>
+        <th>INS2</th>
         <th>INS3</th>
+        <th>INS7</th>
         <th>PACK</th>
         </tr>
     </thead>
@@ -1153,10 +1189,25 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
         <td>`<?php echo $r['prdorder']; ?></td>
         <td><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></td>
-        <td><?php if($r['bSCO1']>0 and $r['aPRE1']>0){ echo $r['bSCO1']-$r['aPRE1']; }else{ echo "0"; }  ?></td>
-        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
-        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
-        <td><?php if($r['bPRE1']>0 and $r['aPRE1']>0){echo $r['bPRE1']-$r['aPRE1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSCO1']>0){ echo $r['bSCO1']-$r['bSCO1']; }else{ echo "0"; }  ?></td>
+        <td><?php if($r['bRLX1']>0){ echo $r['bRLX1']-$r['bRLX1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCBL1']>0){ echo $r['bCBL1']-$r['bCBL1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bDYE1']>0){ echo $r['bDYE1']-$r['bDYE1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0){ echo $r['bDYE2']-$r['bDYE2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE4']>0){ echo $r['bDYE4']-$r['bDYE4']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bFEW1']>0){ echo $r['bFEW1']-$r['bFEW1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFIX1']>0){ echo $r['bFIX1']-$r['bFIX1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bHEW1']>0){ echo $r['bHEW1']-$r['bHEW1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bLVL1']>0){ echo $r['bLVL1']-$r['bLVL1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRDC1']>0){ echo $r['bRDC1']-$r['bRDC1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSOA1']>0){ echo $r['bSOA1']-$r['bSOA1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSOF1']>0){ echo $r['bSOF1']-$r['bSOF1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSTR1']>0){ echo $r['bSTR1']-$r['bSTR1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bNCP1']>0 and $r['aNCP1']>0){echo $r['bNCP1']-$r['aNCP1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCUR1']>0 and $r['aCUR1']>0){echo $r['bCUR1']-$r['aCUR1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bROT1']>0 and $r['aROT1']>0){echo $r['bROT1']-$r['aROT1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo $r['bTDR1']-$r['aTDR1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCOM1']>0 and $r['aCOM1']>0){echo $r['bCOM1']-$r['aCOM1'];}else{echo "0";} ?></td>
         <td><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></td>
         <td><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></td>
         <td><?php if($r['bSUE3']>0 and $r['aSUE3']>0){echo $r['bSUE3']-$r['aSUE3'];}else{echo "0";} ?></td>
@@ -1164,11 +1215,32 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></td>
         <td><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></td>
         <td><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></td>
-        <td><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></td>
         <td><?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?></td>
         <td><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSTM1']>0 and $r['aSTM1']>0){echo $r['bSTM1']-$r['aSTM1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bPAD1']>0 and $r['aPAD1']>0){echo $r['bPAD1']-$r['aPAD1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bPAD2']>0 and $r['aPAD2']>0){echo $r['bPAD2']-$r['aPAD2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSCO1']>0 and $r['aPRE1']>0){echo $r['bSCO1']-$r['aPRE1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN2']>0){ echo $r['bDYE2']-$r['aOVN2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN4']>0){ echo $r['bDYE2']-$r['aOVN4']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVB1']>0 and $r['aOVB1']>0){ echo $r['bOVB1']-$r['aOVB1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVB2']>0 and $r['aOVB2']>0){ echo $r['bOVB2']-$r['aOVB2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVD1']>0 and $r['aOVD1']>0){ echo $r['bOVD1']-$r['aOVD1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVD2']>0 and $r['aOVD2']>0){ echo $r['bOVD2']-$r['aOVD2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bFNU1']>0 and $r['aFNU1']>0){echo $r['bFNU1']-$r['aFNU1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNU2']>0 and $r['aFNU2']>0){echo $r['bFNU2']-$r['aFNU2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCPD1']>0 and $r['aCPD1']>0){echo $r['bCPD1']-$r['aCPD1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo $r['bCPT1']-$r['aCPT1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bBLD1']>0 and $r['aBLD1']>0){ echo $r['bBLD1']-$r['aBLD1'];}else{echo "0";} ?></td>
         <td><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNJ2']>0 and $r['aFNJ2']>0){echo $r['bFNJ2']-$r['aFNJ2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNJ3']>0 and $r['aFNJ3']>0){echo $r['bFNJ3']-$r['aFNJ3'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCNP1']>0 and $r['aCNP1']>0){echo $r['bCNP1']-$r['aCNP1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bINS2']>0 and $r['aINS2']>0){echo $r['bINS2']-$r['aINS2'];}else{echo "0";} ?></td>
         <td><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></td>
+        <td><?php if($r['bINS7']>0 and $r['aINS7']>0){echo $r['bINS7']-$r['aINS7'];}else{echo "0";} ?></td>
         <td><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></td>
         <td><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
         <td><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
@@ -1176,24 +1248,39 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td><?php if($rowto['TOTAL_KG']>0){echo round((round($r['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
         <td><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
         <td><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
-        </tr>
+      </tr>
 		<?php }}else{ 
 		if($rowto['TOTAL_KG']==0){
 		?>
 		<tr>
-        <td ><?php echo $r['pelanggan']; ?></td>
-        <td ><?php echo $r['warna']; ?></td>
-        <td ><?php echo $r['no_hanger']; ?></td>
-        <td ><?php echo $r['rol_bagi']; ?></td>
+        <td><?php echo $r['pelanggan']; ?></td>
+        <td><?php echo $r['warna']; ?></td>
+        <td><?php echo $r['no_hanger']; ?></td>
+        <td><?php echo $r['rol_bagi']; ?></td>
         <td align="right" ><?php echo round($r['bagi_kain'],2); ?></td>
-        <td >`<?php echo $r['lot']; ?></td>
-        <td ><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
-        <td >`<?php echo $r['prdorder']; ?></td>
-        <td ><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></td>
-        <td ><?php if($r['bSCO1']>0 and $r['aPRE1']>0){ echo $r['bSCO1']-$r['aPRE1']; }else{ echo "0"; }  ?></td>
-        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
-        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
-        <td><?php if($r['bPRE1']>0 and $r['aPRE1']>0){echo $r['bPRE1']-$r['aPRE1'];}else{echo "0";} ?></td>
+        <td>`<?php echo $r['lot']; ?></td>
+        <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
+        <td>`<?php echo $r['prdorder']; ?></td>
+        <td><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></td>
+        <td><?php if($r['bSCO1']>0){ echo $r['bSCO1']-$r['bSCO1']; }else{ echo "0"; }  ?></td>
+        <td><?php if($r['bRLX1']>0){ echo $r['bRLX1']-$r['bRLX1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCBL1']>0){ echo $r['bCBL1']-$r['bCBL1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bDYE1']>0){ echo $r['bDYE1']-$r['bDYE1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0){ echo $r['bDYE2']-$r['bDYE2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE4']>0){ echo $r['bDYE4']-$r['bDYE4']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bFEW1']>0){ echo $r['bFEW1']-$r['bFEW1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFIX1']>0){ echo $r['bFIX1']-$r['bFIX1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bHEW1']>0){ echo $r['bHEW1']-$r['bHEW1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bLVL1']>0){ echo $r['bLVL1']-$r['bLVL1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRDC1']>0){ echo $r['bRDC1']-$r['bRDC1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSOA1']>0){ echo $r['bSOA1']-$r['bSOA1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSOF1']>0){ echo $r['bSOF1']-$r['bSOF1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSTR1']>0){ echo $r['bSTR1']-$r['bSTR1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bNCP1']>0 and $r['aNCP1']>0){echo $r['bNCP1']-$r['aNCP1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCUR1']>0 and $r['aCUR1']>0){echo $r['bCUR1']-$r['aCUR1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bROT1']>0 and $r['aROT1']>0){echo $r['bROT1']-$r['aROT1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCOM1']>0 and $r['aCOM1']>0){echo $r['bCOM1']-$r['aCOM1'];}else{echo "0";} ?></td>
         <td><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></td>
         <td><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></td>
         <td><?php if($r['bSUE3']>0 and $r['aSUE3']>0){echo $r['bSUE3']-$r['aSUE3'];}else{echo "0";} ?></td>
@@ -1201,12 +1288,32 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></td>
         <td><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></td>
         <td><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></td>
-        <td><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></td>
-        <td><?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>
-        </td>
+        <td><?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?></td>
         <td><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSTM1']>0 and $r['aSTM1']>0){echo $r['bSTM1']-$r['aSTM1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bPAD1']>0 and $r['aPAD1']>0){echo $r['bPAD1']-$r['aPAD1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bPAD2']>0 and $r['aPAD2']>0){echo $r['bPAD2']-$r['aPAD2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bSCO1']>0 and $r['aPRE1']>0){echo $r['bSCO1']-$r['aPRE1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN2']>0){ echo $r['bDYE2']-$r['aOVN2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bDYE2']>0 and $r['aOVN4']>0){ echo $r['bDYE2']-$r['aOVN4']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVB1']>0 and $r['aOVB1']>0){ echo $r['bOVB1']-$r['aOVB1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVB2']>0 and $r['aOVB2']>0){ echo $r['bOVB2']-$r['aOVB2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVD1']>0 and $r['aOVD1']>0){ echo $r['bOVD1']-$r['aOVD1']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bOVD2']>0 and $r['aOVD2']>0){ echo $r['bOVD2']-$r['aOVD2']; }else{ echo "0"; } ?></td>
+        <td><?php if($r['bFNU1']>0 and $r['aFNU1']>0){echo $r['bFNU1']-$r['aFNU1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNU2']>0 and $r['aFNU2']>0){echo $r['bFNU2']-$r['aFNU2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCPD1']>0 and $r['aCPD1']>0){echo $r['bCPD1']-$r['aCPD1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo $r['bCPT1']-$r['aCPT1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bBLD1']>0 and $r['aBLD1']>0){echo $r['bBLD1']-$r['aBLD1'];}else{echo "0";} ?></td>
         <td><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNJ2']>0 and $r['aFNJ2']>0){echo $r['bFNJ2']-$r['aFNJ2'];}else{echo "0";} ?></td>
+        <td><?php if($r['bFNJ3']>0 and $r['aFNJ3']>0){echo $r['bFNJ3']-$r['aFNJ3'];}else{echo "0";} ?></td>
+        <td><?php if($r['bCNP1']>0 and $r['aCNP1']>0){echo $r['bCNP1']-$r['aCNP1'];}else{echo "0";} ?></td>
+        <td><?php if($r['bINS2']>0 and $r['aINS2']>0){echo $r['bINS2']-$r['aINS2'];}else{echo "0";} ?></td>
         <td><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></td>
+        <td><?php if($r['bINS7']>0 and $r['aINS7']>0){echo $r['bINS7']-$r['aINS7'];}else{echo "0";} ?></td>
         <td><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></td>
         <td><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
         <td><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
