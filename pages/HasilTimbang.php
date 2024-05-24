@@ -87,6 +87,7 @@ $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
         <th valign="middle" style="text-align: center">Prod. Order</th>
         <th valign="middle" style="text-align: center">Prod. Demand</th>
         <th valign="middle" style="text-align: center">No Hanger</th>
+        <th valign="middle" style="text-align: center">No Step</th>
         <th valign="middle" style="text-align: center">Proses</th>
         <th valign="middle" style="text-align: center">Ket.</th>
 		<?php if($Gerobak!=""){ ?>  
@@ -178,17 +179,19 @@ group by
 	proses,
 	ket,
 	prod_order,
-	no_demand ORDER BY id DESC";	
+	no_demand,
+	no_step ORDER BY id DESC";	
 		}
 		
 		$sql = mysqli_query($conr,$query);
 		while ($r=mysqli_fetch_array($sql)){          
       ?>
       <tr>
-        <td ><?php if($Gerobak!=""){ echo $r['no_gerobak']; }else{ ?><a href="#" class="btn btn-xs btn-danger show_detail" id="<?php echo $r['prod_order'].", ".$r['proses'].", ".$r['ket'].", "; ?>">detail</a> <?php } ?></td>
+        <td ><?php if($Gerobak!=""){ echo $r['no_gerobak']; }else{ ?><a href="#" class="btn btn-xs btn-danger show_detail" id="<?php echo $r['prod_order'].", ".$r['proses'].", ".$r['ket'].", ".$r['no_step'].", "; ?>">detail</a> <?php } ?></td>
         <td ><?php echo $r['prod_order']; ?></td>
         <td ><?php echo $r['no_demand']; ?></td>
         <td ><?php echo $r['no_hanger']; ?></td>
+        <td ><?php echo $r['no_step']; ?></td>
         <td ><?php echo $r['proses']; ?></td>
         <td ><?php echo $r['ket']; ?></td>
 		<?php if($Gerobak!=""){ ?>  

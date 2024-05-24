@@ -13,7 +13,7 @@ $dt = explode(",",$modal_id);
 		<form class="form-horizontal" name="modal_popup" data-toggle="validator" method="post" action=""
 			enctype="multipart/form-data">
 			<div class="modal-header">
-				<h5 class="modal-title">Detail No Gerobak ( Prod. Order : <?php echo $dt[0]; ?> )</h5>				
+				<h5 class="modal-title">Detail No Gerobak ( Prod. Order : <?php echo $dt[0]; ?> ) (No Step : <?php echo $dt[3]; ?>)</h5>				
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -46,9 +46,9 @@ $dt = explode(",",$modal_id);
 					<tbody>
 						<?php
 						$no = 1;
-						if($dt[0]!="" and $dt[1]!="" and $dt[2]!=""){
+						if($dt[0]!="" and $dt[1]!="" and $dt[2]!="" and $dt[3]!=""){
 						$query = "
-						SELECT * FROM kain_proses WHERE (ket='before' or ket='after') and prod_order='".$dt[0]."' and proses='".trim($dt[1])."' and ket='".trim($dt[2])."' ORDER BY no_step ASC
+						SELECT * FROM kain_proses WHERE (ket='before' or ket='after') and prod_order='".$dt[0]."' and proses='".trim($dt[1])."' and ket='".trim($dt[2])."' and no_step='".trim($dt[3])."' ORDER BY no_step ASC
 							";	
 						}else{
 						$query = "
