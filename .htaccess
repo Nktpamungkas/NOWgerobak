@@ -16,5 +16,6 @@ RewriteRule ^CekGerobak-([a-zA-Z0-9_-]+)$ index.php?p=CekGerobak&gerobak=$1 [L]
 RewriteRule ^HasilTimbang$ index.php?p=HasilTimbang [L]
 RewriteRule ^MasterGerobak$ index.php?p=MasterGerobak [L]
 RewriteRule ^LaporanKain$ index.php?p=LaporanKain [L]
+RewriteRule ^LaporanKain1$ index.php?p=LaporanKain1 [L]
 
 Options All -Indexes

@@ -79,7 +79,7 @@ $Packing	= isset($_POST['packing']) ? $_POST['packing'] : '';
         <th rowspan="2" valign="middle" style="text-align: center">Lot</th>
         <th rowspan="2" valign="middle" style="text-align: center">Prod. Demand</th>
         <th rowspan="2" valign="middle" style="text-align: center">Prod. Order</th>
-        <th colspan="18" valign="middle" style="text-align: center">POTONG KAIN (KG)</th>
+        <th colspan="21" valign="middle" style="text-align: center">POTONG KAIN (KG)</th>
         <th rowspan="2" valign="middle" style="text-align: center">TOTAL</th>
         <th rowspan="2" valign="middle" style="text-align: center">ROLL</th>
         <th rowspan="2" valign="middle" style="text-align: center">PACKING</th>
@@ -92,6 +92,7 @@ $Packing	= isset($_POST['packing']) ? $_POST['packing'] : '';
         <th valign="middle" style="text-align: center">SCO1</th>
         <th valign="middle" style="text-align: center">DYE2</th>
         <th valign="middle" style="text-align: center">OVN1</th>
+        <th valign="middle" style="text-align: center">OVD</th>
         <th valign="middle" style="text-align: center">PRE1</th>
         <th valign="middle" style="text-align: center">SUE1 </th>
         <th valign="middle" style="text-align: center">SUE2</th>
@@ -100,6 +101,8 @@ $Packing	= isset($_POST['packing']) ? $_POST['packing'] : '';
         <th valign="middle" style="text-align: center">RSE2</th>
         <th valign="middle" style="text-align: center">RSE4</th>
         <th valign="middle" style="text-align: center">RSE5</th>
+        <th valign="middle" style="text-align: center">TDR1</th>
+        <th valign="middle" style="text-align: center">CPT1</th>
         <th valign="middle" style="text-align: center">FIN1</th>
         <th valign="middle" style="text-align: center">SHR3</th>
         <th valign="middle" style="text-align: center">SHR4</th>
@@ -1310,6 +1313,7 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0){ echo $r['bSCO1']-$r['bSCO1']; }else{ echo "0"; }  ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0){ echo $r['bDYE2']-$r['bDYE2']; }else{ echo "0"; } ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
+        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1']); echo " After: ".($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); ?>"><?php if(($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])>0 and ($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4'])>0){ echo ($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])-($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); }else{ echo "0"; } ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']." After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0 and $r['aPRE1']>0){echo $r['bSCO1']-$r['aPRE1'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE1']." After: ".$r['aSUE1']; ?>"><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE2']." After: ".$r['aSUE2']; ?>"><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></span></td>
@@ -1318,6 +1322,8 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE2']." After: ".$r['aRSE2']; ?>"><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE4']." After: ".$r['aRSE4']; ?>"><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE5']." After: ".$r['aRSE5']; ?>"><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></span></td>
+        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bTDR1']." After: ".$r['aTDR1']; ?>"><?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo $r['bTDR1']-$r['aTDR1'];}else{echo "0";} ?></span></td>
+        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bCPT1']." After: ".$r['aCPT1']; ?>"><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo $r['bCPT1']-$r['aCPT1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR3']." After: ".$r['aSHR3']; ?>">
           <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>
@@ -1349,6 +1355,7 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0){ echo $r['bSCO1']-$r['bSCO1']; }else{ echo "0"; } ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0){ echo $r['bDYE2']-$r['bDYE2']; }else{ echo "0"; } ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1']); echo " After: ".($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); ?>"><?php if(($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])>0 and ($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4'])>0){ echo ($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])-($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); }else{ echo "0"; } ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']." After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0 and $r['aPRE1']>0){echo $r['bSCO1']-$r['aPRE1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE1']." After: ".$r['aSUE1']; ?>"><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE2']." After: ".$r['aSUE2']; ?>"><?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?></span></td>
@@ -1357,6 +1364,8 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE2']." After: ".$r['aRSE2']; ?>"><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE4']." After: ".$r['aRSE4']; ?>"><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE5']." After: ".$r['aRSE5']; ?>"><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bTDR1']." After: ".$r['aTDR1']; ?>"><?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo $r['bTDR1']-$r['aTDR1'];}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bCPT1']." After: ".$r['aCPT1']; ?>"><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo $r['bCPT1']-$r['aCPT1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR3']." After: ".$r['aSHR3']; ?>">
           <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>

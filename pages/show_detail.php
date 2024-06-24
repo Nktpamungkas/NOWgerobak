@@ -38,6 +38,7 @@ $dt = explode(",",$modal_id);
 							<th>
 								<div align="center">Berat Kain</div>
 							</th>
+							<th><div align="center">UserID</div></th>
 							<th>
 								<div align="center">Tgl Update</div>
 							</th>
@@ -67,6 +68,7 @@ $dt = explode(",",$modal_id);
 									<td align=center>$r[berat]</td>
 									<td align=center>$r[berat_kosong]</td>
 									<td align=center>$kain</td>
+									<td align=center>$r[userid]</td>
 									<td align=center>$r[tgl_update]</td>
 								</tr>";
 							$no++;
@@ -86,6 +88,7 @@ $dt = explode(",",$modal_id);
 						  <th>&nbsp;</th>
 						  <th><div align="center">Total</div></th>
 						  <th><div align="center"><?php echo $tot; ?></div></th>
+						  <th>&nbsp;</th>
 						  <th>&nbsp;</th>
 						  </tr>
 					</tfoot>

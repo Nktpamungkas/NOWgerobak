@@ -3,7 +3,6 @@ ini_set("error_reporting", 0);
 $Gerobak 	= isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
 $Tgl  		= isset($_POST['tgl']) ? $_POST['tgl'] : '';
 $Tgl2  		= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
-$NoHanger	= isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
 $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
 $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
 
@@ -41,21 +40,14 @@ $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
             </div>
           </div>
         </div>
-		<div class="form-group row">
+        <div class="form-group row">
           <label for="gerobak" class="col-sm-1 control-label">No Gerobak</label>
           <div class="col-sm-3">
             <input name="gerobak" type="text" class="form-control pull-right" id="gerobak" placeholder="No Gerobak" value="<?php echo $Gerobak;  ?>" autocomplete="off" />
           </div>
           <!-- /.input group -->
-        </div>  
+        </div>
 		<div class="form-group row">
-          <label for="nohanger" class="col-sm-1 control-label">No Hanger</label>
-          <div class="col-sm-3">
-            <input name="nohanger" type="text" class="form-control pull-right" id="nohanger" placeholder="No Hanger" value="<?php echo $NoHanger;  ?>" autocomplete="off" />
-          </div>
-          <!-- /.input group -->
-        </div>  
-        <div class="form-group row">
           <label for="prodorder" class="col-sm-1 control-label">Prod. Order</label>
           <div class="col-sm-3">
             <input name="prodorder" type="text" class="form-control pull-right" id="prodorder" placeholder="Prod. Order" value="<?php echo $ProdOrder;  ?>" autocomplete="off" />
@@ -83,20 +75,15 @@ $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
   <table id="example1" class="table table-sm table-bordered table-striped" style="font-size: 13px; text-align: center;">
     <thead>
       <tr>
-        <th valign="middle" style="text-align: center">No Gerobak</th>
         <th valign="middle" style="text-align: center">Prod. Order</th>
         <th valign="middle" style="text-align: center">Prod. Demand</th>
         <th valign="middle" style="text-align: center">No Hanger</th>
-        <th valign="middle" style="text-align: center">No Step</th>
         <th valign="middle" style="text-align: center">Proses</th>
         <th valign="middle" style="text-align: center">Ket.</th>
-		<?php if($Gerobak!=""){ ?>  
+        <th valign="middle" style="text-align: center">No Gerobak</th>
         <th valign="middle" style="text-align: center">Berat </th>
         <th valign="middle" style="text-align: center">Berat Kosong</th>
         <th valign="middle" style="text-align: center">Berat Kain</th>
-		<?php }else{ ?>  
-        <th valign="middle" style="text-align: center">Berat Kain</th>
-		<?php } ?>  
         <th valign="middle" style="text-align: center">Roll</th>
         <th valign="middle" style="text-align: center">Bagi Kain</th>
         <th valign="middle" style="text-align: center">Selisih</th>
@@ -114,9 +101,9 @@ $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
 		}else{
 		$where1 = " ";	
 		}
-		
-		if($NoHanger!=""){
-		$where2 = " AND no_hanger='$NoHanger' ";	
+		 
+		if($Gerobak!=""){
+		$where2 = " AND no_gerobak='$Gerobak' ";	
 		}else{
 		$where2 = " ";	
 		}
@@ -133,85 +120,30 @@ $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
 		$where4 = " ";	
 		}
 		
-		if($Gerobak!=""){
-		$where5 = " AND no_gerobak='$Gerobak' ";	
+		if($Tgl=="" and $Gerobak=="" and $ProdOrder=="" and $NoDemand=="" ){
+		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') ORDER BY id DESC LIMIT 500 ";	
 		}else{
-		$where5 = " ";	
-		}
-		if($Tgl=="" and $NoHanger=="" and $ProdOrder=="" and $NoDemand=="" and $NoGerobak){
-		$query = " 
-		select
-	*,
-	sum(berat) as berat_tot,
-	sum(berat_kosong) as berat_kosong_tot,
-	DATE_FORMAT(tgl_update, '%Y-%m-%d') as tgl_timbang,
-	group_concat(distinct userid,', ') as user_gabung 
-from
-	kain_proses
-where
-	(ket = 'before'
-		or ket = 'after')
-group by
-	proses,
-	ket,
-	prod_order,
-	no_demand
-order by
-	id desc
-limit 500
-		";	
-		}
-		else
-		if( $Gerobak!="" ){
-		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 $where4 $where5 ORDER BY id DESC";	
-		}else{
-		$query = " 
-		select
-	*,
-	sum(berat) as berat_tot,
-	sum(berat_kosong) as berat_kosong_tot,
-	DATE_FORMAT(tgl_update, '%Y-%m-%d') as tgl_timbang,
-	group_concat(distinct userid,', ') as user_gabung 
-from
-	kain_proses
-where
-	(ket = 'before'
-		or ket = 'after') $where1 $where2 $where3 $where4
-group by
-	proses,
-	ket,
-	prod_order,
-	no_demand,
-	no_step ORDER BY id DESC";	
+		$query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 $where4 ORDER BY id DESC";	
 		}
 		
 		$sql = mysqli_query($conr,$query);
 		while ($r=mysqli_fetch_array($sql)){          
       ?>
       <tr>
-        <td ><?php if($Gerobak!=""){ echo $r['no_gerobak']; }else{ ?><a href="#" class="btn btn-xs btn-danger show_detail" id="<?php echo $r['prod_order'].", ".$r['proses'].", ".$r['ket'].", ".$r['no_step'].", "; ?>">detail</a> <?php } ?></td>
         <td ><?php echo $r['prod_order']; ?></td>
         <td ><?php echo $r['no_demand']; ?></td>
         <td ><?php echo $r['no_hanger']; ?></td>
-        <td ><?php echo $r['no_step']; ?></td>
         <td ><?php echo $r['proses']; ?></td>
         <td ><?php echo $r['ket']; ?></td>
-		<?php if($Gerobak!=""){ ?>  
+        <td ><?php echo $r['no_gerobak']; ?></td>
         <td align="right" ><?php echo $r['berat']; ?></td>
         <td align="right" ><?php echo $r['berat_kosong']; ?></td>
         <td align="right"><?php echo number_format(round($r['berat']-$r['berat_kosong'],2),2); ?></td>
-		<?php } else{ ?>  
-        <td align="right"><?php echo number_format(round($r['berat_tot']-$r['berat_kosong_tot'],2),2); ?></td>
-		<?php } ?>  
         <td><?php echo $r['rol_bagi']; ?></td>
         <td><?php echo $r['bagi_kain']; ?></td>
-		<?php if($Gerobak!=""){ ?>  
         <td align="right"><?php echo number_format(($r['bagi_kain']-round($r['berat']-$r['berat_kosong'],2)),2); ?></td>
-		<?php } else{ ?>  
-		<td align="right"><?php echo number_format(($r['bagi_kain']-round($r['berat_tot']-$r['berat_kosong_tot'],2)),2); ?></td>  
-		<?php } ?>   
-        <td ><?php if($r['tgl_timbang']!=""){ echo $r['tgl_timbang']; }else{ echo $r['tgl_update']; }?></td>
-        <td align="left"><?php echo $r['user_gabung']; ?></td>
+        <td ><?php echo $r['tgl_update']; ?></td>
+        <td align="left"><?php echo $r['userid']; ?></td>
         </tr>
       <?php 
 		$no++; } 
@@ -223,9 +155,6 @@ group by
 </div>
 </form>
 </div><!-- /.container-fluid -->
-
-<div id="DetailShow" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-</div>
 <!-- /.content -->
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
