@@ -159,7 +159,26 @@
                                             LIMIT 500";
                         } else if ($Gerobak != "") {
                             $query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 $where4 $where5 ORDER BY id DESC";
-                        } else {
+                        } else if ($where1 != " " OR $where2 != " "  OR $where3 != " "  OR $where4 != " " ){
+                            $query = "SELECT
+                                        *,
+                                        sum( berat ) AS berat_tot,
+                                        sum( berat_kosong ) AS berat_kosong_tot,
+                                        DATE_FORMAT( tgl_update, '%Y-%m-%d' ) AS tgl_timbang,
+                                        group_concat( DISTINCT userid, ', ' ) AS user_gabung 
+                                    FROM
+                                        kain_proses 
+                                    WHERE
+                                        ( ket = 'before' OR ket = 'after' ) $where1 $where2 $where3 $where4
+                                    GROUP BY
+                                        proses,
+                                        ket,
+                                        prod_order,
+                                        no_demand,
+                                        no_step 
+                                    ORDER BY
+                                        id DESC";
+                        }else{
                             $query = "SELECT
                                         *,
                                         sum( berat ) AS berat_tot,
