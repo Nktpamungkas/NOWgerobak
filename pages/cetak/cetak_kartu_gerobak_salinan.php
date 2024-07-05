@@ -266,11 +266,34 @@ $rowket4 = db2_fetch_assoc($stmt4);
 						</tbody>
 					</table>
 				</td>
-				<td width="40%" scope="col" align="center">
+				<td width="45%" scope="col" align="center">
 					<h3>Production Demand</h3>
 				</td>
-				<td width="50%" scope="col" align="center">
-					<h3>&nbsp;</h3>
+				<td width="50%" scope="col" align="right">
+					<?php
+					include "../../phpqrcode/qrlib.php";
+					$tempdir1 = "../../temp/"; //Nama folder tempat menyimpan file qrcode
+					if (!file_exists($tempdir1)) //Buat folder bername temp
+						mkdir($tempdir1);
+
+					//isi qrcode jika di scan
+					$codeContents1 = "https://online.indotaichen.com/nowgerobak/CetakKartuGerobak-" . $Demand;
+					//nama file qrcode yang akan disimpan
+					$namaFile1 = $Demand . ".png";
+					//ECC Level
+					$level1 = QR_ECLEVEL_H;
+					//Ukuran pixel
+					$UkuranPixel1 = 2; //10
+					//Ukuran frame
+					$UkuranFrame1 = 2; //4
+					
+					QRcode::png($codeContents1, $tempdir1 . $namaFile1, $level1, $UkuranPixel1, $UkuranFrame1);
+
+					echo '<img src="' . $tempdir1 . $namaFile1 . '" />';
+
+					?>
+					<br>
+					<?php echo date("d F Y"); ?>
 				</td>
 			</tr>
 			<tr>
@@ -286,7 +309,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				</td>
 				<td align="center" valign="top">
 					<?php if ($Demand != '')
-            echo '<img src="../../php-barcode-master/barcode.php?text=' . $Demand . '&print=true&size=40" />'; ?>
+						echo '<img src="../../php-barcode-master/barcode.php?text=' . $Demand . '&print=true&size=40" />'; ?>
 				</td>
 				<td width="50%" scope="col" align="center">
 					<h3>&nbsp;</h3>
@@ -498,40 +521,12 @@ $rowket4 = db2_fetch_assoc($stmt4);
 							</tr>
 						</tbody>
 					</table>
+				<td></td>
 				</td>
-			</tr>
-			<tr>
-				<td colspan="3" width="100%" align="right"><?php
-        include "../../phpqrcode/qrlib.php";
-        $tempdir1 = "../../temp/"; //Nama folder tempat menyimpan file qrcode
-        if (!file_exists($tempdir1)) //Buat folder bername temp
-          mkdir($tempdir1);
-
-        //isi qrcode jika di scan
-        $codeContents1 = "https://online.indotaichen.com/nowgerobak/CetakKartuGerobak-" . $Demand;
-        //nama file qrcode yang akan disimpan
-        $namaFile1 = $Demand . ".png";
-        //ECC Level
-        $level1 = QR_ECLEVEL_H;
-        //Ukuran pixel
-        $UkuranPixel1 = 2; //10
-        //Ukuran frame
-        $UkuranFrame1 = 2; //4
-        
-        QRcode::png($codeContents1, $tempdir1 . $namaFile1, $level1, $UkuranPixel1, $UkuranFrame1);
-
-        echo '<img src="' . $tempdir1 . $namaFile1 . '" />';
-
-        ?></td>
-			</tr>
-			<tr>
-				<td colspan="3" width="100%" align="right"><?php echo date("d F Y"); ?></td>
 			</tr>
 		</tbody>
 	</table>
 	<br />
-
-
 </body>
 
 </html>
