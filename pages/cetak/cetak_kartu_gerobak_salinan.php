@@ -150,42 +150,72 @@ $rowket4 = db2_fetch_assoc($stmt4);
 	<script>
 
 	</script>
-	<style>
-	.table-list td {
-		color: #333;
+	<!--<style>
+		.table-list td {
+			color: #333;
+			/*font-size: 12px;*/
+			border-color: #fff;
+			border-collapse: collapse;
+			vertical-align: center;
+			padding: 3px 5px;
+			border-bottom: 1px #000000 solid;
+			border-left: 1px #000000 solid;
+			border-right: 1px #000000 solid;
+
+
+		}
+
+		.table-list1 {
+			clear: both;
+			text-align: left;
+			border-collapse: collapse;
+			margin: 0px 0px 5px 0px;
+			background: #fff;
+		}
+
+		.table-list1 td {
+			color: #333;
+			/*font-size: 14px;*/
+			border-color: #fff;
+			border-collapse: collapse;
+			vertical-align: center;
+			padding: 1px 3px;
+			border-bottom: 0px #000000 solid;
+			border-top: 0px #000000 solid;
+			border-left: 0px #000000 solid;
+			border-right: 0px #000000 solid;
+
+
+		}
+	</style>-->
+	<!--<style>
+	.table-list1 td,
+	.table-list1 th {
 		font-size: 12px;
-		border-color: #fff;
-		border-collapse: collapse;
-		vertical-align: center;
-		padding: 3px 5px;
-		border-bottom: 1px #000000 solid;
-		border-left: 1px #000000 solid;
-		border-right: 1px #000000 solid;
-
-
 	}
-
-	.table-list1 {
-		clear: both;
-		text-align: left;
-		border-collapse: collapse;
-		margin: 0px 0px 5px 0px;
-		background: #fff;
-	}
-
-	.table-list1 td {
-		color: #333;
-		font-size: 14px;
-		border-color: #fff;
-		border-collapse: collapse;
-		vertical-align: center;
-		padding: 1px 3px;
+	</style>-->
+	<style>
+	/* Gaya umum untuk layar */
+	.table-list1 td,
+	.table-list1 th {
+		padding: 0;
+		font-size: 10px;
 		border-bottom: 0px #000000 solid;
 		border-top: 0px #000000 solid;
 		border-left: 0px #000000 solid;
 		border-right: 0px #000000 solid;
+		/* Ukuran font standar untuk tampilan layar */
+	}
 
+	/* Gaya khusus untuk pencetakan */
+	@media print {
 
+		.table-list1 td,
+		.table-list1 th {
+			font-size: 10px;
+			/*margin-bottom: 0px;*/
+			/* Ukuran font yang lebih kecil saat dicetak */
+		}
 	}
 	</style>
 </head>
@@ -521,11 +551,64 @@ $rowket4 = db2_fetch_assoc($stmt4);
 							</tr>
 						</tbody>
 					</table>
-				<td></td>
 				</td>
 			</tr>
 		</tbody>
 	</table>
+	<tbody>
+		<table border="1" cellpadding="1" cellspacing="0" width="100%">
+			<!--<caption>Tabel 11x12</caption>-->
+			<thead>
+				<tr>
+
+					<th width="10%">Alur Proses</th>
+					<th width="8%">TGL</th>
+					<th colspan="12">No.Gerobak</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				$sqlDB3 = "SELECT 
+							* 
+							FROM ITXVIEW_POSISI_KARTU_KERJA
+							WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'
+							AND PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'";
+
+				// Eksekusi query
+				$stmt9 = db2_exec($conn1, $sqlDB3);
+
+				if ($stmt9) {
+					while ($rowdb3 = db2_fetch_assoc($stmt9)) {
+						?>
+				<tr>
+					<td width="10%" align="center">
+						<?= $rowdb3['OPERATIONCODE']; ?>
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<?php
+					}
+				} else {
+					echo "<tr><td colspan='11'>Error in SQL query execution.</td></tr>";
+				}
+				?>
+			</tbody>
+
+		</table>
+	</tbody>
 	<br />
 </body>
 
