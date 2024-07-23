@@ -57,9 +57,12 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
     <thead>
       <tr>
         <th valign="middle" style="text-align: center">Prod. Order</th>
+        <th valign="middle" style="text-align: center">Prod. Demand</th>
         <th valign="middle" style="text-align: center">Project</th>
         <th valign="middle" style="text-align: center">Buyer</th>
         <th valign="middle" style="text-align: center">Tgl Import</th>
+        <th valign="middle" style="text-align: center">Tgl In</th>
+        <th valign="middle" style="text-align: center">Tgl Out</th>
         <th valign="middle" style="text-align: center">Full Item</th>
         <th valign="middle" style="text-align: center">Jenis Kain</th>
         <th valign="middle" style="text-align: center">Warna</th>
@@ -243,12 +246,19 @@ $Tgl  = isset($_POST['tgl']) ? $_POST['tgl'] : '';
                                                               AND SUBCODE09 = '$dt_ITXVIEWKK[SUBCODE09]' 
                                                               AND SUBCODE10 = '$dt_ITXVIEWKK[SUBCODE10]'");
           $dt_warna		= db2_fetch_assoc($sql_warna);
+
+          $q_posisikk   = db2_exec($conn1, "SELECT * FROM ITXVIEW_POSISI_KARTU_KERJA ipkk 
+                                                WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]' AND OPERATIONCODE = '$rowdb2[OPERATIONCODE]'");
+          $dt_posisikk  = db2_fetch_assoc($q_posisikk);
       ?>
       <tr>
         <td style="text-align: center"><?php echo $rowdb2['PRODUCTIONORDERCODE']; ?></td>
+        <td style="text-align: center"><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?= $dt_posisikk['PRODUCTIONDEMANDCODE']; ?>&prod_order=<?= $rowdb2['PRODUCTIONORDERCODE']; ?>"><?= $dt_posisikk['PRODUCTIONDEMANDCODE']; ?></a></td>
         <td style="text-align: center"><?= $dt_ITXVIEWKK['PROJECTCODE']; ?></td>
         <td style="text-align: center"><?= $dt_pelanggan_buyer['PELANGGAN'].'('.$dt_pelanggan_buyer['BUYER'].')'; ?></td>
-        <td style="text-align: center"><?php echo SUBSTR($rowdb2['IMPORTDATETIME'], 0, 10); ?></td>
+        <td style="text-align: center"><?= SUBSTR($rowdb2['IMPORTDATETIME'], 0, 10); ?></td>
+        <td style="text-align: center"><?= SUBSTR($dt_posisikk['MULAI'], 0, 16); ?></td>
+        <td style="text-align: center"><?= SUBSTR($dt_posisikk['SELESAI'], 0, 16); ?></td>
         <td style="text-align: center"><?php echo trim($rowdb2['ITEMTYPEAFICODE']) . " " . trim($rowdb2['SUBCODE01']) . "-" . trim($rowdb2['SUBCODE02']) . "-" . trim($rowdb2['SUBCODE03']) . "-" . trim($rowdb2['SUBCODE04']) . "-" . trim($rowdb2['SUBCODE05']) . "-" . trim($rowdb2['SUBCODE06']) . "-" . trim($rowdb2['SUBCODE07']) . "-" . trim($rowdb2['SUBCODE08']) . "-" . trim($rowdb2['SUBCODE09']) . "-" . trim($rowdb2['SUBCODE10']); ?></td>
         <td style="text-align: left"><?= $dt_ITXVIEWKK['ITEMDESCRIPTION']; ?></td>
         <td style="text-align: center"><?= $dt_warna['WARNA']; ?></td>
