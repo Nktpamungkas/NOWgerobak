@@ -537,6 +537,9 @@ $rowket4 = db2_fetch_assoc($stmt4);
 					while ($rowdb3 = db2_fetch_assoc($stmt9)) {
 						// Format tanggal tanpa jam
 						$date = date('Y-m-d', strtotime($rowdb3['SELESAI']));
+						$isigerobak = array_filter(array_map('trim', explode(',', $rowdb3['GEROBAK']))); // Split and trim values
+						$numGerobakValues = count($isigerobak);
+						$maxColumns = 12; // Fixed number of columns after the date
 						?>
 						<tr>
 							<td width="10%" align="center">
@@ -550,32 +553,29 @@ $rowket4 = db2_fetch_assoc($stmt4);
 								?>
 							</td>
 							<?php if ($rowdb3['OPERATIONCODE'] == 'BAT2') { ?>
-								<td width="7%" align="center"><?= $rowdb3['GEROBAK'] ?></td>
+								<?php for ($i = 0; $i < $maxColumns; $i++) { ?>
+									<td width="7%" align="center">
+										<?php if (isset($isigerobak[$i])) {
+											echo $isigerobak[$i];
+										} ?>
+									</td>
+								<?php } ?>
 							<?php } else { ?>
 								<td width="7%" align="center"></td>
+								<?php for ($i = 0; $i < $maxColumns - 1; $i++) { ?>
+									<td></td>
+								<?php } ?>
 							<?php } ?>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
 						</tr>
 						<?php
 					}
 				} else {
-					echo "<tr><td colspan='13'>Error in SQL query execution.</td></tr>";
+					echo "<tr><td colspan='13'>Error</td></tr>";
 				}
 				?>
 			</tbody>
-		</table>
-	</tbody>
-	<br />
+
+			<br />
 </body>
 
 </html>
