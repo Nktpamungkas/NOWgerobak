@@ -147,76 +147,33 @@ $rowket4 = db2_fetch_assoc($stmt4);
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link href="styles_cetak.css" rel="stylesheet" type="text/css">
 	<title>Cetak Kartu Gerobak</title>
-	<script>
-
-	</script>
-	<!--<style>
-		.table-list td {
-			color: #333;
-			/*font-size: 12px;*/
-			border-color: #fff;
-			border-collapse: collapse;
-			vertical-align: center;
-			padding: 3px 5px;
-			border-bottom: 1px #000000 solid;
-			border-left: 1px #000000 solid;
-			border-right: 1px #000000 solid;
 
 
-		}
-
-		.table-list1 {
-			clear: both;
-			text-align: left;
-			border-collapse: collapse;
-			margin: 0px 0px 5px 0px;
-			background: #fff;
-		}
-
-		.table-list1 td {
-			color: #333;
-			/*font-size: 14px;*/
-			border-color: #fff;
-			border-collapse: collapse;
-			vertical-align: center;
-			padding: 1px 3px;
+	<style>
+		/* Gaya umum untuk layar */
+		.table-list1 td,
+		.table-list1 th {
+			padding: 0;
+			font-size: 14px;
 			border-bottom: 0px #000000 solid;
 			border-top: 0px #000000 solid;
 			border-left: 0px #000000 solid;
 			border-right: 0px #000000 solid;
-
-
+			/* Ukuran font standar untuk tampilan layar */
 		}
-	</style>-->
-	<!--<style>
-	.table-list1 td,
-	.table-list1 th {
-		font-size: 12px;
-	}
-	</style>-->
-	<style>
-	/* Gaya umum untuk layar */
-	.table-list1 td,
-	.table-list1 th {
-		padding: 0;
-		font-size: 10px;
-		border-bottom: 0px #000000 solid;
-		border-top: 0px #000000 solid;
-		border-left: 0px #000000 solid;
-		border-right: 0px #000000 solid;
-		/* Ukuran font standar untuk tampilan layar */
-	}
 
-	/* Gaya khusus untuk pencetakan */
-	@media print {
+		/* Gaya untuk cetakan */
+		@media print {
 
-		.table-list1 td,
-		.table-list1 th {
-			font-size: 10px;
-			/*margin-bottom: 0px;*/
-			/* Ukuran font yang lebih kecil saat dicetak */
+
+			/* Mencegah elemen mengecil */
+			td,
+			th {
+				padding: 0;
+				white-space: nowrap;
+				/* Mencegah teks untuk membungkus dan mengecil */
+			}
 		}
-	}
 	</style>
 </head>
 
@@ -575,38 +532,47 @@ $rowket4 = db2_fetch_assoc($stmt4);
 							WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'
 							AND PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'";
 
-				// Eksekusi query
 				$stmt9 = db2_exec($conn1, $sqlDB3);
-
 				if ($stmt9) {
 					while ($rowdb3 = db2_fetch_assoc($stmt9)) {
+						// Format tanggal tanpa jam
+						$date = date('Y-m-d', strtotime($rowdb3['SELESAI']));
 						?>
-				<tr>
-					<td width="10%" align="center">
-						<?= $rowdb3['OPERATIONCODE']; ?>
-					</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<?php
+						<tr>
+							<td width="10%" align="center">
+								<?= $rowdb3['OPERATIONCODE']; ?>
+							</td>
+							<td align="center">
+								<?php
+								if ($rowdb3['OPERATIONCODE'] == 'BAT2') {
+									echo $date;
+								}
+								?>
+							</td>
+							<?php if ($rowdb3['OPERATIONCODE'] == 'BAT2') { ?>
+								<td width="7%" align="center"><?= $rowdb3['GEROBAK'] ?></td>
+							<?php } else { ?>
+								<td width="7%" align="center"></td>
+							<?php } ?>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<?php
 					}
 				} else {
-					echo "<tr><td colspan='11'>Error in SQL query execution.</td></tr>";
+					echo "<tr><td colspan='13'>Error in SQL query execution.</td></tr>";
 				}
 				?>
 			</tbody>
-
 		</table>
 	</tbody>
 	<br />
