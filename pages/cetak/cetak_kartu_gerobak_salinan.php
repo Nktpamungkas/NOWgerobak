@@ -170,8 +170,12 @@ $rowket4 = db2_fetch_assoc($stmt4);
 			td,
 			th {
 				padding: 0;
-				white-space: nowrap;
 				/* Mencegah teks untuk membungkus dan mengecil */
+			}
+
+			.tabelbawah {
+
+				white-space: nowrap;
 			}
 		}
 	</style>
@@ -513,7 +517,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 		</tbody>
 	</table>
 	<tbody>
-		<table border="1" cellpadding="1" cellspacing="0" width="100%">
+		<table border="1" cellpadding="1" cellspacing="0" width="100%" class="tabelbawah">
 			<!--<caption>Tabel 11x12</caption>-->
 			<thead>
 				<tr>
@@ -538,7 +542,6 @@ $rowket4 = db2_fetch_assoc($stmt4);
 						// Format tanggal tanpa jam
 						$date = date('Y-m-d', strtotime($rowdb3['SELESAI']));
 						$isigerobak = array_filter(array_map('trim', explode(',', $rowdb3['GEROBAK']))); // Split and trim values
-						$numGerobakValues = count($isigerobak);
 						$maxColumns = 12; // Fixed number of columns after the date
 						?>
 						<tr>
@@ -547,12 +550,13 @@ $rowket4 = db2_fetch_assoc($stmt4);
 							</td>
 							<td align="center">
 								<?php
-								if ($rowdb3['OPERATIONCODE'] == 'BAT2') {
+								// Display date based on OPERATIONCODE
+								if (in_array($rowdb3['OPERATIONCODE'], ['BAT2', 'BEL1', 'BKN1', 'JHP1'])) {
 									echo $date;
 								}
 								?>
 							</td>
-							<?php if ($rowdb3['OPERATIONCODE'] == 'BAT2') { ?>
+							<?php if (in_array($rowdb3['OPERATIONCODE'], ['BAT2', 'BEL1', 'BKN1', 'JHP1'])) { ?>
 								<?php for ($i = 0; $i < $maxColumns; $i++) { ?>
 									<td width="7%" align="center">
 										<?php if (isset($isigerobak[$i])) {
@@ -574,8 +578,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				}
 				?>
 			</tbody>
-
-			<br />
+		</table>
 </body>
 
 </html>
