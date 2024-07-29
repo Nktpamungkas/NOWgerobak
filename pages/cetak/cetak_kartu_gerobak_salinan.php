@@ -139,8 +139,7 @@ WHERE
 $stmt4 = db2_exec($conn1, $sql4, array('cursor' => DB2_SCROLLABLE));
 $rowket4 = db2_fetch_assoc($stmt4);
 ?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -182,14 +181,12 @@ $rowket4 = db2_fetch_assoc($stmt4);
 </head>
 
 <body>
-	<table width="100%" border="" class="table-list1"
-		style="border-bottom:1px #000000 solid; border-top:1px #000000 solid; border-left:1px #000000 solid; border-right:1px #000000 solid;">
+	<table width="100%" border="" class="table-list1" style="border-bottom:1px #000000 solid; border-top:1px #000000 solid; border-left:1px #000000 solid; border-right:1px #000000 solid;">
 		<tr>
 			<td width="10%" align="center">
 				<img src="ITTI_Logo 2021BW.png" width="50" height="50" alt="" />
 			</td>
-			<td width="58%" align="center"
-				style="border-bottom:0px #000000 solid; border-top:0px #000000 solid; border-left:1px #000000 solid; border-right:1px #000000 solid;">
+			<td width="58%" align="center" style="border-bottom:0px #000000 solid; border-top:0px #000000 solid; border-left:1px #000000 solid; border-right:1px #000000 solid;">
 				<strong>
 					<font size="+2">KARTU GEROBAK</font>
 				</strong>
@@ -198,42 +195,33 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				<table width="100%">
 					<tbody>
 						<tr>
-							<td width="36%"
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td width="36%" style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 								No. Form
 							</td>
-							<td width="5%"
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td width="5%" style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 								:
 							</td>
-							<td width="59%"
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td width="59%" style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 							</td>
 						</tr>
 						<tr>
-							<td
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 								No Revisi
 							</td>
-							<td
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 								:
 							</td>
-							<td
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 							</td>
 						</tr>
 						<tr>
-							<td
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 								Tgl. Terbit
 							</td>
-							<td
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 								:
 							</td>
-							<td
-								style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 							</td>
 						</tr>
 					</tbody>
@@ -245,8 +233,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 	<table width="100%" border="" class="table-list1">
 		<tbody>
 			<tr>
-				<td width="10%" scope="col"
-					style="border-bottom:0px #000000 solid; border-top:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+				<td width="10%" scope="col" style="border-bottom:0px #000000 solid; border-top:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 					<table width="83" border="" class="table-list1">
 						<tbody>
 							<tr>
@@ -277,7 +264,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 					$UkuranPixel1 = 2; //10
 					//Ukuran frame
 					$UkuranFrame1 = 2; //4
-					
+
 					QRcode::png($codeContents1, $tempdir1 . $namaFile1, $level1, $UkuranPixel1, $UkuranFrame1);
 
 					echo '<img src="' . $tempdir1 . $namaFile1 . '" />';
@@ -288,8 +275,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				</td>
 			</tr>
 			<tr>
-				<td width="10%" scope="col"
-					style="border-bottom:0px #000000 solid; border-top:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
+				<td width="10%" scope="col" style="border-bottom:0px #000000 solid; border-top:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
 					<table width="83" border="0">
 						<tbody>
 							<tr>
@@ -530,20 +516,38 @@ $rowket4 = db2_fetch_assoc($stmt4);
 			</thead>
 			<tbody>
 				<?php
+				$sqlOPERATIONCODE = "SELECT OPERATIONCODE 
+							FROM ITXVIEW_POSISI_KARTU_KERJA
+							WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'
+							AND PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'";
+
+				$stmtlOPERATIONCODE = db2_exec($conn1, $sqlOPERATIONCODE);
+
+				$operationCodes = [];
+
+				while ($row = db2_fetch_assoc($stmtlOPERATIONCODE)) {
+					$operationCodes[] = $row['OPERATIONCODE'];
+				}
+
 				$sqlDB3 = "SELECT 
 							* 
 							FROM ITXVIEW_POSISI_KARTU_KERJA
 							WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'
 							AND PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'";
 
+
+
 				$stmt9 = db2_exec($conn1, $sqlDB3);
+
 				if ($stmt9) {
 					while ($rowdb3 = db2_fetch_assoc($stmt9)) {
 						// Format tanggal tanpa jam
 						$date = date('Y-m-d', strtotime($rowdb3['SELESAI']));
-						$isigerobak = array_filter(array_map('trim', explode(',', $rowdb3['GEROBAK']))); // Split and trim values
-						$maxColumns = 12; // Fixed number of columns after the date
-						?>
+						// Split and trim values
+						$isigerobak = array_filter(array_map('trim', explode(',', $rowdb3['GEROBAK'])));
+						// Fixed number of columns after the date
+						$maxColumns = 12;
+				?>
 						<tr>
 							<td width="10%" align="center">
 								<?= $rowdb3['OPERATIONCODE']; ?>
@@ -551,15 +555,15 @@ $rowket4 = db2_fetch_assoc($stmt4);
 							<td align="center">
 								<?php
 								// Display date based on OPERATIONCODE
-								if (in_array($rowdb3['OPERATIONCODE'], ['BAT2', 'BEL1', 'BKN1', 'JHP1'])) {
+								if (in_array($rowdb3['OPERATIONCODE'], $operationCodes)) {
 									echo $date;
 								}
 								?>
 							</td>
-							<?php if (in_array($rowdb3['OPERATIONCODE'], ['BAT2', 'BEL1', 'BKN1', 'JHP1'])) { ?>
+							<?php if (in_array($rowdb3['OPERATIONCODE'], $operationCodes)) { ?>
 								<?php for ($i = 0; $i < $maxColumns; $i++) { ?>
 									<td width="7%" align="center">
-										<?php if (isset($isigerobak[$i])) {
+										<?php if (isset($isigerobak[$i]) && $isigerobak[$i] != 'Tidak Perlu Gerobak') {
 											echo $isigerobak[$i];
 										} ?>
 									</td>
@@ -571,7 +575,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 								<?php } ?>
 							<?php } ?>
 						</tr>
-						<?php
+				<?php
 					}
 				} else {
 					echo "<tr><td colspan='13'>Error</td></tr>";
