@@ -234,15 +234,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 		<tbody>
 			<tr>
 				<td width="10%" scope="col" style="border-bottom:0px #000000 solid; border-top:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
-					<table width="83" border="" class="table-list1">
-						<tbody>
-							<tr>
-								<td align="center" valign="middle">
-									<strong>FORM A</strong>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+
 				</td>
 				<td width="45%" scope="col" align="center">
 					<h3>Production Demand</h3>
