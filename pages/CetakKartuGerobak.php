@@ -290,7 +290,7 @@ WHERE PRODUCTIONDEMAND.CODE='$Demand'";
 	    <td style="text-align: center"><?php echo $no;?></td>
       <td style="text-align: center"><div class="btn-group">
         <a href="pages/cetak/cetak_kartu_gerobak.php?demand=<?php echo $rowdb2['CODE']; ?>&" target="_blank" class="btn btn-sm btn-danger"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Cetak"></i></a>
-        <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?php echo $rowdb2['CODE']; ?>&" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Salinan"></i></a>
+        <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?php echo TRIM($rowdb2['CODE']); ?>&nokk=<?= TRIM($rowdb2['PRODUCTIONORDERCODE']); ?>" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Salinan"></i></a>
       </div>
       </td>
 	    <td style="text-align: center"><a href="IdentitasGerobak-<?php echo $rowdb2['CODE']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-lightbulb"></i> </a></td>

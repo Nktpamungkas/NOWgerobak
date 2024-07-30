@@ -524,8 +524,8 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				$sqlDB3 = "SELECT 
 							* 
 							FROM ITXVIEW_POSISI_KARTU_KERJA
-							WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'
-							AND PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'";
+							WHERE PRODUCTIONORDERCODE = '$_GET[nokk]'
+							AND PRODUCTIONDEMANDCODE = '$_GET[demand]'";
 
 
 
