@@ -548,7 +548,11 @@ $rowket4 = db2_fetch_assoc($stmt4);
 								<?php
 								// Display date based on OPERATIONCODE
 								if (in_array($rowdb3['OPERATIONCODE'], $operationCodes)) {
-									echo $date;
+									if($date == '1970-01-01'){
+										echo '';
+									}else{
+										echo $date;
+									}
 								}
 								?>
 							</td>
