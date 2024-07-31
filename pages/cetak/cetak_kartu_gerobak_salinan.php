@@ -508,10 +508,19 @@ $rowket4 = db2_fetch_assoc($stmt4);
 			</thead>
 			<tbody>
 				<?php
-				$sqlOPERATIONCODE = "SELECT OPERATIONCODE 
-							FROM ITXVIEW_POSISI_KARTU_KERJA
-							WHERE PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'
-							AND PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'";
+				if($_GET['nokk']){
+					$where		= "PRODUCTIONORDERCODE = '$_GET[nokk]' AND PRODUCTIONDEMANDCODE = '$_GET[demand]'";
+				}else{
+					$where		= "PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]' AND PRODUCTIONDEMANDCODE = '$_GET[demand]'";
+				}
+
+				$sqlOPERATIONCODE = "SELECT
+										OPERATIONCODE
+									FROM
+										ITXVIEW_POSISI_KARTU_KERJA
+									WHERE
+										PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]'
+										AND PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'";
 
 				$stmtlOPERATIONCODE = db2_exec($conn1, $sqlOPERATIONCODE);
 
@@ -522,13 +531,11 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				}
 
 				$sqlDB3 = "SELECT 
-							* 
-							FROM ITXVIEW_POSISI_KARTU_KERJA
-							WHERE PRODUCTIONORDERCODE = '$_GET[nokk]'
-							AND PRODUCTIONDEMANDCODE = '$_GET[demand]'";
-
-
-
+							*
+							FROM
+								ITXVIEW_POSISI_KARTU_KERJA
+							WHERE
+								$where";
 				$stmt9 = db2_exec($conn1, $sqlDB3);
 
 				if ($stmt9) {
