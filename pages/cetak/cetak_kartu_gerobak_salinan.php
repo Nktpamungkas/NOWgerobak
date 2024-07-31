@@ -292,7 +292,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 								<td width="20%" align="right">P. ORDERCODE</td>
 								<td width="5%" align="left">:</td>
 								<td width="70%" align="left">
-									<strong><?php echo $rowdb2['PRODUCTIONORDERCODE']; ?></strong>
+									<strong><?php echo $_GET['nokk']; ?></strong>
 								</td>
 							</tr>
 						</tbody>
