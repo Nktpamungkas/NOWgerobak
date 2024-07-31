@@ -24,7 +24,10 @@ $Demand	= isset($_GET['demand']) ? $_GET['demand'] : '';
                <label for="demand" class="col-md-1 col-form-label">Prod. Demand</label>  
 				          <div class="col-sm-2">
                  	  <input class="form-control form-control-sm" onchange="window.location='CetakKartuGerobak-'+this.value" value="<?php echo $_GET['demand'];?>" type="text" name="demand" id="demand" placeholder="" required>	
-				          </div>	 
+				          </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-12">*Note : Setelah memasukan Prod. Demand, silahkan di <b>TAB</b> saja. Tidak perlu di <b>ENTER</b>. Terimakasih</label>  
             </div>
             <!-- <button class="btn btn-info" type="submit">Cari Data</button> -->
       </div> 
