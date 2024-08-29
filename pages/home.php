@@ -83,6 +83,34 @@
               <a href="LaporanKain" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+		  <?php if($_SESSION['userPRD']!=""){ ?>	
+		  <div class="col-lg-2 col-6">
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>LTPG</h3>
+
+                <p>Lihat Posisi Gerobak</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="LapPosisiGerobak" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+		  <div class="col-lg-2 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>IPG</h3>
+
+                <p>Input Posisi Gerobak</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="PosisiGerobak" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+		<?php } ?>	
         </div>
         <!-- /.row -->
         
