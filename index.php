@@ -41,8 +41,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">	
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <script src="plugins/sweetalert2/sweetalert2.min.js"></script>	
   <!-- Toastr -->
-  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">	  
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+  <script src="plugins/toastr/toastr.min.js"></script>	
   <!-- Theme style -->
   <style>
 	  .blink_me {
@@ -55,6 +57,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   }
 }
 	</style>
+  <?php if($page=="hasiltimbang" ){ ?>	
+  	<link rel="stylesheet" href="plugins/x-editable/dist/bootstrap4-editable/css/bootstrap-editable.css">
+  <?php } ?>	
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="icon" type="image/png" href="dist/img/ITTI_Logo index.ico">	
 </head>
@@ -79,32 +84,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <a href="Home" class="nav-link">Home</a>
           </li>
-		      <!-- <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Mutasi Kain</a>
-            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <li><a href="DataMutasi" class="dropdown-item">Data Mutasi</a></li>
-              <li><a href="TransferOut" class="dropdown-item">Transfer Out</a></li>
-              <li><a href="Mutasi" class="dropdown-item">Mutasi</a></li>
-              <li><a href="HapusMutasi" class="dropdown-item">Hapus Mutasi</a></li>	
-			      </ul>
-          </li>	 -->
-		      <!-- <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Pengiriman</a>
-            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <li><a href="PengirimanKain" class="dropdown-item">Pengiriman Kain</a></li>
-			        <li><a href="BongkaranKain" class="dropdown-item">Bongkaran Kain</a></li>	
-			      </ul>
-          </li> -->
-		      <!-- <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Laporan</a>
-            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <li><a href="MutasiKain" class="dropdown-item">Mutasi Kain</a></li>
-              <li><a href="PersediaanKain" class="dropdown-item">Persediaan Kain</a></li>
-              <li><a href="MasukKain" class="dropdown-item">Masuk Kain</a></li>
-              <li><a href="KeluarKain" class="dropdown-item">Keluar Kain</a></li>	
-			      </ul>
-          </li> -->
-		  
+		  <?php if($_SESSION['userPRD']==""){ ?>	
+		  <li class="nav-item">
+            <a href="login" class="nav-link">Login</a>
+          </li>	
+		  <?php }else{ ?>
+		  <li class="nav-item">
+            <a href="logout" class="nav-link">Logout <em>(<?php echo $_SESSION['userPRD'];?>)</em></a>
+          </li>	
+		  <?php } ?>
         </ul>
       
       </div>
@@ -199,6 +187,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/bs-stepper/js/bs-stepper.min.js"></script>
 <!-- dropzonejs -->
 <script src="plugins/dropzone/min/dropzone.min.js"></script>
+<?php if($page=="hasiltimbang"){ ?>	
+<!-- xeditablejs -->
+<script src="plugins/x-editable/dist/bootstrap4-editable/js/bootstrap-editable.min.js"></script>	
+<?php } ?>		
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <script type="text/javascript">
@@ -335,6 +327,19 @@ $(document).on('click', '.detail_timeend', function (e) {
         format: 'L'
     });
 });		
+</script>
+<script>
+	/*$.fn.editable.defaults.mode = 'inline';*/
+	$.fn.editable.defaults.mode = 'inline';
+    $(document).ready(function() {
+	/* Sales Order awal */	
+	  $('.jml_rol').editable({
+        type: 'text',
+        disabled : false,
+        url: 'pages/editable/editable_rol.php',
+      });
+    });
+	
 </script>	
 </body>
 </html>
