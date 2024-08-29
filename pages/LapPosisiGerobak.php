@@ -27,7 +27,7 @@ if($_SESSION['userPRD']==""){
 
         $sql = mysqli_query($conr," SELECT 
 			t1.no_gerobak, 
-			t1.prod_order,
+			t1.prod_demand,
 			t1.kode_area, 
 			t1.userid, 
 			t1.tgl_update
@@ -64,7 +64,7 @@ if($_SESSION['userPRD']==""){
       ?>
       <tr>
         <td style="text-align: center"><?php echo $row['no_gerobak']; ?></td>
-        <td style="text-align: center"><?php echo $row['prod_order']; ?></td>
+        <td style="text-align: center"><?php echo $row['prod_demand']; ?></td>
         <td style="text-align: center"><small class="<?php echo $warna; ?>"><?php echo $row['kode_area']; ?></small></td>
         <td style="text-align: center"><?php echo $row['tgl_update']; ?></td>
         </tr>
