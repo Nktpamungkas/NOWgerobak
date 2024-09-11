@@ -281,7 +281,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				</td>
 				<td align="center" valign="top">
 					<?php if ($Demand != '')
-						echo '<img src="../../php-barcode-master/barcode.php?text=' . $Demand . '&print=true&size=40" />'; ?>
+						echo '<img src="../../php-barcode-master/barcode.php?text=' . $Demand . '&print=true&size=50&sizefactor=2" />'; ?>
 				</td>
 				<td width="50%" scope="col" align="center">
 					<h3>&nbsp;</h3>
