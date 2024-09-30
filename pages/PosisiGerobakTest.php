@@ -3,158 +3,142 @@ ini_set("error_reporting", 1);
 session_start();
 
 if($_SESSION['userPRD']==""){
-	echo "<script> window.location='login';</script>";
+    echo "<script> window.location='login';</script>";
 }
 
-$lokasi 	= isset($_POST['lokasi'])?$_POST['lokasi']:'';
-$gerobak 	= isset($_POST['no_gerobak'])?$_POST['no_gerobak']:'';
-$prod_demand	= isset($_POST['prod_demand'])?$_POST['prod_demand']:'';
+$lokasi     = isset($_POST['lokasi'])?$_POST['lokasi']:'';
+$gerobak    = isset($_POST['no_gerobak'])?$_POST['no_gerobak']:'';
+$prod_demand    = isset($_POST['prod_demand'])?$_POST['prod_demand']:'';
 ?>
 <!-- Main content -->
 <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-  <script src="plugins/sweetalert2/sweetalert2.min.js"></script>	
-  <!-- Toastr -->
-  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
-  <script src="plugins/toastr/toastr.min.js"></script>	
-  <!-- jQuery -->
-  <script src="plugins/jquery/jquery.min.js"></script>
-  <!-- QR and Barcode Scanner -->
-  <script src="dist/js/html5-qrcode.min.js"></script>
+<link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>    
+<!-- Toastr -->
+<link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+<script src="plugins/toastr/toastr.min.js"></script>    
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
 
-  <div class="container-fluid">
-    <div class="card card-default">
+<!-- QR and Barcode Scanner -->
+<script src="dist/js/zxing.min.js"></script>
 
-      <!-- Modal -->
-      <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="qrCodeModalLabel">Scan QR/Barcode</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Tempatkan scanner QR Code dan Barcode di sini -->
-              <div id="qr-reader" style="width:100%"></div>
-              <div id="qr-reader-results"></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
+<div class="container-fluid">
+  <div class="card card-default">
+
+    <!-- Modal -->
+    <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="qrCodeModalLabel">Scan QR/Barcode/DataMatrix</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Tempatkan scanner QR Code dan Barcode di sini -->
+            <div id="qr-reader" style="width:100%; height:300px;"></div>
+            <div id="qr-reader-results"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Form -->
-      <form method="post" enctype="multipart/form-data" action="" name="form1">
-        <div class="card-body">
-          <div class="form-group row">
-            <label for="prod_demand" class="col-md-1">Kartu Gerobak</label>
-			<div class="input-group">
-              <input type="text" class="form-control" maxlength="8" name="prod_demand" value="<?php echo $prod_demand; ?>" placeholder="Kartu Gerobak" id="prod_demand">
+    <!-- Form -->
+    <form method="post" enctype="multipart/form-data" action="" name="form1">
+      <div class="card-body">
+        <div class="form-group row">
+          <label for="prod_demand" class="col-md-1">Kartu Gerobak</label>
+          <div class="input-group">
+            <input type="text" class="form-control" maxlength="8" name="prod_demand" value="<?php echo $prod_demand; ?>" placeholder="Kartu Gerobak" id="prod_demand">
             <div class="input-group-append">
               <!-- Button untuk membuka modal scan -->
               <button type="button" class="btn btn-info" onClick="openQrModal('prod_demand');">Scan</button>
             </div>
-			</div>
-          </div>
-
-          <div class="form-group row">
-            <label for="lokasi" class="col-md-1">Lokasi</label>
-            <div class="input-group">
-              <input type="text" class="form-control" maxlength="8" name="lokasi" value="<?php echo $lokasi; ?>" placeholder="Lokasi" id="lokasi">
-              <div class="input-group-append">
-              <!-- Button untuk membuka modal scan -->
-              <button type="button" class="btn btn-info" onClick="openQrModal('lokasi');">Scan</button>
-              </div>
-			</div>	
-          </div>
-
-          <div class="form-group row">
-            <label for="no_gerobak" class="col-md-1">No. Gerobak</label>
-            <div class="input-group">
-              <input type="text" class="form-control" maxlength="8" name="no_gerobak" value="<?php echo $gerobak; ?>" placeholder="No. Gerobak" id="no_gerobak"> 
-				<div class="input-group-append">	
-              	<!-- Button untuk membuka modal scan -->
-              	<button type="button" class="btn btn-info" onClick="openQrModal('no_gerobak');">Scan</button>
-            	</div>
-			</div>  
-          </div>
-
-          <div class="form-group row">
-            <button class="btn btn-primary" type="submit" name="save" value="Save" style="width: 100%;">Save</button>
           </div>
         </div>
-      </form>
-      <!-- /.card-body -->
-    </div>
+
+        <div class="form-group row">
+          <label for="lokasi" class="col-md-1">Lokasi</label>
+          <div class="input-group">
+            <input type="text" class="form-control" maxlength="8" name="lokasi" value="<?php echo $lokasi; ?>" placeholder="Lokasi" id="lokasi">
+            <div class="input-group-append">
+              <!-- Button untuk membuka modal scan -->
+              <button type="button" class="btn btn-info" onClick="openQrModal('lokasi');">Scan</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="no_gerobak" class="col-md-1">No. Gerobak</label>
+          <div class="input-group">
+            <input type="text" class="form-control" maxlength="8" name="no_gerobak" value="<?php echo $gerobak; ?>" placeholder="No. Gerobak" id="no_gerobak">
+            <div class="input-group-append">
+              <!-- Button untuk membuka modal scan -->
+              <button type="button" class="btn btn-info" onClick="openQrModal('no_gerobak');">Scan</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <button class="btn btn-primary" type="submit" name="save" value="Save" style="width: 100%;">Save</button>
+        </div>
+      </div>
+    </form>
+    <!-- /.card-body -->
   </div>
-  <!-- /.container-fluid -->
+</div>
+<!-- /.container-fluid -->
 
 <script>
-    var activeInput = ''; // Menyimpan input mana yang sedang aktif
+  var activeInput = ''; // Menyimpan input mana yang sedang aktif
+  var selectedDeviceId; // Menyimpan ID perangkat kamera yang dipilih
+  const codeReader = new ZXing.BrowserMultiFormatReader();
 
-    // Fungsi untuk membuka modal dan menyimpan input field mana yang sedang diklik
-    function openQrModal(inputId) {
-        activeInput = inputId; // Simpan ID input yang aktif
-        $('#qrCodeModal').modal('show'); // Tampilkan modal
-    }
+  // Fungsi untuk membuka modal dan menyimpan input field mana yang sedang diklik
+  function openQrModal(inputId) {
+    activeInput = inputId; // Simpan ID input yang aktif
+    $('#qrCodeModal').modal('show'); // Tampilkan modal
+  }
 
-    function docReady(fn) {
-        if (document.readyState === "complete" || document.readyState === "interactive") {
-            setTimeout(fn, 1);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
-        }
-    }
-
-    docReady(function () {
-        var lastResult = '';
-
-        function onScanSuccess(decodedText, decodedResult) {
-                lastResult = decodedText;
-                // Isi input field yang sesuai dengan hasil scan
-                document.getElementById(activeInput).value = decodedText;
-                // Tutup modal setelah scan berhasil
-                $('#qrCodeModal').modal('hide');
-        }
-
-        var html5QrcodeScanner = null;
-
-        // Inisialisasi scanner ketika modal dibuka
-        $('#qrCodeModal').on('shown.bs.modal', function () {
-            // Konfigurasi scanner untuk mendukung QR code dan barcode
-            html5QrcodeScanner = new Html5QrcodeScanner(
-                "qr-reader", {
-                    fps: 10,
-                    qrbox: 250,
-                    formatsToSupport: [
-                        Html5QrcodeSupportedFormats.QR_CODE,
-                        Html5QrcodeSupportedFormats.CODE_128, // Mendukung barcode tipe CODE_128
-                        Html5QrcodeSupportedFormats.CODE_39,  // Mendukung barcode tipe CODE_39
-                        Html5QrcodeSupportedFormats.EAN_13,   // Mendukung barcode tipe EAN_13
-                        Html5QrcodeSupportedFormats.UPC_A,     // Mendukung barcode tipe UPC_A
-						Html5QrcodeSupportedFormats.DATA_MATRIX // Mendukung barcode tipe DataMatrix
-                    ]
-                }
-            );
-            html5QrcodeScanner.render(onScanSuccess);
-        });
-
-        // Hentikan scanner ketika modal ditutup
-        $('#qrCodeModal').on('hidden.bs.modal', function () {
-            if (html5QrcodeScanner) {
-                html5QrcodeScanner.clear();
-            }
-        });
+  function initScanner() {
+    // Temukan perangkat kamera
+    codeReader.getVideoInputDevices().then(videoInputDevices => {
+      if (videoInputDevices.length > 0) {
+        // Pilih kamera pertama
+        selectedDeviceId = videoInputDevices[0].deviceId;
+        // Mulai proses scan menggunakan perangkat kamera
+        codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'qr-reader').then(result => {
+          console.log(result);
+          // Isi input field dengan hasil scan
+          document.getElementById(activeInput).value = result.text;
+          // Tutup modal setelah scan berhasil
+          $('#qrCodeModal').modal('hide');
+        }).catch(err => console.error('Error in scan: ', err));
+      } else {
+        console.error("No camera devices found.");
+        alert("No camera devices found.");
+      }
+    }).catch(err => {
+      console.error('Error getting video input devices: ', err);
+      alert('Error getting video input devices: ' + err);
     });
+  }
+
+  // Inisialisasi scanner ketika modal dibuka
+  $('#qrCodeModal').on('shown.bs.modal', function () {
+    initScanner(); // Panggil inisialisasi scanner
+  });
+
+  // Hentikan scanner ketika modal ditutup
+  $('#qrCodeModal').on('hidden.bs.modal', function () {
+    codeReader.reset(); // Hentikan kamera
+  });
 </script>
-
-
-
-
 
 <?php
 $NoGerobak		= '0'; 

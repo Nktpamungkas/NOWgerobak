@@ -125,8 +125,14 @@ function barcode( $filepath="", $text="0", $size="20", $orientation="horizontal"
 	$white = imagecolorallocate ($image, 255, 255, 255);
 
 	imagefill( $image, 0, 0, $white );
+	//if ( $print ) {
+	//	imagestring($image, 5, 31, $img_height, $text, $black );
+	//}
 	if ( $print ) {
-		imagestring($image, 5, 31, $img_height, $text, $black );
+		$font = 5; // Font size
+		$text_width = imagefontwidth($font) * strlen($text); // Calculate the width of the text
+		$text_x = ($img_width - $text_width) / 2; // Center the text horizontally
+		imagestring($image, $font, $text_x, $img_height, $text, $black); // Draw the centered text
 	}
 
 	$location = 10;

@@ -29,6 +29,7 @@ $dt = explode(",",$modal_id);
 							</th>
 							<th><div align="center">Proses</div></th>
 							<th><div align="center">Ket</div></th>
+							<th><div align="center">Jml Rol</div></th>
 							<th>
 								<div align="center">Berat</div>
 							</th>
@@ -65,6 +66,7 @@ $dt = explode(",",$modal_id);
 									<td align=center>$r[no_gerobak]</td>
 									<td align=center>$r[proses]</td>
 									<td align=center>$r[ket]</td>
+									<td align=center>$r[jml_rol]</td>
 									<td align=center>$r[berat]</td>
 									<td align=center>$r[berat_kosong]</td>
 									<td align=center>$kain</td>
@@ -81,6 +83,7 @@ $dt = explode(",",$modal_id);
 					</tbody>
 					<tfoot>
 					<tr>
+						  <th>&nbsp;</th>
 						  <th>&nbsp;</th>
 						  <th>&nbsp;</th>
 						  <th>&nbsp;</th>
