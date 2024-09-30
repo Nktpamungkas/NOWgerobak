@@ -4,6 +4,8 @@ $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
 $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
 $NoHanger	= isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
 $Packing	= isset($_POST['packing']) ? $_POST['packing'] : '';
+$Tgl	= isset($_POST['tgl']) ? $_POST['tgl'] : '';
+$Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 
 ?>
 <!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
@@ -23,7 +25,21 @@ $Packing	= isset($_POST['packing']) ? $_POST['packing'] : '';
           </button>
         </div>
       </div>
-      <div class="card-body">        
+      <div class="card-body">      
+	  <div class="form-group row">
+          <label for="tgl" class="col-sm-1 control-label">Tanggal Awal</label>
+          <div class="col-sm-2">
+            <div class="input-group date">
+              <input name="tgl" type="date" class="form-control pull-right" placeholder="Tanggal Awal" value="<?php echo $Tgl; ?>" autocomplete="off" />
+            </div>
+          </div>
+          <label for="tgl" class="col-sm-1 control-label">Tanggal Akhir</label>
+          <div class="col-sm-2">
+            <div class="input-group date">
+              <input name="tgl2" type="date" class="form-control pull-right" placeholder="Tanggal Akhir" value="<?php echo $Tgl2; ?>" autocomplete="off" />
+            </div>
+          </div>
+        </div>  
         <div class="form-group row">
           <label for="nodemand" class="col-sm-1 control-label">No Demand</label>
           <div class="col-sm-3">
@@ -636,7 +652,7 @@ group by
 on kp.no_demand=after1.no_demand
 where
 	(kp.ket = 'before'
-		or kp.ket = 'after')
+		or kp.ket = 'after') and kp.tgl_update between '$Tgl' and '$Tgl2'
 group by
 	kp.no_demand
 order by kp.prod_order DESC
@@ -1149,7 +1165,7 @@ on kp.no_demand=after1.no_demand
 where
 	(kp.ket = 'before'
 		or kp.ket = 'after')
-$where1 $where2 $where3 $where4		
+$where1 $where2 $where3 $where4 and kp.tgl_update between '$Tgl' and '$Tgl2'
 group by
 	kp.no_demand
 order by kp.prod_order DESC
