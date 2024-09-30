@@ -89,6 +89,7 @@
                         <th valign="middle" style="text-align: center">No Step</th>
                         <th valign="middle" style="text-align: center">Proses</th>
                         <th valign="middle" style="text-align: center">Ket.</th>
+                        <th valign="middle" style="text-align: center">Jml Rol</th>
                         <?php if ($Gerobak != "") { ?>
                             <th valign="middle" style="text-align: center">Berat </th>
                             <th valign="middle" style="text-align: center">Berat Kosong</th>
@@ -141,6 +142,7 @@
                         if ($Tgl == "" and $NoHanger == "" and $ProdOrder == "" and $NoDemand == "" and $NoGerobak) {
                             $query = "SELECT
                                             *,
+											sum(jml_rol) AS rol_tot,
                                             sum( berat ) AS berat_tot,
                                             sum( berat_kosong ) AS berat_kosong_tot,
                                             DATE_FORMAT( tgl_update, '%Y-%m-%d' ) AS tgl_timbang,
@@ -162,6 +164,7 @@
                         } else if ($where1 != " " OR $where2 != " "  OR $where3 != " "  OR $where4 != " " ){
                             $query = "SELECT
                                         *,
+										sum(jml_rol) AS rol_tot,
                                         sum( berat ) AS berat_tot,
                                         sum( berat_kosong ) AS berat_kosong_tot,
                                         DATE_FORMAT( tgl_update, '%Y-%m-%d' ) AS tgl_timbang,
@@ -177,10 +180,11 @@
                                         no_demand,
                                         no_step 
                                     ORDER BY
-                                        id DESC";
+                                        prod_order, no_step ASC";
                         }else{
                             $query = "SELECT
                                         *,
+										sum(jml_rol) AS rol_tot,
                                         sum( berat ) AS berat_tot,
                                         sum( berat_kosong ) AS berat_kosong_tot,
                                         DATE_FORMAT( tgl_update, '%Y-%m-%d' ) AS tgl_timbang,
@@ -196,11 +200,30 @@
                                         no_demand,
                                         no_step 
                                     ORDER BY
-                                        id DESC";
+                                        prod_order, no_step ASC";
                         }
 
                         $sql = mysqli_query($conr, $query);
                         while ($r = mysqli_fetch_array($sql)) {
+						$sqlDB2 = "SELECT x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN, x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1 FROM DB2ADMIN.PRODUCTIONRESERVATION x
+									WHERE x.ORDERCODE ='".$r['no_demand']."'";
+          				$stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));	
+						$rowdb2 = db2_fetch_assoc($stmt);	
+						$sqlDB21 = "SELECT
+										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
+										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
+									FROM
+										VIEWPRODUCTIONRESERVATION
+									WHERE
+										PRODUCTIONORDERCODE = '".$r['prod_order']."'
+										AND ITEMTYPEAFICODE = 'KGF'";
+          				$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
+						$rowdb21 = db2_fetch_assoc($stmt1);	
+						if($rowdb21['KG_BAGIKAIN']>0){
+							$KGBAGI=$rowdb21['KG_BAGIKAIN'];
+						}else{
+							$KGBAGI=$rowdb21['KG_BAGIKAIN1'];
+						}	
                     ?>
                         <tr>
                             <td><?php if ($Gerobak != "") {
@@ -212,19 +235,23 @@
                             <td><?php echo $r['no_step']; ?></td>
                             <td><?php echo $r['proses']; ?></td>
                             <td><?php echo $r['ket']; ?></td>
+							<?php if ($Gerobak == "") { ?>
+                            <td><?php echo $r['rol_tot']; ?></td>
+							<?php } ?>
                             <?php if ($Gerobak != "") { ?>
+								<td><a data-pk="<?php echo $r['id']; ?>" data-value="<?php echo $r['jml_rol']; ?>" class="jml_rol" href="javascipt:void(0)"><?php echo $r['jml_rol']; ?></a></td>
                                 <td align="right"><?php echo $r['berat']; ?></td>
                                 <td align="right"><?php echo $r['berat_kosong']; ?></td>
                                 <td align="right"><?php echo number_format(round($r['berat'] - $r['berat_kosong'], 2), 2); ?></td>
                             <?php } else { ?>
                                 <td align="right"><?php echo number_format(round($r['berat_tot'] - $r['berat_kosong_tot'], 2), 2); ?></td>
                             <?php } ?>
-                            <td><?php echo $r['rol_bagi']; ?></td>
-                            <td><?php echo $r['bagi_kain']; ?></td>
+                            <td><?php echo $rowdb21['ROL_BAGI']//echo $r['rol_bagi']; ?></td>
+                            <td><?php echo round($KGBAGI,2);//echo $r['bagi_kain']; ?></td>
                             <?php if ($Gerobak != "") { ?>
-                                <td align="right"><?php echo number_format(($r['bagi_kain'] - round($r['berat'] - $r['berat_kosong'], 2)), 2); ?></td>
+                                <td align="right"><?php echo number_format((round($KGBAGI,2) - round($r['berat'] - $r['berat_kosong'], 2)), 2); ?></td>
                             <?php } else { ?>
-                                <td align="right"><?php echo number_format(($r['bagi_kain'] - round($r['berat_tot'] - $r['berat_kosong_tot'], 2)), 2); ?></td>
+                                <td align="right"><?php echo number_format((round($KGBAGI,2) - round($r['berat_tot'] - $r['berat_kosong_tot'], 2)), 2); ?></td>
                             <?php } ?>
                             <td><?php if ($r['tgl_timbang'] != "") {
                                     echo $r['tgl_timbang'];
