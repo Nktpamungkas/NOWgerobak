@@ -146,6 +146,10 @@ $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 		}else{
 		$where4 = " ";	
 		}
+
+		if(!empty($Tgl)) $Tgl .= ' 00:00:00';
+		if(!empty($Tgl2)) $Tgl2 .= ' 23:59:59';
+
 		if($NoDemand=="" and $ProdOrder=="" and $NoHanger==""){
 		$query = " 
 		select
