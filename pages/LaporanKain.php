@@ -147,8 +147,11 @@ $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 		$where4 = " ";	
 		}
 
-		if(!empty($Tgl)) $Tgl .= ' 00:00:00';
-		if(!empty($Tgl2)) $Tgl2 .= ' 23:59:59';
+		if(!empty($Tgl) && !empty($Tgl2)) {
+			$Where5 = " and after1.tgl_update between '$Tgl 00:00:00' and '$Tgl2 23:59:59' and after1.brtkain_INS3 > 0 ";
+		} else {
+			$Limit5 = " LIMIT 300 ";
+		}
 
 		if($NoDemand=="" and $ProdOrder=="" and $NoHanger==""){
 		$query = " 
@@ -644,7 +647,8 @@ select
 	sum(if(proses='INS7' ,berat_kosong,0)) as berat_kosong_INS7,
 	(sum(if(proses='INS7' ,berat,0))-sum(if(proses='INS7' ,berat_kosong,0))) as brtkain_INS7,
 	no_demand,
-	ket
+	ket,
+	tgl_update
 from
 	kain_proses kp
  where
@@ -656,11 +660,11 @@ group by
 on kp.no_demand=after1.no_demand
 where
 	(kp.ket = 'before'
-		or kp.ket = 'after') and kp.tgl_update between '$Tgl' and '$Tgl2'
+		or kp.ket = 'after') $Where5
 group by
 	kp.no_demand
 order by kp.prod_order DESC
-LIMIT 300
+$Limit5
 		";	
 		}else{
 		$query = " 
@@ -1156,7 +1160,8 @@ select
 	sum(if(proses='INS7' ,berat_kosong,0)) as berat_kosong_INS7,
 	(sum(if(proses='INS7' ,berat,0))-sum(if(proses='INS7' ,berat_kosong,0))) as brtkain_INS7,
 	no_demand,
-	ket
+	ket,
+	tgl_update
 from
 	kain_proses kp
  where
@@ -1169,7 +1174,7 @@ on kp.no_demand=after1.no_demand
 where
 	(kp.ket = 'before'
 		or kp.ket = 'after')
-$where1 $where2 $where3 $where4 and kp.tgl_update between '$Tgl' and '$Tgl2'
+$where1 $where2 $where3 $where4 $Where5
 group by
 	kp.no_demand
 order by kp.prod_order DESC
