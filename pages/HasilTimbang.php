@@ -209,21 +209,54 @@
 									WHERE x.ORDERCODE ='".$r['no_demand']."'";
           				$stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));	
 						$rowdb2 = db2_fetch_assoc($stmt);	
-						$sqlDB21 = "SELECT
-										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
-										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
-									FROM
-										VIEWPRODUCTIONRESERVATION
-									WHERE
-										PRODUCTIONORDERCODE = '".$r['prod_order']."'
-										AND ITEMTYPEAFICODE = 'KGF'";
+//						$sqlDB21F = "SELECT
+//										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
+//										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
+//									FROM
+//										VIEWPRODUCTIONRESERVATION
+//									WHERE
+//										PRODUCTIONORDERCODE = '".$r['prod_order']."'
+//										AND ITEMTYPEAFICODE = 'KFF'";
+//          				$stmt1F   = db2_exec($conn1, $sqlDB21F, array('cursor' => DB2_SCROLLABLE));	
+//						$rowdb21F = db2_fetch_assoc($stmt1F);	
+//							
+//						$sqlDB21 = "SELECT
+//										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
+//										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
+//									FROM
+//										VIEWPRODUCTIONRESERVATION
+//									WHERE
+//										PRODUCTIONORDERCODE = '".$r['prod_order']."'
+//										AND ITEMTYPEAFICODE = 'KGF'";
+//          				$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
+//						$rowdb21 = db2_fetch_assoc($stmt1);
+//							
+//						if($rowdb21['KG_BAGIKAIN']>0){
+//							$KGBAGI=$rowdb21['KG_BAGIKAIN'];
+//						}else if($rowdb21['KG_BAGIKAIN1']>0){
+//							$KGBAGI=$rowdb21['KG_BAGIKAIN1'];
+//						}else if($rowdb21F['KG_BAGIKAIN']>0){
+//							$KGBAGI=$rowdb21F['KG_BAGIKAIN'];
+//						}else if($rowdb21F['KG_BAGIKAIN1']>0){
+//							$KGBAGI=$rowdb21F['KG_BAGIKAIN1'];
+//						}	
+							
+						$sqlDB21  = " SELECT DISTINCT 
+										x.INITIALUSERPRIMARYQUANTITY AS KG_BAGIKAIN 
+										FROM DB2ADMIN.ITXVIEW_RESERVATION x 
+									WHERE x.PRODUCTIONORDERCODE='".$r['prod_order']."'";
           				$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
-						$rowdb21 = db2_fetch_assoc($stmt1);	
+						$rowdb21 = db2_fetch_assoc($stmt1);
+							
+						$sqlDB21S  = " SELECT x.ENTEREDUSERPRIMARYQUANTITY AS KG_BAGIKAIN1  FROM DB2ADMIN.PRODUCTIONDEMAND x
+									WHERE CODE = '".$r['no_demand']."' ";
+          				$stmt1S   = db2_exec($conn1, $sqlDB21S, array('cursor' => DB2_SCROLLABLE));	
+						$rowdb21S = db2_fetch_assoc($stmt1S);	
 						if($rowdb21['KG_BAGIKAIN']>0){
 							$KGBAGI=$rowdb21['KG_BAGIKAIN'];
-						}else{
-							$KGBAGI=$rowdb21['KG_BAGIKAIN1'];
-						}	
+						}else if($rowdb21S['KG_BAGIKAIN1']>0){
+							$KGBAGI=$rowdb21S['KG_BAGIKAIN1'];
+						}
                     ?>
                         <tr>
                             <td><?php if ($Gerobak != "") {

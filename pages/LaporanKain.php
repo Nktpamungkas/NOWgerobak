@@ -149,12 +149,14 @@ $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 
 		if(!empty($Tgl) && !empty($Tgl2)) {
 			$Where5 = " and after1.tgl_update between '$Tgl 00:00:00' and '$Tgl2 23:59:59' and after1.brtkain_INS3 > 0 ";
+			$Limit5 = " ";
 		} else {
+			$Where5 = " ";
 			$Limit5 = " LIMIT 300 ";
 		}
 
-		if($NoDemand=="" and $ProdOrder=="" and $NoHanger==""){
-		$query = " 
+	if($NoDemand=="" and $ProdOrder=="" and $NoHanger==""){
+	$query = " 
 		select
 	kp.no_demand as demandno,
 	kp.prod_order as prdorder,
@@ -288,7 +290,7 @@ $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 	if(after1.brtkain_OVD1>0,(before1.brtkain_SCO1-after1.brtkain_OVD1),0) as OVD1,	
 	(before1.brtkain_PRE1-after1.brtkain_PRE1) as PRE1,
 	(before1.brtkain_SUE1-after1.brtkain_SUE1) as SUE1,
-	(before1.brtkain_SUE2-after1.brtkain_SUE2) as FIN1,
+	(before1.brtkain_SUE2-after1.brtkain_SUE2) as SUE2,
 	(before1.brtkain_SUE3-after1.brtkain_SUE3) as SUE3,
 	(before1.brtkain_SUE4-after1.brtkain_SUE4) as SUE4,	
 	(before1.brtkain_RSE2-after1.brtkain_RSE2) as RSE2,
@@ -357,6 +359,7 @@ select
 	sum(if(proses='PAD2' ,berat_kosong,0)) as berat_kosong_PAD2,
 	(sum(if(proses='PAD2' ,berat,0))-sum(if(proses='PAD2' ,berat_kosong,0))) as brtkain_PAD2,
 	sum(if(proses='RDC1' ,berat,0)) as berat_RDC1,
+
 	sum(if(proses='RDC1' ,berat_kosong,0)) as berat_kosong_RDC1,
 	(sum(if(proses='RDC1' ,berat,0))-sum(if(proses='RDC1' ,berat_kosong,0))) as brtkain_RDC1,
 	sum(if(proses='RLX1' ,berat,0)) as berat_RLX1,
@@ -648,7 +651,7 @@ select
 	(sum(if(proses='INS7' ,berat,0))-sum(if(proses='INS7' ,berat_kosong,0))) as brtkain_INS7,
 	no_demand,
 	ket,
-	tgl_update
+	max(kp.tgl_update) as tgl_update
 from
 	kain_proses kp
  where
@@ -801,7 +804,7 @@ $Limit5
 	if(after1.brtkain_OVD1>0,(before1.brtkain_SCO1-after1.brtkain_OVD1),0) as OVD1,	
 	(before1.brtkain_PRE1-after1.brtkain_PRE1) as PRE1,
 	(before1.brtkain_SUE1-after1.brtkain_SUE1) as SUE1,
-	(before1.brtkain_SUE2-after1.brtkain_SUE2) as FIN1,
+	(before1.brtkain_SUE2-after1.brtkain_SUE2) as SUE2,
 	(before1.brtkain_SUE3-after1.brtkain_SUE3) as SUE3,
 	(before1.brtkain_SUE4-after1.brtkain_SUE4) as SUE4,	
 	(before1.brtkain_RSE2-after1.brtkain_RSE2) as RSE2,
@@ -1161,7 +1164,7 @@ select
 	(sum(if(proses='INS7' ,berat,0))-sum(if(proses='INS7' ,berat_kosong,0))) as brtkain_INS7,
 	no_demand,
 	ket,
-	tgl_update
+	max(kp.tgl_update) as tgl_update
 from
 	kain_proses kp
  where
@@ -1335,9 +1338,9 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
         <td><a href="#" class="show_detail" id="<?php echo $r['prdorder'].", "; ?>"><?php echo $r['prdorder']; ?></a></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bagi_kain']; echo " After: ".$r['aBAT2'];  ?>"><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0){ echo $r['bSCO1']-$r['bSCO1']; }else{ echo "0"; }  ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0){ echo $r['bDYE2']-$r['bDYE2']; }else{ echo "0"; } ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0){ echo number_format($r['bSCO1']-$r['bSCO1'],2); }else{ echo "0"; }  ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0){ echo number_format($r['bDYE2']-$r['bDYE2'],2); }else{ echo "0"; } ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo number_format($r['bDYE2']-$r['aOVN1'],2); }else{ echo "0"; } ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1']); echo " After: ".($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); ?>"><?php if(($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])>0 and ($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4'])>0){ echo ($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])-($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); }else{ echo "0"; } ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']." After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0 and $r['aPRE1']>0){echo $r['bSCO1']-$r['aPRE1'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE1']." After: ".$r['aSUE1']; ?>"><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></span></td>
@@ -1347,15 +1350,15 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE2']." After: ".$r['aRSE2']; ?>"><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE4']." After: ".$r['aRSE4']; ?>"><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></span></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE5']." After: ".$r['aRSE5']; ?>"><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bTDR1']." After: ".$r['aTDR1']; ?>"><?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo $r['bTDR1']-$r['aTDR1'];}else{echo "0";} ?></span></td>
-        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bCPT1']." After: ".$r['aCPT1']; ?>"><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo $r['bCPT1']-$r['aCPT1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></span></td>
+        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bTDR1']." After: ".$r['aTDR1']; ?>"><?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo number_format($r['bTDR1']-$r['aTDR1'],2);}else{echo "0";} ?></span></td>
+        <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bCPT1']." After: ".$r['aCPT1']; ?>"><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo number_format($r['bCPT1']-$r['aCPT1'],2);}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo number_format($r['bFIN1']-$r['aFIN1'],2);}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR3']." After: ".$r['aSHR3']; ?>">
-          <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>
+          <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo number_format($r['bSHR3']-$r['aSHR3'],2);}else{echo "0";} ?>
         </span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR4']." After: ".$r['aSHR4']; ?>"><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFNJ1']." After: ".$r['aFNJ1']; ?>"><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bINS3']." After: ".$r['aINS3']; ?>"><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR4']." After: ".$r['aSHR4']; ?>"><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo number_format($r['bSHR4']-$r['aSHR4'],2);}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFNJ1']." After: ".$r['aFNJ1']; ?>"><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo number_format($r['bFNJ1']-$r['aFNJ1'],2);}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bINS3']." After: ".$r['aINS3']; ?>"><?php if($r['bINS3']>0 and $r['aINS3']>0){echo number_format($r['bINS3']-$r['aINS3'],2);}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['aINS3']; echo " After: ".$rowto['TOTAL_KG'];  ?>"><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></span></td>
         <td align="center"><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
         <td align="center"><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
@@ -1377,9 +1380,9 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td ><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $r['demandno']; ?>&prod_order=<?php echo $r['prdorder']; ?>">`<?php echo $r['demandno']; ?></a></td>
         <td ><a href="#" class="show_detail" id="<?php echo $r['prdorder'].", "; ?>"><?php echo $r['prdorder']; ?></a></td>
         <td align="center" ><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bagi_kain']; echo " After: ".$r['aBAT2'];  ?>"><?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0){ echo $r['bSCO1']-$r['bSCO1']; }else{ echo "0"; } ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0){ echo $r['bDYE2']-$r['bDYE2']; }else{ echo "0"; } ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo $r['bDYE2']-$r['aOVN1']; }else{ echo "0"; } ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0){ echo number_format($r['bSCO1']-$r['bSCO1'],2); }else{ echo "0"; } ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0){ echo number_format($r['bDYE2']-$r['bDYE2'],2); }else{ echo "0"; } ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>"><?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo number_format($r['bDYE2']-$r['aOVN1'],2); }else{ echo "0"; } ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1']); echo " After: ".($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); ?>"><?php if(($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])>0 and ($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4'])>0){ echo ($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])-($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); }else{ echo "0"; } ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']." After: ".$r['aPRE1']; ?>"><?php if($r['bSCO1']>0 and $r['aPRE1']>0){echo $r['bSCO1']-$r['aPRE1'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE1']." After: ".$r['aSUE1']; ?>"><?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?></span></td>
@@ -1389,15 +1392,15 @@ $rowto1 = db2_fetch_assoc($stmt2S);
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE2']." After: ".$r['aRSE2']; ?>"><?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE4']." After: ".$r['aRSE4']; ?>"><?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE5']." After: ".$r['aRSE5']; ?>"><?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bTDR1']." After: ".$r['aTDR1']; ?>"><?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo $r['bTDR1']-$r['aTDR1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bCPT1']." After: ".$r['aCPT1']; ?>"><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo $r['bCPT1']-$r['aCPT1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo $r['bFIN1']-$r['aFIN1'];}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bTDR1']." After: ".$r['aTDR1']; ?>"><?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo number_format($r['bTDR1']-$r['aTDR1'],2);}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bCPT1']." After: ".$r['aCPT1']; ?>"><?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo number_format($r['bCPT1']-$r['aCPT1'],2);}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>"><?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo number_format($r['bFIN1']-$r['aFIN1'],2);}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR3']." After: ".$r['aSHR3']; ?>">
-          <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo $r['bSHR3']-$r['aSHR3'];}else{echo "0";} ?>
+          <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo number_format($r['bSHR3']-$r['aSHR3'],2);}else{echo "0";} ?>
         </span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR4']." After: ".$r['aSHR4']; ?>"><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo $r['bSHR4']-$r['aSHR4'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFNJ1']." After: ".$r['aFNJ1']; ?>"><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo $r['bFNJ1']-$r['aFNJ1'];}else{echo "0";} ?></span></td>
-        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bINS3']." After: ".$r['aINS3']; ?>"><?php if($r['bINS3']>0 and $r['aINS3']>0){echo $r['bINS3']-$r['aINS3'];}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR4']." After: ".$r['aSHR4']; ?>"><?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo number_format($r['bSHR4']-$r['aSHR4'],2);}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFNJ1']." After: ".$r['aFNJ1']; ?>"><?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo number_format($r['bFNJ1']-$r['aFNJ1'],2);}else{echo "0";} ?></span></td>
+        <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bINS3']." After: ".$r['aINS3']; ?>"><?php if($r['bINS3']>0 and $r['aINS3']>0){echo number_format($r['bINS3']-$r['aINS3'],2);}else{echo "0";} ?></span></td>
         <td align="center"><span class="" id="" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['aINS3']; echo " After: ".$rowto['TOTAL_KG'];  ?>"><?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?></span></td>
         <td align="center"><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
         <td align="center"><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
