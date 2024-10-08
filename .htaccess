@@ -17,5 +17,9 @@ RewriteRule ^HasilTimbang$ index.php?p=HasilTimbang [L]
 RewriteRule ^MasterGerobak$ index.php?p=MasterGerobak [L]
 RewriteRule ^LaporanKain$ index.php?p=LaporanKain [L]
 RewriteRule ^LaporanKain1$ index.php?p=LaporanKain1 [L]
+RewriteRule ^LaporanKainPacking$ index.php?p=LaporanKainPacking [L]
+RewriteRule ^PosisiGerobak$ index.php?p=PosisiGerobak [L]
+RewriteRule ^PosisiGerobakTest$ index.php?p=PosisiGerobakTest [L]
+RewriteRule ^LapPosisiGerobak$ index.php?p=LapPosisiGerobak [L]
 
 Options All -Indexes

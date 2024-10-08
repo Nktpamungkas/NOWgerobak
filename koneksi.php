@@ -23,6 +23,7 @@ else{
     }
 
 //$con=mysqli_connect("10.0.0.10","dit","4dm1n","db_dying");
+$conq=mysqli_connect("10.0.0.10","dit","4dm1n","db_qc");
 $conr=mysqli_connect("10.0.0.10","dit","4dm1n","dbnow_gerobak");
 $con=mysqli_connect("10.0.0.10","dit","4dm1n","dbnow_qcf");
 if (mysqli_connect_errno()) {
