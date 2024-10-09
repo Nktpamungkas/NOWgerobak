@@ -248,10 +248,13 @@
           				$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
 						$rowdb21 = db2_fetch_assoc($stmt1);
 							
-						$sqlDB21S  = " SELECT x.ENTEREDUSERPRIMARYQUANTITY AS KG_BAGIKAIN1  FROM DB2ADMIN.PRODUCTIONDEMAND x
-									WHERE CODE = '".$r['no_demand']."' ";
+						$sqlDB21S  = " SELECT 
+                                            x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN,
+	                                        x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1  FROM DB2ADMIN.PRODUCTIONRESERVATION x
+									    WHERE x.ORDERCODE = '".$r['no_demand']."' ";
           				$stmt1S   = db2_exec($conn1, $sqlDB21S, array('cursor' => DB2_SCROLLABLE));	
 						$rowdb21S = db2_fetch_assoc($stmt1S);	
+                        // var_dump($sqlDB21S);
 						if($rowdb21['KG_BAGIKAIN']>0){
 							$KGBAGI=$rowdb21['KG_BAGIKAIN'];
 						}else if($rowdb21S['KG_BAGIKAIN1']>0){
