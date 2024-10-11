@@ -155,9 +155,9 @@ if ($jamA!="" or $jamAr!=""){
 	$Where = " ";
 }	
     if ($Tgl == "" and $Tgl2 == "" and $NoDemand =="" and $ProdOrder == "" and $NoHanger =="") {
-            $qry1 = mysqli_query($conq, "SELECT * FROM tbl_lap_inspeksi WHERE DATE_FORMAT( tgl_update , '%Y-%m-%d') between '1990-10-10' and '1990-10-10' and `dept`='PACKING' ORDER BY id ASC");
+            $qry1 = mysqli_query($conq, "SELECT DISTINCT nodemand,nokk,no_item FROM tbl_lap_inspeksi WHERE DATE_FORMAT( tgl_update , '%Y-%m-%d') between '1990-10-10' and '1990-10-10' and `dept`='PACKING' ORDER BY id ASC");
           } else {
-            $qry1 = mysqli_query($conq, "SELECT * FROM tbl_lap_inspeksi WHERE $Where `dept`='PACKING' $where2 $where3 $where4 ORDER BY id ASC");
+            $qry1 = mysqli_query($conq, "SELECT DISTINCT nodemand,nokk,no_item FROM tbl_lap_inspeksi WHERE $Where `dept`='PACKING' $where2 $where3 $where4 ORDER BY id ASC");
           }
           while ($row1 = mysqli_fetch_array($qry1)) { 
 	$query = " 
