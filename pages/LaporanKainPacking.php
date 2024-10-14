@@ -6,6 +6,37 @@ $NoHanger	= isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
 $Tgl	= isset($_POST['tgl']) ? $_POST['tgl'] : '';
 $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 
+
+$processList = [
+	"BAT2",
+	"SCO1",
+	"DYE2",
+	"OVN1",
+	"OVD",
+	"PRE1",
+	"SUE1",
+	"SUE2",
+	"SUE3",
+	"SUE4",
+	"RSE2",
+	"RSE4",
+	"RSE5",
+	"TDR1",
+	"CPT1",
+	"FIN1",
+	"SHR3",
+	"SHR4",
+	"FNJ1",
+	"INS3",
+	"PACK",
+	"RLX1",
+	"DYE2",
+	"RDC1",
+	"FNJ2",
+];
+
+sort($processList);
+
 ?>
 <!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
 <form role="form" method="post" enctype="multipart/form-data" name="form1">
@@ -84,7 +115,10 @@ $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
         <th rowspan="2" valign="middle" style="text-align: center">Lot</th>
         <th rowspan="2" valign="middle" style="text-align: center">Prod. Demand</th>
         <th rowspan="2" valign="middle" style="text-align: center">Prod. Order</th>
-        <th colspan="21" valign="middle" style="text-align: center">POTONG KAIN (KG)</th>
+
+		<!-- POTONG KAIN GROUP HEAD -->
+        <th colspan="<?=count($processList)?>" valign="middle" style="text-align: center">POTONG KAIN (KG)</th>
+
         <th rowspan="2" valign="middle" style="text-align: center">TOTAL</th>
         <th rowspan="2" valign="middle" style="text-align: center">ROLL</th>
         <th rowspan="2" valign="middle" style="text-align: center">PACKING</th>
@@ -92,29 +126,13 @@ $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
         <th rowspan="2" valign="middle" style="text-align: center">Original PD</th>
         <th rowspan="2" valign="middle" style="text-align: center">Ket Salinan</th>
       </tr>
-      <tr>
-        <th valign="middle" style="text-align: center">BAT2</th>
-        <th valign="middle" style="text-align: center">SCO1</th>
-        <th valign="middle" style="text-align: center">DYE2</th>
-        <th valign="middle" style="text-align: center">OVN1</th>
-        <th valign="middle" style="text-align: center">OVD</th>
-        <th valign="middle" style="text-align: center">PRE1</th>
-        <th valign="middle" style="text-align: center">SUE1 </th>
-        <th valign="middle" style="text-align: center">SUE2</th>
-        <th valign="middle" style="text-align: center">SUE3</th>
-        <th valign="middle" style="text-align: center">SUE4</th>
-        <th valign="middle" style="text-align: center">RSE2</th>
-        <th valign="middle" style="text-align: center">RSE4</th>
-        <th valign="middle" style="text-align: center">RSE5</th>
-        <th valign="middle" style="text-align: center">TDR1</th>
-        <th valign="middle" style="text-align: center">CPT1</th>
-        <th valign="middle" style="text-align: center">FIN1</th>
-        <th valign="middle" style="text-align: center">SHR3</th>
-        <th valign="middle" style="text-align: center">SHR4</th>
-        <th valign="middle" style="text-align: center">FNJ1</th>
-        <th valign="middle" style="text-align: center">INS3</th>
-        <th valign="middle" style="text-align: center">PACK</th>
-        </tr>
+
+	  <!-- POTONG KAIN GROUP -->
+      	<tr>
+		<?php foreach($processList as $process): ?>
+        	<th valign="middle" style="text-align: center"><?= $process ?></th>
+		<?php endforeach; ?>
+		</tr>
     </thead>
     <tbody>
 	<?php 
@@ -160,523 +178,113 @@ if ($jamA!="" or $jamAr!=""){
             $qry1 = mysqli_query($conq, "SELECT DISTINCT nodemand,nokk,no_item FROM tbl_lap_inspeksi WHERE $Where `dept`='PACKING' $where2 $where3 $where4 ORDER BY id ASC");
           }
           while ($row1 = mysqli_fetch_array($qry1)) { 
-	$query = " 
-		select
-	kp.no_demand as demandno,
-	kp.prod_order as prdorder,
-	kp.pelanggan,
-	kp.warna,
-	kp.lot,
-	kp.rol_bagi,
-	kp.bagi_kain,
-	kp.no_hanger,
-	after1.brtkain_BAT2,
-	before1.brtkain_SCO1,
-	before1.brtkain_DYE2,
-	before1.brtkain_OPW1,
-	after1.brtkain_OVN1,
-	after1.brtkain_OVD1,
-	before1.brtkain_BAT1 as bBAT1,
-	after1.brtkain_BAT1 as aBAT1,
-	before1.brtkain_BAT2 as bBAT2,
-	after1.brtkain_BAT2 as aBAT2,
-	before1.brtkain_BLD2 as bBLD2,
-	after1.brtkain_BLD2 as aBLD2,
-	before1.brtkain_CBL1 as bCBL1,
-	after1.brtkain_CBL1 as aCBL1,
-	before1.brtkain_CNP1 as bCNP1,
-	after1.brtkain_CNP1 as aCNP1,
-	before1.brtkain_COM2 as bCOM2,
-	after1.brtkain_COM2 as aCOM2,
-	before1.brtkain_SCO1 as bSCO1,
-	after1.brtkain_SCO1 as aSCO1,
-	before1.brtkain_CPD1 as bCPD1,
-	after1.brtkain_CPD1 as aCPD1,
-	before1.brtkain_CPT1 as bCPT1,
-	after1.brtkain_CPT1 as aCPT1,
-	before1.brtkain_CUR1 as bCUR1,
-	after1.brtkain_CUR1 as aCUR1,
-	before1.brtkain_DYE1 as bDYE1,
-	after1.brtkain_DYE1 as aDYE1,
-	before1.brtkain_DYE2 as bDYE2,
-	after1.brtkain_DYE2 as aDYE2,
-	before1.brtkain_DYE4 as bDYE4,
-	after1.brtkain_DYE4 as aDYE4,
-	before1.brtkain_FEW1 as bFEW1,
-	after1.brtkain_FEW1 as aFEW1,
-	before1.brtkain_FIX1 as bFIX1,
-	after1.brtkain_FIX1 as aFIX1,
-	before1.brtkain_FNU1 as bFNU1,
-	after1.brtkain_FNU1 as aFNU1,
-	before1.brtkain_FNU2 as bFNU2,
-	after1.brtkain_FNU2 as aFNU2,
-	before1.brtkain_HEW1 as bHEW1,
-	after1.brtkain_HEW1 as aHEW1,
-	before1.brtkain_LVL1 as bLVL1,
-	after1.brtkain_LVL1 as aLVL1,
-	before1.brtkain_NCP1 as bNCP1,
-	after1.brtkain_NCP1 as aNCP1,
-	before1.brtkain_OPW1 as bOPW1,
-	after1.brtkain_OPW1 as aOPW1,
-	before1.brtkain_OVB1 as bOVB1,
-	after1.brtkain_OVB1 as aOVB1,
-	before1.brtkain_OVB2 as bOVB2,
-	after1.brtkain_OVB2 as aOVB2,
-	before1.brtkain_OVD1 as bOVD1,
-	after1.brtkain_OVD1 as aOVD1,
-	before1.brtkain_OVD2 as bOVD2,
-	after1.brtkain_OVD2 as aOVD2,
-	before1.brtkain_OVN1 as bOVN1,
-	after1.brtkain_OVN1 as aOVN1,
-	before1.brtkain_OVN2 as bOVN2,
-	after1.brtkain_OVN2 as aOVN2,
-	before1.brtkain_OVN4 as bOVN4,
-	after1.brtkain_OVN4 as aOVN4,
-	before1.brtkain_PAD1 as bPAD1,
-	after1.brtkain_PAD1 as aPAD1,
-	before1.brtkain_PAD2 as bPAD2,
-	after1.brtkain_PAD2 as aPAD2,
-	after1.brtkain_PRE1 as aPRE1,
-	before1.brtkain_PRE1 as bPRE1,
-	before1.brtkain_RDC1 as bRDC1,
-	after1.brtkain_RDC1 as aRDC1,
-	before1.brtkain_RLX1 as bRLX1,
-	after1.brtkain_RLX1 as aRLX1,
-	before1.brtkain_ROT1 as bROT1,
-	after1.brtkain_ROT1 as aROT1,
-	before1.brtkain_SOA1 as bSOA1,
-	after1.brtkain_SOA1 as aSOA1,
-	before1.brtkain_SOF1 as bSOF1,
-	after1.brtkain_SOF1 as aSOF1,
-	before1.brtkain_STM1 as bSTM1,
-	after1.brtkain_STM1 as aSTM1,
-	before1.brtkain_STR1 as bSTR1,
-	after1.brtkain_STR1 as aSTR1,
-	before1.brtkain_TDR1 as bTDR1,
-	after1.brtkain_TDR1 as aTDR1,
-	after1.brtkain_SUE1 as aSUE1,
-	before1.brtkain_SUE1 as bSUE1,
-	after1.brtkain_SUE2 as aSUE2,
-	before1.brtkain_SUE2 as bSUE2,
-	after1.brtkain_SUE3 as aSUE3,
-	before1.brtkain_SUE3 as bSUE3,
-	after1.brtkain_SUE4 as aSUE4,
-	before1.brtkain_SUE4 as bSUE4,
-	after1.brtkain_RSE2 as aRSE2,
-	before1.brtkain_RSE2 as bRSE2,
-	after1.brtkain_RSE4 as aRSE4,
-	before1.brtkain_RSE4 as bRSE4,
-	after1.brtkain_RSE5 as aRSE5,
-	before1.brtkain_RSE5 as bRSE5,
-	after1.brtkain_FIN1 as aFIN1,
-	before1.brtkain_FIN1 as bFIN1,	
-	before1.brtkain_SHR3 as bSHR3,
-	after1.brtkain_SHR3 as aSHR3,
-	before1.brtkain_SHR4 as bSHR4,
-	after1.brtkain_SHR4 as aSHR4,
-	before1.brtkain_FNJ1 as bFNJ1,
-	after1.brtkain_FNJ1 as aFNJ1,
-	before1.brtkain_FNJ2 as bFNJ2,
-	after1.brtkain_FNJ2 as aFNJ2,
-	before1.brtkain_FNJ3 as bFNJ3,
-	after1.brtkain_FNJ3 as aFNJ3,
-	before1.brtkain_INS2 as bINS2,
-	after1.brtkain_INS2 as aINS2,
-	before1.brtkain_INS3 as bINS3,
-	after1.brtkain_INS3 as aINS3,
-	before1.brtkain_INS7 as bINS7,
-	after1.brtkain_INS7 as aINS7,
-	round(after1.brtkain_BAT2-after1.brtkain_BAT2,2) as BAT2,
-	if(before1.brtkain_SCO1>0,(after1.brtkain_BAT2-before1.brtkain_SCO1),0) as SCO1,
-	if(before1.brtkain_DYE2>0,(after1.brtkain_BAT2-before1.brtkain_DYE2),0) as DYE2,
-	if(before1.brtkain_OPW1>0,(after1.brtkain_BAT2-before1.brtkain_OPW1),0) as OPW1,
-	if(after1.brtkain_OVN1>0,(before1.brtkain_SCO1-after1.brtkain_OVN1),0) as OVN1,
-	if(after1.brtkain_OVD1>0,(before1.brtkain_SCO1-after1.brtkain_OVD1),0) as OVD1,	
-	(before1.brtkain_PRE1-after1.brtkain_PRE1) as PRE1,
-	(before1.brtkain_SUE1-after1.brtkain_SUE1) as SUE1,
-	(before1.brtkain_SUE2-after1.brtkain_SUE2) as SUE2,
-	(before1.brtkain_SUE3-after1.brtkain_SUE3) as SUE3,
-	(before1.brtkain_SUE4-after1.brtkain_SUE4) as SUE4,	
-	(before1.brtkain_RSE2-after1.brtkain_RSE2) as RSE2,
-	(before1.brtkain_RSE4-after1.brtkain_RSE4) as RSE4,
-	(before1.brtkain_RSE5-after1.brtkain_RSE5) as RSE5,
-	(before1.brtkain_FIN1-after1.brtkain_FIN1) as FIN1,
-	(before1.brtkain_SHR4-after1.brtkain_SHR4) as SHR4,
-	(before1.brtkain_SHR3-after1.brtkain_SHR3) as SHR3,
-	(before1.brtkain_FNJ1-after1.brtkain_FNJ1) as FNJ1,
-	(before1.brtkain_INS3-after1.brtkain_INS3) as INS3
-from
-	kain_proses kp left join (
-select
-	sum(if(proses='BAT1' ,berat,0)) as berat_BAT1,
-	sum(if(proses='BAT1' ,berat_kosong,0)) as berat_kosong_BAT1,
-	(sum(if(proses='BAT1' ,berat,0))-sum(if(proses='BAT1' ,berat_kosong,0))) as brtkain_BAT1,
-	sum(if(proses='BAT2' ,berat,0)) as berat_BAT2,
-	sum(if(proses='BAT2' ,berat_kosong,0)) as berat_kosong_BAT2,
-	(sum(if(proses='BAT2' ,berat,0))-sum(if(proses='BAT2' ,berat_kosong,0))) as brtkain_BAT2,
-	sum(if(proses='BLD2' ,berat,0)) as berat_BLD2,
-	sum(if(proses='BLD2' ,berat_kosong,0)) as berat_kosong_BLD2,
-	(sum(if(proses='BLD2' ,berat,0))-sum(if(proses='BLD2' ,berat_kosong,0))) as brtkain_BLD2,
-	sum(if(proses='CBL1' ,berat,0)) as berat_CBL1,
-	sum(if(proses='CBL1' ,berat_kosong,0)) as berat_kosong_CBL1,
-	(sum(if(proses='CBL1' ,berat,0))-sum(if(proses='CBL1' ,berat_kosong,0))) as brtkain_CBL1,
-	sum(if(proses='CNP1' ,berat,0)) as berat_CNP1,
-	sum(if(proses='CNP1' ,berat_kosong,0)) as berat_kosong_CNP1,
-	(sum(if(proses='CNP1' ,berat,0))-sum(if(proses='CNP1' ,berat_kosong,0))) as brtkain_CNP1,
-	sum(if(proses='COM2' ,berat,0)) as berat_COM2,
-	sum(if(proses='COM2' ,berat_kosong,0)) as berat_kosong_COM2,
-	(sum(if(proses='COM2' ,berat,0))-sum(if(proses='COM2' ,berat_kosong,0))) as brtkain_COM2,
-	sum(if(proses='CPD1' ,berat,0)) as berat_CPD1,
-	sum(if(proses='CPD1' ,berat_kosong,0)) as berat_kosong_CPD1,
-	(sum(if(proses='CPD1' ,berat,0))-sum(if(proses='CPD1' ,berat_kosong,0))) as brtkain_CPD1,
-	sum(if(proses='CPT1' ,berat,0)) as berat_CPT1,
-	sum(if(proses='CPT1' ,berat_kosong,0)) as berat_kosong_CPT1,
-	(sum(if(proses='CPT1' ,berat,0))-sum(if(proses='CPT1' ,berat_kosong,0))) as brtkain_CPT1,
-	sum(if(proses='CUR1' ,berat,0)) as berat_CUR1,
-	sum(if(proses='CUR1' ,berat_kosong,0)) as berat_kosong_CUR1,
-	(sum(if(proses='CUR1' ,berat,0))-sum(if(proses='CUR1' ,berat_kosong,0))) as brtkain_CUR1,
-	sum(if(proses='FEW1' ,berat,0)) as berat_FEW1,
-	sum(if(proses='FEW1' ,berat_kosong,0)) as berat_kosong_FEW1,
-	(sum(if(proses='FEW1' ,berat,0))-sum(if(proses='FEW1' ,berat_kosong,0))) as brtkain_FEW1,
-	sum(if(proses='FIX1' ,berat,0)) as berat_FIX1,
-	sum(if(proses='FIX1' ,berat_kosong,0)) as berat_kosong_FIX1,
-	(sum(if(proses='FIX1' ,berat,0))-sum(if(proses='FIX1' ,berat_kosong,0))) as brtkain_FIX1,
-	sum(if(proses='FNU1' ,berat,0)) as berat_FNU1,
-	sum(if(proses='FNU1' ,berat_kosong,0)) as berat_kosong_FNU1,
-	(sum(if(proses='FNU1' ,berat,0))-sum(if(proses='FNU1' ,berat_kosong,0))) as brtkain_FNU1,
-	sum(if(proses='FNU2' ,berat,0)) as berat_FNU2,
-	sum(if(proses='FNU2' ,berat_kosong,0)) as berat_kosong_FNU2,
-	(sum(if(proses='FNU2' ,berat,0))-sum(if(proses='FNU2' ,berat_kosong,0))) as brtkain_FNU2,
-	sum(if(proses='HEW1' ,berat,0)) as berat_HEW1,
-	sum(if(proses='HEW1' ,berat_kosong,0)) as berat_kosong_HEW1,
-	(sum(if(proses='HEW1' ,berat,0))-sum(if(proses='HEW1' ,berat_kosong,0))) as brtkain_HEW1,
-	sum(if(proses='LVL1' ,berat,0)) as berat_LVL1,
-	sum(if(proses='LVL1' ,berat_kosong,0)) as berat_kosong_LVL1,
-	(sum(if(proses='LVL1' ,berat,0))-sum(if(proses='LVL1' ,berat_kosong,0))) as brtkain_LVL1,
-	sum(if(proses='NCP1' ,berat,0)) as berat_NCP1,
-	sum(if(proses='NCP1' ,berat_kosong,0)) as berat_kosong_NCP1,
-	(sum(if(proses='NCP1' ,berat,0))-sum(if(proses='NCP1' ,berat_kosong,0))) as brtkain_NCP1,
-	sum(if(proses='PAD1' ,berat,0)) as berat_PAD1,
-	sum(if(proses='PAD1' ,berat_kosong,0)) as berat_kosong_PAD1,
-	(sum(if(proses='PAD1' ,berat,0))-sum(if(proses='PAD1' ,berat_kosong,0))) as brtkain_PAD1,
-	sum(if(proses='PAD2' ,berat,0)) as berat_PAD2,
-	sum(if(proses='PAD2' ,berat_kosong,0)) as berat_kosong_PAD2,
-	(sum(if(proses='PAD2' ,berat,0))-sum(if(proses='PAD2' ,berat_kosong,0))) as brtkain_PAD2,
-	sum(if(proses='RDC1' ,berat,0)) as berat_RDC1,
 
-	sum(if(proses='RDC1' ,berat_kosong,0)) as berat_kosong_RDC1,
-	(sum(if(proses='RDC1' ,berat,0))-sum(if(proses='RDC1' ,berat_kosong,0))) as brtkain_RDC1,
-	sum(if(proses='RLX1' ,berat,0)) as berat_RLX1,
-	sum(if(proses='RLX1' ,berat_kosong,0)) as berat_kosong_RLX1,
-	(sum(if(proses='RLX1' ,berat,0))-sum(if(proses='RLX1' ,berat_kosong,0))) as brtkain_RLX1,
-	sum(if(proses='ROT1' ,berat,0)) as berat_ROT1,
-	sum(if(proses='ROT1' ,berat_kosong,0)) as berat_kosong_ROT1,
-	(sum(if(proses='ROT1' ,berat,0))-sum(if(proses='ROT1' ,berat_kosong,0))) as brtkain_ROT1,
-	sum(if(proses='SOA1' ,berat,0)) as berat_SOA1,
-	sum(if(proses='SOA1' ,berat_kosong,0)) as berat_kosong_SOA1,
-	(sum(if(proses='SOA1' ,berat,0))-sum(if(proses='SOA1' ,berat_kosong,0))) as brtkain_SOA1,
-	sum(if(proses='SOF1' ,berat,0)) as berat_SOF1,
-	sum(if(proses='SOF1' ,berat_kosong,0)) as berat_kosong_SOF1,
-	(sum(if(proses='SOF1' ,berat,0))-sum(if(proses='SOF1' ,berat_kosong,0))) as brtkain_SOF1,
-	sum(if(proses='SCO1' ,berat,0)) as berat_SCO1,
-	sum(if(proses='SCO1' ,berat_kosong,0)) as berat_kosong_SCO1,
-	(sum(if(proses='SCO1' ,berat,0))-sum(if(proses='SCO1' ,berat_kosong,0))) as brtkain_SCO1,
-	sum(if(proses='STM1' ,berat,0)) as berat_STM1,
-	sum(if(proses='STM1' ,berat_kosong,0)) as berat_kosong_STM1,
-	(sum(if(proses='STM1' ,berat,0))-sum(if(proses='STM1' ,berat_kosong,0))) as brtkain_STM1,
-	sum(if(proses='STR1' ,berat,0)) as berat_STR1,
-	sum(if(proses='STR1' ,berat_kosong,0)) as berat_kosong_STR1,
-	(sum(if(proses='STR1' ,berat,0))-sum(if(proses='STR1' ,berat_kosong,0))) as brtkain_STR1,
-	sum(if(proses='TDR1' ,berat,0)) as berat_TDR1,
-	sum(if(proses='TDR1' ,berat_kosong,0)) as berat_kosong_TDR1,
-	(sum(if(proses='TDR1' ,berat,0))-sum(if(proses='TDR1' ,berat_kosong,0))) as brtkain_TDR1,
-	sum(if(proses='PRE1' ,berat,0)) as berat_PRE1,
-	sum(if(proses='PRE1' ,berat_kosong,0)) as berat_kosong_PRE1,
-	(sum(if(proses='PRE1' ,berat,0))-sum(if(proses='PRE1' ,berat_kosong,0))) as brtkain_PRE1,
-	sum(if(proses='SUE1' ,berat,0)) as berat_SUE1,
-	sum(if(proses='SUE1' ,berat_kosong,0)) as berat_kosong_SUE1,
-	(sum(if(proses='SUE1' ,berat,0))-sum(if(proses='SUE1' ,berat_kosong,0))) as brtkain_SUE1,
-	sum(if(proses='SUE2' ,berat,0)) as berat_SUE2,
-	sum(if(proses='SUE2' ,berat_kosong,0)) as berat_kosong_SUE2,
-	(sum(if(proses='SUE2' ,berat,0))-sum(if(proses='SUE2' ,berat_kosong,0))) as brtkain_SUE2,
-	sum(if(proses='SUE3' ,berat,0)) as berat_SUE3,
-	sum(if(proses='SUE3' ,berat_kosong,0)) as berat_kosong_SUE3,
-	(sum(if(proses='SUE3' ,berat,0))-sum(if(proses='SUE3' ,berat_kosong,0))) as brtkain_SUE3,
-	sum(if(proses='SUE4' ,berat,0)) as berat_SUE4,
-	sum(if(proses='SUE4' ,berat_kosong,0)) as berat_kosong_SUE4,
-	(sum(if(proses='SUE4' ,berat,0))-sum(if(proses='SUE4' ,berat_kosong,0))) as brtkain_SUE4,
-	sum(if(proses='DYE1' ,berat,0)) as berat_DYE1,
-	sum(if(proses='DYE1' ,berat_kosong,0)) as berat_kosong_DYE1,
-	round(sum(if(proses='DYE1' ,berat,0))-sum(if(proses='DYE1' ,berat_kosong,0)),2) as brtkain_DYE1,
-	sum(if(proses='DYE2' ,berat,0)) as berat_DYE2,
-	sum(if(proses='DYE2' ,berat_kosong,0)) as berat_kosong_DYE2,
-	round(sum(if(proses='DYE2' ,berat,0))-sum(if(proses='DYE2' ,berat_kosong,0)),2) as brtkain_DYE2,
-	sum(if(proses='DYE4' ,berat,0)) as berat_DYE4,
-	sum(if(proses='DYE4' ,berat_kosong,0)) as berat_kosong_DYE4,
-	round(sum(if(proses='DYE4' ,berat,0))-sum(if(proses='DYE4' ,berat_kosong,0)),2) as brtkain_DYE4,
-	sum(if(proses='OVN1' ,berat,0)) as berat_OVN1,
-	sum(if(proses='OVN1' ,berat_kosong,0)) as berat_kosong_OVN1,
-	(sum(if(proses='OVN1' ,berat,0))-sum(if(proses='OVN1' ,berat_kosong,0))) as brtkain_OVN1,
-	sum(if(proses='OVN2' ,berat,0)) as berat_OVN2,
-	sum(if(proses='OVN2' ,berat_kosong,0)) as berat_kosong_OVN2,
-	(sum(if(proses='OVN2' ,berat,0))-sum(if(proses='OVN2' ,berat_kosong,0))) as brtkain_OVN2,
-	sum(if(proses='OVN4' ,berat,0)) as berat_OVN4,
-	sum(if(proses='OVN4' ,berat_kosong,0)) as berat_kosong_OVN4,
-	(sum(if(proses='OVN4' ,berat,0))-sum(if(proses='OVN4' ,berat_kosong,0))) as brtkain_OVN4,
-	sum(if(proses='OVD1' ,berat,0)) as berat_OVD1,
-	sum(if(proses='OVD1' ,berat_kosong,0)) as berat_kosong_OVD1,
-	(sum(if(proses='OVD1' ,berat,0))-sum(if(proses='OVD1' ,berat_kosong,0))) as brtkain_OVD1,
-	sum(if(proses='OVD2' ,berat,0)) as berat_OVD2,
-	sum(if(proses='OVD2' ,berat_kosong,0)) as berat_kosong_OVD2,
-	(sum(if(proses='OVD2' ,berat,0))-sum(if(proses='OVD2' ,berat_kosong,0))) as brtkain_OVD2,
-	sum(if(proses='OVB1' ,berat,0)) as berat_OVB1,
-	sum(if(proses='OVB1' ,berat_kosong,0)) as berat_kosong_OVB1,
-	(sum(if(proses='OVB1' ,berat,0))-sum(if(proses='OVB1' ,berat_kosong,0))) as brtkain_OVB1,
-	sum(if(proses='OVB2' ,berat,0)) as berat_OVB2,
-	sum(if(proses='OVB2' ,berat_kosong,0)) as berat_kosong_OVB2,
-	(sum(if(proses='OVB2' ,berat,0))-sum(if(proses='OVB2' ,berat_kosong,0))) as brtkain_OVB2,
-	sum(if(proses='OPW1' ,berat,0)) as berat_OPW1,
-	sum(if(proses='OPW1' ,berat_kosong,0)) as berat_kosong_OPW1,
-	(sum(if(proses='OPW1' ,berat,0))-sum(if(proses='OPW1' ,berat_kosong,0))) as brtkain_OPW1,
-	sum(if(proses='RSE2' ,berat,0)) as berat_RSE2,
-	sum(if(proses='RSE2' ,berat_kosong,0)) as berat_kosong_RSE2,
-	(sum(if(proses='RSE2' ,berat,0))-sum(if(proses='RSE2' ,berat_kosong,0))) as brtkain_RSE2,
-	sum(if(proses='RSE4' ,berat,0)) as berat_RSE4,
-	sum(if(proses='RSE4' ,berat_kosong,0)) as berat_kosong_RSE4,
-	(sum(if(proses='RSE4' ,berat,0))-sum(if(proses='RSE4' ,berat_kosong,0))) as brtkain_RSE4,
-	sum(if(proses='RSE5' ,berat,0)) as berat_RSE5,
-	sum(if(proses='RSE5' ,berat_kosong,0)) as berat_kosong_RSE5,
-	(sum(if(proses='RSE5' ,berat,0))-sum(if(proses='RSE5' ,berat_kosong,0))) as brtkain_RSE5,
-	sum(if(proses='FIN1' ,berat,0)) as berat_FIN1,
-	sum(if(proses='FIN1' ,berat_kosong,0)) as berat_kosong_FIN1,
-	(sum(if(proses='FIN1' ,berat,0))-sum(if(proses='FIN1' ,berat_kosong,0))) as brtkain_FIN1,
-	sum(if(proses='SHR4' ,berat,0)) as berat_SHR4,
-	sum(if(proses='SHR4' ,berat_kosong,0)) as berat_kosong_SHR4,
-	(sum(if(proses='SHR4' ,berat,0))-sum(if(proses='SHR4' ,berat_kosong,0))) as brtkain_SHR4,
-	sum(if(proses='SHR3' ,berat,0)) as berat_SHR3,
-	sum(if(proses='SHR3' ,berat_kosong,0)) as berat_kosong_SHR3,
-	(sum(if(proses='SHR3' ,berat,0))-sum(if(proses='SHR3' ,berat_kosong,0))) as brtkain_SHR3,
-	sum(if(proses='FNJ1' ,berat,0)) as berat_FNJ1,
-	sum(if(proses='FNJ1' ,berat_kosong,0)) as berat_kosong_FNJ1,
-	(sum(if(proses='FNJ1' ,berat,0))-sum(if(proses='FNJ1' ,berat_kosong,0))) as brtkain_FNJ1,
-	sum(if(proses='FNJ2' ,berat,0)) as berat_FNJ2,
-	sum(if(proses='FNJ2' ,berat_kosong,0)) as berat_kosong_FNJ2,
-	(sum(if(proses='FNJ2' ,berat,0))-sum(if(proses='FNJ2' ,berat_kosong,0))) as brtkain_FNJ2,
-	sum(if(proses='FNJ3' ,berat,0)) as berat_FNJ3,
-	sum(if(proses='FNJ3' ,berat_kosong,0)) as berat_kosong_FNJ3,
-	(sum(if(proses='FNJ3' ,berat,0))-sum(if(proses='FNJ3' ,berat_kosong,0))) as brtkain_FNJ3,
-	sum(if(proses='INS2' ,berat,0)) as berat_INS2,
-	sum(if(proses='INS2' ,berat_kosong,0)) as berat_kosong_INS2,
-	(sum(if(proses='INS2' ,berat,0))-sum(if(proses='INS2' ,berat_kosong,0))) as brtkain_INS2,
-	sum(if(proses='INS3' ,berat,0)) as berat_INS3,
-	sum(if(proses='INS3' ,berat_kosong,0)) as berat_kosong_INS3,
-	(sum(if(proses='INS3' ,berat,0))-sum(if(proses='INS3' ,berat_kosong,0))) as brtkain_INS3,
-	sum(if(proses='INS7' ,berat,0)) as berat_INS7,
-	sum(if(proses='INS7' ,berat_kosong,0)) as berat_kosong_INS7,
-	(sum(if(proses='INS7' ,berat,0))-sum(if(proses='INS7' ,berat_kosong,0))) as brtkain_INS7,
-	no_demand,
-	ket,
-	no_hanger
-from
-	kain_proses kp
- where
- ket='before'
-group by
-	ket,
-	no_demand	
-	) as before1
-on kp.no_demand=before1.no_demand 
-left join (
-select
-	sum(if(proses='BAT1' ,berat,0)) as berat_BAT1,
-	sum(if(proses='BAT1' ,berat_kosong,0)) as berat_kosong_BAT1,
-	(sum(if(proses='BAT1' ,berat,0))-sum(if(proses='BAT1' ,berat_kosong,0))) as brtkain_BAT1,
-	sum(if(proses='BAT2' ,berat,0)) as berat_BAT2,
-	sum(if(proses='BAT2' ,berat_kosong,0)) as berat_kosong_BAT2,
-	(sum(if(proses='BAT2' ,berat,0))-sum(if(proses='BAT2' ,berat_kosong,0))) as brtkain_BAT2,
-	sum(if(proses='BLD2' ,berat,0)) as berat_BLD2,
-	sum(if(proses='BLD2' ,berat_kosong,0)) as berat_kosong_BLD2,
-	(sum(if(proses='BLD2' ,berat,0))-sum(if(proses='BLD2' ,berat_kosong,0))) as brtkain_BLD2,
-	sum(if(proses='CBL1' ,berat,0)) as berat_CBL1,
-	sum(if(proses='CBL1' ,berat_kosong,0)) as berat_kosong_CBL1,
-	(sum(if(proses='CBL1' ,berat,0))-sum(if(proses='CBL1' ,berat_kosong,0))) as brtkain_CBL1,
-	sum(if(proses='CNP1' ,berat,0)) as berat_CNP1,
-	sum(if(proses='CNP1' ,berat_kosong,0)) as berat_kosong_CNP1,
-	(sum(if(proses='CNP1' ,berat,0))-sum(if(proses='CNP1' ,berat_kosong,0))) as brtkain_CNP1,
-	sum(if(proses='COM2' ,berat,0)) as berat_COM2,
-	sum(if(proses='COM2' ,berat_kosong,0)) as berat_kosong_COM2,
-	(sum(if(proses='COM2' ,berat,0))-sum(if(proses='COM2' ,berat_kosong,0))) as brtkain_COM2,
-	sum(if(proses='CPD1' ,berat,0)) as berat_CPD1,
-	sum(if(proses='CPD1' ,berat_kosong,0)) as berat_kosong_CPD1,
-	(sum(if(proses='CPD1' ,berat,0))-sum(if(proses='CPD1' ,berat_kosong,0))) as brtkain_CPD1,
-	sum(if(proses='CPT1' ,berat,0)) as berat_CPT1,
-	sum(if(proses='CPT1' ,berat_kosong,0)) as berat_kosong_CPT1,
-	(sum(if(proses='CPT1' ,berat,0))-sum(if(proses='CPT1' ,berat_kosong,0))) as brtkain_CPT1,
-	sum(if(proses='CUR1' ,berat,0)) as berat_CUR1,
-	sum(if(proses='CUR1' ,berat_kosong,0)) as berat_kosong_CUR1,
-	(sum(if(proses='CUR1' ,berat,0))-sum(if(proses='CUR1' ,berat_kosong,0))) as brtkain_CUR1,
-	sum(if(proses='FEW1' ,berat,0)) as berat_FEW1,
-	sum(if(proses='FEW1' ,berat_kosong,0)) as berat_kosong_FEW1,
-	(sum(if(proses='FEW1' ,berat,0))-sum(if(proses='FEW1' ,berat_kosong,0))) as brtkain_FEW1,
-	sum(if(proses='FIX1' ,berat,0)) as berat_FIX1,
-	sum(if(proses='FIX1' ,berat_kosong,0)) as berat_kosong_FIX1,
-	(sum(if(proses='FIX1' ,berat,0))-sum(if(proses='FIX1' ,berat_kosong,0))) as brtkain_FIX1,
-	sum(if(proses='FNU1' ,berat,0)) as berat_FNU1,
-	sum(if(proses='FNU1' ,berat_kosong,0)) as berat_kosong_FNU1,
-	(sum(if(proses='FNU1' ,berat,0))-sum(if(proses='FNU1' ,berat_kosong,0))) as brtkain_FNU1,
-	sum(if(proses='FNU2' ,berat,0)) as berat_FNU2,
-	sum(if(proses='FNU2' ,berat_kosong,0)) as berat_kosong_FNU2,
-	(sum(if(proses='FNU2' ,berat,0))-sum(if(proses='FNU2' ,berat_kosong,0))) as brtkain_FNU2,
-	sum(if(proses='HEW1' ,berat,0)) as berat_HEW1,
-	sum(if(proses='HEW1' ,berat_kosong,0)) as berat_kosong_HEW1,
-	(sum(if(proses='HEW1' ,berat,0))-sum(if(proses='HEW1' ,berat_kosong,0))) as brtkain_HEW1,
-	sum(if(proses='LVL1' ,berat,0)) as berat_LVL1,
-	sum(if(proses='LVL1' ,berat_kosong,0)) as berat_kosong_LVL1,
-	(sum(if(proses='LVL1' ,berat,0))-sum(if(proses='LVL1' ,berat_kosong,0))) as brtkain_LVL1,
-	sum(if(proses='NCP1' ,berat,0)) as berat_NCP1,
-	sum(if(proses='NCP1' ,berat_kosong,0)) as berat_kosong_NCP1,
-	(sum(if(proses='NCP1' ,berat,0))-sum(if(proses='NCP1' ,berat_kosong,0))) as brtkain_NCP1,
-	sum(if(proses='PAD1' ,berat,0)) as berat_PAD1,
-	sum(if(proses='PAD1' ,berat_kosong,0)) as berat_kosong_PAD1,
-	(sum(if(proses='PAD1' ,berat,0))-sum(if(proses='PAD1' ,berat_kosong,0))) as brtkain_PAD1,
-	sum(if(proses='PAD2' ,berat,0)) as berat_PAD2,
-	sum(if(proses='PAD2' ,berat_kosong,0)) as berat_kosong_PAD2,
-	(sum(if(proses='PAD2' ,berat,0))-sum(if(proses='PAD2' ,berat_kosong,0))) as brtkain_PAD2,
-	sum(if(proses='RDC1' ,berat,0)) as berat_RDC1,
-	sum(if(proses='RDC1' ,berat_kosong,0)) as berat_kosong_RDC1,
-	(sum(if(proses='RDC1' ,berat,0))-sum(if(proses='RDC1' ,berat_kosong,0))) as brtkain_RDC1,
-	sum(if(proses='RLX1' ,berat,0)) as berat_RLX1,
-	sum(if(proses='RLX1' ,berat_kosong,0)) as berat_kosong_RLX1,
-	(sum(if(proses='RLX1' ,berat,0))-sum(if(proses='RLX1' ,berat_kosong,0))) as brtkain_RLX1,
-	sum(if(proses='ROT1' ,berat,0)) as berat_ROT1,
-	sum(if(proses='ROT1' ,berat_kosong,0)) as berat_kosong_ROT1,
-	(sum(if(proses='ROT1' ,berat,0))-sum(if(proses='ROT1' ,berat_kosong,0))) as brtkain_ROT1,
-	sum(if(proses='SOA1' ,berat,0)) as berat_SOA1,
-	sum(if(proses='SOA1' ,berat_kosong,0)) as berat_kosong_SOA1,
-	(sum(if(proses='SOA1' ,berat,0))-sum(if(proses='SOA1' ,berat_kosong,0))) as brtkain_SOA1,
-	sum(if(proses='SOF1' ,berat,0)) as berat_SOF1,
-	sum(if(proses='SOF1' ,berat_kosong,0)) as berat_kosong_SOF1,
-	(sum(if(proses='SOF1' ,berat,0))-sum(if(proses='SOF1' ,berat_kosong,0))) as brtkain_SOF1,
-	sum(if(proses='SCO1' ,berat,0)) as berat_SCO1,
-	sum(if(proses='SCO1' ,berat_kosong,0)) as berat_kosong_SCO1,
-	(sum(if(proses='SCO1' ,berat,0))-sum(if(proses='SCO1' ,berat_kosong,0))) as brtkain_SCO1,
-	sum(if(proses='STM1' ,berat,0)) as berat_STM1,
-	sum(if(proses='STM1' ,berat_kosong,0)) as berat_kosong_STM1,
-	(sum(if(proses='STM1' ,berat,0))-sum(if(proses='STM1' ,berat_kosong,0))) as brtkain_STM1,
-	sum(if(proses='STR1' ,berat,0)) as berat_STR1,
-	sum(if(proses='STR1' ,berat_kosong,0)) as berat_kosong_STR1,
-	(sum(if(proses='STR1' ,berat,0))-sum(if(proses='STR1' ,berat_kosong,0))) as brtkain_STR1,
-	sum(if(proses='TDR1' ,berat,0)) as berat_TDR1,
-	sum(if(proses='TDR1' ,berat_kosong,0)) as berat_kosong_TDR1,
-	(sum(if(proses='TDR1' ,berat,0))-sum(if(proses='TDR1' ,berat_kosong,0))) as brtkain_TDR1,
-	sum(if(proses='PRE1' ,berat,0)) as berat_PRE1,
-	sum(if(proses='PRE1' ,berat_kosong,0)) as berat_kosong_PRE1,
-	(sum(if(proses='PRE1' ,berat,0))-sum(if(proses='PRE1' ,berat_kosong,0))) as brtkain_PRE1,
-	sum(if(proses='SUE1' ,berat,0)) as berat_SUE1,
-	sum(if(proses='SUE1' ,berat_kosong,0)) as berat_kosong_SUE1,
-	(sum(if(proses='SUE1' ,berat,0))-sum(if(proses='SUE1' ,berat_kosong,0))) as brtkain_SUE1,
-	sum(if(proses='SUE2' ,berat,0)) as berat_SUE2,
-	sum(if(proses='SUE2' ,berat_kosong,0)) as berat_kosong_SUE2,
-	(sum(if(proses='SUE2' ,berat,0))-sum(if(proses='SUE2' ,berat_kosong,0))) as brtkain_SUE2,
-	sum(if(proses='SUE3' ,berat,0)) as berat_SUE3,
-	sum(if(proses='SUE3' ,berat_kosong,0)) as berat_kosong_SUE3,
-	(sum(if(proses='SUE3' ,berat,0))-sum(if(proses='SUE3' ,berat_kosong,0))) as brtkain_SUE3,
-	sum(if(proses='SUE4' ,berat,0)) as berat_SUE4,
-	sum(if(proses='SUE4' ,berat_kosong,0)) as berat_kosong_SUE4,
-	(sum(if(proses='SUE4' ,berat,0))-sum(if(proses='SUE4' ,berat_kosong,0))) as brtkain_SUE4,
-	sum(if(proses='DYE1' ,berat,0)) as berat_DYE1,
-	sum(if(proses='DYE1' ,berat_kosong,0)) as berat_kosong_DYE1,
-	round(sum(if(proses='DYE1' ,berat,0))-sum(if(proses='DYE1' ,berat_kosong,0)),2) as brtkain_DYE1,
-	sum(if(proses='DYE2' ,berat,0)) as berat_DYE2,
-	sum(if(proses='DYE2' ,berat_kosong,0)) as berat_kosong_DYE2,
-	round(sum(if(proses='DYE2' ,berat,0))-sum(if(proses='DYE2' ,berat_kosong,0)),2) as brtkain_DYE2,
-	sum(if(proses='DYE4' ,berat,0)) as berat_DYE4,
-	sum(if(proses='DYE4' ,berat_kosong,0)) as berat_kosong_DYE4,
-	round(sum(if(proses='DYE4' ,berat,0))-sum(if(proses='DYE4' ,berat_kosong,0)),2) as brtkain_DYE4,
-	sum(if(proses='OVN1' ,berat,0)) as berat_OVN1,
-	sum(if(proses='OVN1' ,berat_kosong,0)) as berat_kosong_OVN1,
-	(sum(if(proses='OVN1' ,berat,0))-sum(if(proses='OVN1' ,berat_kosong,0))) as brtkain_OVN1,
-	sum(if(proses='OVN2' ,berat,0)) as berat_OVN2,
-	sum(if(proses='OVN2' ,berat_kosong,0)) as berat_kosong_OVN2,
-	(sum(if(proses='OVN2' ,berat,0))-sum(if(proses='OVN2' ,berat_kosong,0))) as brtkain_OVN2,
-	sum(if(proses='OVN4' ,berat,0)) as berat_OVN4,
-	sum(if(proses='OVN4' ,berat_kosong,0)) as berat_kosong_OVN4,
-	(sum(if(proses='OVN4' ,berat,0))-sum(if(proses='OVN4' ,berat_kosong,0))) as brtkain_OVN4,
-	sum(if(proses='OVD1' ,berat,0)) as berat_OVD1,
-	sum(if(proses='OVD1' ,berat_kosong,0)) as berat_kosong_OVD1,
-	(sum(if(proses='OVD1' ,berat,0))-sum(if(proses='OVD1' ,berat_kosong,0))) as brtkain_OVD1,
-	sum(if(proses='OVD2' ,berat,0)) as berat_OVD2,
-	sum(if(proses='OVD2' ,berat_kosong,0)) as berat_kosong_OVD2,
-	(sum(if(proses='OVD2' ,berat,0))-sum(if(proses='OVD2' ,berat_kosong,0))) as brtkain_OVD2,
-	sum(if(proses='OVB1' ,berat,0)) as berat_OVB1,
-	sum(if(proses='OVB1' ,berat_kosong,0)) as berat_kosong_OVB1,
-	(sum(if(proses='OVB1' ,berat,0))-sum(if(proses='OVB1' ,berat_kosong,0))) as brtkain_OVB1,
-	sum(if(proses='OVB2' ,berat,0)) as berat_OVB2,
-	sum(if(proses='OVB2' ,berat_kosong,0)) as berat_kosong_OVB2,
-	(sum(if(proses='OVB2' ,berat,0))-sum(if(proses='OVB2' ,berat_kosong,0))) as brtkain_OVB2,
-	sum(if(proses='OPW1' ,berat,0)) as berat_OPW1,
-	sum(if(proses='OPW1' ,berat_kosong,0)) as berat_kosong_OPW1,
-	(sum(if(proses='OPW1' ,berat,0))-sum(if(proses='OPW1' ,berat_kosong,0))) as brtkain_OPW1,
-	sum(if(proses='RSE2' ,berat,0)) as berat_RSE2,
-	sum(if(proses='RSE2' ,berat_kosong,0)) as berat_kosong_RSE2,
-	(sum(if(proses='RSE2' ,berat,0))-sum(if(proses='RSE2' ,berat_kosong,0))) as brtkain_RSE2,
-	sum(if(proses='RSE4' ,berat,0)) as berat_RSE4,
-	sum(if(proses='RSE4' ,berat_kosong,0)) as berat_kosong_RSE4,
-	(sum(if(proses='RSE4' ,berat,0))-sum(if(proses='RSE4' ,berat_kosong,0))) as brtkain_RSE4,
-	sum(if(proses='RSE5' ,berat,0)) as berat_RSE5,
-	sum(if(proses='RSE5' ,berat_kosong,0)) as berat_kosong_RSE5,
-	(sum(if(proses='RSE5' ,berat,0))-sum(if(proses='RSE5' ,berat_kosong,0))) as brtkain_RSE5,
-	sum(if(proses='FIN1' ,berat,0)) as berat_FIN1,
-	sum(if(proses='FIN1' ,berat_kosong,0)) as berat_kosong_FIN1,
-	(sum(if(proses='FIN1' ,berat,0))-sum(if(proses='FIN1' ,berat_kosong,0))) as brtkain_FIN1,
-	sum(if(proses='SHR4' ,berat,0)) as berat_SHR4,
-	sum(if(proses='SHR4' ,berat_kosong,0)) as berat_kosong_SHR4,
-	(sum(if(proses='SHR4' ,berat,0))-sum(if(proses='SHR4' ,berat_kosong,0))) as brtkain_SHR4,
-	sum(if(proses='SHR3' ,berat,0)) as berat_SHR3,
-	sum(if(proses='SHR3' ,berat_kosong,0)) as berat_kosong_SHR3,
-	(sum(if(proses='SHR3' ,berat,0))-sum(if(proses='SHR3' ,berat_kosong,0))) as brtkain_SHR3,
-	sum(if(proses='FNJ1' ,berat,0)) as berat_FNJ1,
-	sum(if(proses='FNJ1' ,berat_kosong,0)) as berat_kosong_FNJ1,
-	(sum(if(proses='FNJ1' ,berat,0))-sum(if(proses='FNJ1' ,berat_kosong,0))) as brtkain_FNJ1,
-	sum(if(proses='FNJ2' ,berat,0)) as berat_FNJ2,
-	sum(if(proses='FNJ2' ,berat_kosong,0)) as berat_kosong_FNJ2,
-	(sum(if(proses='FNJ2' ,berat,0))-sum(if(proses='FNJ2' ,berat_kosong,0))) as brtkain_FNJ2,
-	sum(if(proses='FNJ3' ,berat,0)) as berat_FNJ3,
-	sum(if(proses='FNJ3' ,berat_kosong,0)) as berat_kosong_FNJ3,
-	(sum(if(proses='FNJ3' ,berat,0))-sum(if(proses='FNJ3' ,berat_kosong,0))) as brtkain_FNJ3,
-	sum(if(proses='INS2' ,berat,0)) as berat_INS2,
-	sum(if(proses='INS2' ,berat_kosong,0)) as berat_kosong_INS2,
-	(sum(if(proses='INS2' ,berat,0))-sum(if(proses='INS2' ,berat_kosong,0))) as brtkain_INS2,
-	sum(if(proses='INS3' ,berat,0)) as berat_INS3,
-	sum(if(proses='INS3' ,berat_kosong,0)) as berat_kosong_INS3,
-	(sum(if(proses='INS3' ,berat,0))-sum(if(proses='INS3' ,berat_kosong,0))) as brtkain_INS3,
-	sum(if(proses='INS7' ,berat,0)) as berat_INS7,
-	sum(if(proses='INS7' ,berat_kosong,0)) as berat_kosong_INS7,
-	(sum(if(proses='INS7' ,berat,0))-sum(if(proses='INS7' ,berat_kosong,0))) as brtkain_INS7,
-	no_demand,
-	ket,
-	max(kp.tgl_update) as tgl_update
-from
-	kain_proses kp
- where
- ket='after'
-group by
-	ket,
-	no_demand	
-	) as after1
-on kp.no_demand=after1.no_demand
-where
-	(kp.ket = 'before'
-		or kp.ket = 'after') 
-		and kp.no_demand='".$row1['nodemand']."'
-		and kp.prod_order='".$row1['nokk']."'
-		and kp.no_hanger='".$row1['no_item']."'
-group by
-	kp.no_demand
-order by kp.prod_order DESC
-		";
-$sql 	= mysqli_query($conr,$query);
-$r		= mysqli_fetch_array($sql);
+	$query = "SELECT
+		pelanggan, warna, no_hanger, rol_bagi, bagi_kain, lot,
+		no_step, proses, no_demand, prod_order,
+		SUM(jml_rol) AS rol_tot,
+		SUM(berat) AS berat_tot,
+		SUM(berat_kosong) AS berat_kosong_tot,
+		DATE_FORMAT(tgl_update, '%Y-%m-%d') AS tgl_timbang,
+		GROUP_CONCAT(DISTINCT userid, ', ') AS user_gabung
+	FROM
+		kain_proses
+	WHERE
+		(ket = 'before' OR ket = 'after')
+		and no_demand='".$row1['nodemand']."'
+		and prod_order='".$row1['nokk']."'
+		and no_hanger='".$row1['no_item']."'
+	GROUP BY
+		proses, ket, prod_order, no_demand, no_step
+	ORDER BY
+		prod_order, no_step ASC
+	";
+	
+	$result = mysqli_query($conr, $query);
+	
+	// Data berat kain
+	$data = [];
+	while ($rx = mysqli_fetch_assoc($result)) {
+		$rx['x_berat_kain'] = number_format(round($rx['berat_tot'] - $rx['berat_kosong_tot'], 2), 2);
+		$data[] = $rx;
+	}
+	
+	// Inisialisasi array untuk hasil
+	$hasil = [];
+	
+	// Loop untuk menghitung selisih berat
+	for ($i = 1; $i < count($data); $i++) {
+		$selisih = $data[$i]['x_berat_kain'] - $data[$i - 1]['x_berat_kain'];
+		
+		// Build the result based on proses
+		$proses = $data[$i - 1]['proses'];
+		if (!isset($hasil[$proses])) {
+			$hasil[$proses] = [
+				"no_demand" => $data[$i - 1]['no_demand'],
+				"prod_order" => $data[$i - 1]['prod_order'],
+				"pelanggan" => $data[$i - 1]['pelanggan'],
+				"warna" => $data[$i - 1]['warna'],
+				"no_hanger" => $data[$i - 1]['no_hanger'],
+				"rol_bagi" => $data[$i - 1]['rol_bagi'],
+				"bagi_kain" => $data[$i - 1]['bagi_kain'],
+				"lot" => $data[$i - 1]['lot'],
+				"selisih" => []
+			];
+		}
+		
+		$hasil[$proses]['selisih'][] = round($selisih, 2);
+	}
+	
+	// Menambahkan baris terakhir untuk langkah terakhir
+	$lastRow = $data[count($data) - 1];
+	$prosesLast = $lastRow['proses'];
+	if (!isset($hasil[$prosesLast])) {
+		$hasil[$prosesLast] = [
+			"no_demand" => $lastRow['no_demand'],
+			"prod_order" => $lastRow['prod_order'],
+			"pelanggan" => $lastRow['pelanggan'],
+			"warna" => $lastRow['warna'],
+			"no_hanger" => $lastRow['no_hanger'],
+			"rol_bagi" => $lastRow['rol_bagi'],
+			"bagi_kain" => $lastRow['bagi_kain'],
+			"lot" => $lastRow['lot'],
+			"selisih" => []
+		];
+	}
+	
+	$hasil[$prosesLast]['selisih'][] = 0.00; // Selisih untuk baris terakhir
+	
+	// Output hasil
+	$header = ["no_demand", "prod_order", "pelanggan", "warna", "no_hanger", "rol_bagi", "bagi_kain", "lot"];
+	$prosesKeys = array_keys($hasil);
+	$headerProcess = [];
+	foreach ($prosesKeys as $proses) {
+		$header[] = $proses;
+		$headerProcess[] = $proses;
+	}
+	
+	// Prepare output row using keys
+	$outputRow = [];
+	$outputRow['no_demand'] = $hasil[$prosesKeys[0]]['no_demand'];
+	$outputRow['prod_order'] = $hasil[$prosesKeys[0]]['prod_order'];
+	$outputRow['pelanggan'] = $hasil[$prosesKeys[0]]['pelanggan'];
+	$outputRow['warna'] = $hasil[$prosesKeys[0]]['warna'];
+	$outputRow['no_hanger'] = $hasil[$prosesKeys[0]]['no_hanger'];
+	$outputRow['rol_bagi'] = $hasil[$prosesKeys[0]]['rol_bagi'];
+	$outputRow['bagi_kain'] = $hasil[$prosesKeys[0]]['bagi_kain'];
+	$outputRow['lot'] = $hasil[$prosesKeys[0]]['lot'];
+	
+	// Create an array for the selisih values
+	foreach ($prosesKeys as $proses) {
+		// Join selisih values for the same process
+		// $selisihList = implode(',', $hasil[$proses]['selisih']);
+		// $outputRow[$proses] = $selisihList;
+
+		// Jumlahkan nilai selisih untuk proses yang sama
+		$selisihSum = array_sum($hasil[$proses]['selisih']);
+		$outputRow[$proses] = $selisihSum;
+	}
+
 			  
 $sqlto = " SELECT 
 COUNT(e.ELEMENTCODE) AS TOTAL_ROLL,
@@ -691,7 +299,7 @@ GROUP BY
     PRODUCTIONORDERCODE,
     PRODUCTIONDEMANDCODE) a 
 LEFT OUTER JOIN ELEMENTSINSPECTION e ON a.PRODUCTIONDEMANDCODE =e.DEMANDCODE AND e.INSPECTIONSTATION='Inspect Pa'
-WHERE a.PRODUCTIONORDERCODE ='".$r['prdorder']."'";			
+WHERE a.PRODUCTIONORDERCODE ='".$outputRow['prod_order']."'";			
 $stmt2 = db2_exec($conn1, $sqlto, array('cursor' => DB2_SCROLLABLE));
 $rowto = db2_fetch_assoc($stmt2);
 
@@ -711,88 +319,36 @@ LEFT OUTER JOIN ADSTORAGE a2 ON
 LEFT OUTER JOIN USERGENERICGROUP u ON
 	u.CODE = a2.VALUESTRING
 WHERE
-	p.CODE = '".$r['demandno']."'";			
+	p.CODE = '".$outputRow['no_demand']."'";			
 $stmt2S = db2_exec($conn1, $sqlto1, array('cursor' => DB2_SCROLLABLE));
 $rowto1 = db2_fetch_assoc($stmt2S);
 			  
 			  
 	?>		  
       <tr>
-        <td align="left"><?php if($r['pelanggan']!=""){echo $r['pelanggan'];}else{echo $row1['pelanggan'];} ?></td>
-        <td align="left"><?php if($r['warna']!=""){echo $r['warna'];}else{echo $row1['warna'];} ?></td>
-        <td><?php if($r['no_hanger']!=""){echo $r['no_hanger'];}else{echo $row1['no_item'];} ?></td>
-        <td><?php echo $r['rol_bagi']; ?></td>
-        <td align="right"><?php echo round($r['bagi_kain'],2); ?></td>
-        <td><?php if($r['lot']!=""){echo $r['lot'];}else{echo $row1['lot_lgcy'];} ?></td>
+        <td align="left"><?php if($outputRow['pelanggan']!=""){echo $outputRow['pelanggan'];}else{echo $row1['pelanggan'];} ?></td>
+        <td align="left"><?php if($outputRow['warna']!=""){echo $outputRow['warna'];}else{echo $row1['warna'];} ?></td>
+        <td><?php if($outputRow['no_hanger']!=""){echo $outputRow['no_hanger'];}else{echo $row1['no_item'];} ?></td>
+        <td><?php echo $outputRow['rol_bagi']; ?></td>
+        <td align="right"><?php echo round($outputRow['bagi_kain'],2); ?></td>
+        <td><?php if($outputRow['lot']!=""){echo $outputRow['lot'];}else{echo $row1['lot_lgcy'];} ?></td>
         <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $row1['nodemand']; ?>&prod_order=<?php echo $row1['nokk']; ?>">`<?php echo $row1['nodemand']; ?></a></td>
         <td><a href="#" class="show_detail" id="<?php echo $row1['nokk'].", "; ?>"><?php echo $row1['nokk']; ?></a></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bagi_kain']; echo " After: ".$r['aBAT2'];  ?>">
-          <?php if($r['bagi_kain']>0 and $r['aBAT2']>0){ echo round($r['bagi_kain']-$r['aBAT2'],2); }else{ echo "0"; }  ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']; echo " After: ".$r['aPRE1']; ?>">
-          <?php if($r['bSCO1']>0){ echo number_format($r['bSCO1']-$r['bSCO1'],2); }else{ echo "0"; }  ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>">
-          <?php if($r['bDYE2']>0){ echo number_format($r['bDYE2']-$r['bDYE2'],2); }else{ echo "0"; } ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bDYE2']; echo " After: ".$r['aOVN1']; ?>">
-          <?php if($r['bDYE2']>0 and $r['aOVN1']>0){ echo number_format($r['bDYE2']-$r['aOVN1'],2); }else{ echo "0"; } ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1']); echo " After: ".($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); ?>">
-          <?php if(($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])>0 and ($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4'])>0){ echo ($r['bDYE1']+$r['bDYE2']+$r['bDYE4']+$r['bFEW1']+$r['bHEW1']+$r['bLVL1']+$r['bRDC1']+$r['bRLX1']+$r['bSOA1']+$r['bSOF1'])-($r['aOVD1']+$r['aOVD2']+$r['aOVD3']+$r['aOVD4']); }else{ echo "0"; } ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSCO1']." After: ".$r['aPRE1']; ?>">
-          <?php if($r['bSCO1']>0 and $r['aPRE1']>0){echo $r['bSCO1']-$r['aPRE1'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE1']." After: ".$r['aSUE1']; ?>">
-          <?php if($r['bSUE1']>0 and $r['aSUE1']>0){echo $r['bSUE1']-$r['aSUE1'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE2']." After: ".$r['aSUE2']; ?>">
-          <?php if($r['bSUE2']>0 and $r['aSUE2']>0){echo $r['bSUE2']-$r['aSUE2'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE3']." After: ".$r['aSUE3']; ?>">
-          <?php if($r['bSUE3']>0 and $r['aSUE3']>0){echo $r['bSUE3']-$r['aSUE3'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSUE4']." After: ".$r['aSUE4']; ?>">
-          <?php if($r['bSUE4']>0 and $r['aSUE4']>0){echo $r['bSUE4']-$r['aSUE4'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE2']." After: ".$r['aRSE2']; ?>">
-          <?php if($r['bRSE2']>0 and $r['aRSE2']>0){echo $r['bRSE2']-$r['aRSE2'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE4']." After: ".$r['aRSE4']; ?>">
-          <?php if($r['bRSE4']>0 and $r['aRSE4']>0){echo $r['bRSE4']-$r['aRSE4'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bRSE5']." After: ".$r['aRSE5']; ?>">
-          <?php if($r['bRSE5']>0 and $r['aRSE5']>0){echo $r['bRSE5']-$r['aRSE5'];}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bTDR1']." After: ".$r['aTDR1']; ?>">
-          <?php if($r['bTDR1']>0 and $r['aTDR1']>0){echo number_format($r['bTDR1']-$r['aTDR1'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center" ><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bCPT1']." After: ".$r['aCPT1']; ?>">
-          <?php if($r['bCPT1']>0 and $r['aCPT1']>0){echo number_format($r['bCPT1']-$r['aCPT1'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFIN1']." After: ".$r['aFIN1']; ?>">
-          <?php if($r['bFIN1']>0 and $r['aFIN1']>0){echo number_format($r['bFIN1']-$r['aFIN1'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR3']." After: ".$r['aSHR3']; ?>">
-          <?php if($r['bSHR3']>0 and $r['aSHR3']>0){echo number_format($r['bSHR3']-$r['aSHR3'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bSHR4']." After: ".$r['aSHR4']; ?>">
-          <?php if($r['bSHR4']>0 and $r['aSHR4']>0){echo number_format($r['bSHR4']-$r['aSHR4'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bFNJ1']." After: ".$r['aFNJ1']; ?>">
-          <?php if($r['bFNJ1']>0 and $r['aFNJ1']>0){echo number_format($r['bFNJ1']-$r['aFNJ1'],2);}else if($r['bDYE2']>0){echo number_format($r['bDYE2']-$r['aFNJ1'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['bINS3']." After: ".$r['aINS3']; ?>">
-          <?php if($r['bINS3']>0 and $r['aINS3']>0){echo number_format($r['bINS3']-$r['aINS3'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><span class="" id="span" data-toggle="tooltip" data-html="true" title="<?php echo "Before: ".$r['aINS3']; echo " After: ".$rowto['TOTAL_KG'];  ?>">
-          <?php if($r['aINS3']>0 and $rowto['TOTAL_KG']>0){echo number_format($r['aINS3']-$rowto['TOTAL_KG'],2);}else{echo "0";} ?>
-        </span></td>
-        <td align="center"><?php if($r['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($r['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
+        
+		<?php
+			foreach ($processList as $process) {
+				?>
+			<td align="center">
+				<span class="" id="span" data-toggle="tooltip" data-html="true">
+					<?php echo in_array($process, $headerProcess) ? $outputRow[$process] : 0 ?>
+				</span>
+			</td>
+		<?php } ?>
+
+        <td align="center"><?php if($outputRow['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($outputRow['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
         <td align="center"><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
         <td align="center"><?php if($rowto['TOTAL_KG']>0){echo $rowto['TOTAL_KG'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo round((round($r['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
+        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo round((round($outputRow['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
         <td align="left"><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
         <td align="left"><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
       </tr>
