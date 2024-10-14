@@ -33,6 +33,8 @@ $processList = [
 	"DYE2",
 	"RDC1",
 	"FNJ2",
+	"CBL1",
+	"OVN2",
 ];
 
 sort($processList);
@@ -213,46 +215,27 @@ if ($jamA!="" or $jamAr!=""){
 	$hasil = [];
 	
 	// Loop untuk menghitung selisih berat
-	for ($i = 1; $i < count($data); $i++) {
-		$selisih = $data[$i]['x_berat_kain'] - $data[$i - 1]['x_berat_kain'];
+	for ($i = 0; $i < count($data) - 1; $i++) {
+		$selisih = $data[$i]['x_berat_kain'] - $data[$i + 1]['x_berat_kain'];
 		
 		// Build the result based on proses
-		$proses = $data[$i - 1]['proses'];
+		$proses = $data[$i + 1]['proses'];
 		if (!isset($hasil[$proses])) {
 			$hasil[$proses] = [
-				"no_demand" => $data[$i - 1]['no_demand'],
-				"prod_order" => $data[$i - 1]['prod_order'],
-				"pelanggan" => $data[$i - 1]['pelanggan'],
-				"warna" => $data[$i - 1]['warna'],
-				"no_hanger" => $data[$i - 1]['no_hanger'],
-				"rol_bagi" => $data[$i - 1]['rol_bagi'],
-				"bagi_kain" => $data[$i - 1]['bagi_kain'],
-				"lot" => $data[$i - 1]['lot'],
+				"no_demand" => $data[$i + 1]['no_demand'],
+				"prod_order" => $data[$i + 1]['prod_order'],
+				"pelanggan" => $data[$i + 1]['pelanggan'],
+				"warna" => $data[$i + 1]['warna'],
+				"no_hanger" => $data[$i + 1]['no_hanger'],
+				"rol_bagi" => $data[$i + 1]['rol_bagi'],
+				"bagi_kain" => $data[$i + 1]['bagi_kain'],
+				"lot" => $data[$i + 1]['lot'],
 				"selisih" => []
 			];
 		}
 		
 		$hasil[$proses]['selisih'][] = round($selisih, 2);
 	}
-	
-	// Menambahkan baris terakhir untuk langkah terakhir
-	$lastRow = $data[count($data) - 1];
-	$prosesLast = $lastRow['proses'];
-	if (!isset($hasil[$prosesLast])) {
-		$hasil[$prosesLast] = [
-			"no_demand" => $lastRow['no_demand'],
-			"prod_order" => $lastRow['prod_order'],
-			"pelanggan" => $lastRow['pelanggan'],
-			"warna" => $lastRow['warna'],
-			"no_hanger" => $lastRow['no_hanger'],
-			"rol_bagi" => $lastRow['rol_bagi'],
-			"bagi_kain" => $lastRow['bagi_kain'],
-			"lot" => $lastRow['lot'],
-			"selisih" => []
-		];
-	}
-	
-	$hasil[$prosesLast]['selisih'][] = 0.00; // Selisih untuk baris terakhir
 	
 	// Output hasil
 	$header = ["no_demand", "prod_order", "pelanggan", "warna", "no_hanger", "rol_bagi", "bagi_kain", "lot"];
