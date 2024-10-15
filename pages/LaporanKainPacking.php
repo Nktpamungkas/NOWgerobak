@@ -181,6 +181,22 @@ if ($jamA!="" or $jamAr!=""){
           }
           while ($row1 = mysqli_fetch_array($qry1)) { 
 
+	$queryMutasi = "
+		select
+			nodemand,
+			sum(mutasi) as mutasi
+		from
+			tbl_lap_inspeksi
+		where
+			nodemand = '".$row1['nodemand']."'
+			and dept = 'PACKING'
+		group by
+			nodemand
+	";
+
+	$resultMutasi = mysqli_query($conq, $queryMutasi);
+	$rowMutasi	  = mysqli_fetch_assoc($resultMutasi);
+
 	$query = "SELECT
 		pelanggan, warna, no_hanger, rol_bagi, bagi_kain, lot,
 		no_step, proses, no_demand, prod_order,
@@ -268,6 +284,13 @@ if ($jamA!="" or $jamAr!=""){
 		$outputRow[$proses] = $selisihSum;
 	}
 
+	// baris terakhir untuk langkah terakhir
+	$lastRow 	 = $data[count($data) - 1];
+	$selisihPack = $lastRow['x_berat_kain'] - $rowMutasi['mutasi'];
+	$outputRow['PACK'] = round($selisihPack, 2);
+	
+	$header[] = "PACK";
+	$headerProcess[] = "PACK";
 			  
 $sqlto = " SELECT 
 COUNT(e.ELEMENTCODE) AS TOTAL_ROLL,
