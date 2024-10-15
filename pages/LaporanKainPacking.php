@@ -305,15 +305,35 @@ WHERE
 	p.CODE = '".$outputRow['no_demand']."'";			
 $stmt2S = db2_exec($conn1, $sqlto1, array('cursor' => DB2_SCROLLABLE));
 $rowto1 = db2_fetch_assoc($stmt2S);
-			  
+
+$sqlDB21  = " SELECT DISTINCT 
+			x.INITIALUSERPRIMARYQUANTITY AS KG_BAGIKAIN 
+			FROM DB2ADMIN.ITXVIEW_RESERVATION x 
+		WHERE x.PRODUCTIONORDERCODE='".$outputRow['prod_order']."'";
+$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
+$rowdb21 = db2_fetch_assoc($stmt1);
+
+$sqlDB21S  = " SELECT 
+					x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN,
+					x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1  FROM DB2ADMIN.PRODUCTIONRESERVATION x
+				WHERE x.ORDERCODE = '".$outputRow['no_demand']."' ";
+$stmt1S   = db2_exec($conn1, $sqlDB21S, array('cursor' => DB2_SCROLLABLE));	
+$rowdb21S = db2_fetch_assoc($stmt1S);	
+// var_dump($sqlDB21S);
+if($rowdb21['KG_BAGIKAIN']>0){
+	$KGBAGI=$rowdb21['KG_BAGIKAIN'];
+}else if($rowdb21S['KG_BAGIKAIN1']>0){
+	$KGBAGI=$rowdb21S['KG_BAGIKAIN1'];
+}			  
+
 			  
 	?>		  
       <tr>
         <td align="left"><?php if($outputRow['pelanggan']!=""){echo $outputRow['pelanggan'];}else{echo $row1['pelanggan'];} ?></td>
         <td align="left"><?php if($outputRow['warna']!=""){echo $outputRow['warna'];}else{echo $row1['warna'];} ?></td>
         <td><?php if($outputRow['no_hanger']!=""){echo $outputRow['no_hanger'];}else{echo $row1['no_item'];} ?></td>
-        <td><?php echo $outputRow['rol_bagi']; ?></td>
-        <td align="right"><?php echo round($outputRow['bagi_kain'],2); ?></td>
+        <td><?php echo $rowdb21['ROL_BAGI']; //$outputRow['rol_bagi']; ?></td>
+        <td align="right"><?php echo round($KGBAGI,2); ?></td>
         <td><?php if($outputRow['lot']!=""){echo $outputRow['lot'];}else{echo $row1['lot_lgcy'];} ?></td>
         <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $row1['nodemand']; ?>&prod_order=<?php echo $row1['nokk']; ?>">`<?php echo $row1['nodemand']; ?></a></td>
         <td><a href="#" class="show_detail" id="<?php echo $row1['nokk'].", "; ?>"><?php echo $row1['nokk']; ?></a></td>
