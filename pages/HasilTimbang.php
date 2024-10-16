@@ -100,6 +100,10 @@
                         <th valign="middle" style="text-align: center">Roll</th>
                         <th valign="middle" style="text-align: center">Bagi Kain</th>
                         <th valign="middle" style="text-align: center">Selisih</th>
+						<th valign="middle" style="text-align: center">Loss Preset %</th>
+                        <th valign="middle" style="text-align: center">Loss Inspek %</th>
+						<th valign="middle" style="text-align: center">Packing</th>
+						<th valign="middle" style="text-align: center">Loss RMP %</th>
                         <th valign="middle" style="text-align: center">Tgl Update</th>
                         <th valign="middle" style="text-align: center">UserID</th>
                     </tr>
@@ -240,7 +244,21 @@
 //						}else if($rowdb21F['KG_BAGIKAIN1']>0){
 //							$KGBAGI=$rowdb21F['KG_BAGIKAIN1'];
 //						}	
-							
+						$queryMutasi = "
+		select
+			nodemand,
+			sum(mutasi) as mutasi
+		from
+			tbl_lap_inspeksi
+		where
+			nodemand = '".$r['no_demand']."'
+			and dept = 'PACKING'
+		group by
+			nodemand
+	";
+
+	$resultMutasi = mysqli_query($conq, $queryMutasi);
+	$rowMutasi	  = mysqli_fetch_assoc($resultMutasi);
 						$sqlDB21  = " SELECT DISTINCT 
 										x.INITIALUSERPRIMARYQUANTITY AS KG_BAGIKAIN 
 										FROM DB2ADMIN.ITXVIEW_RESERVATION x 
@@ -289,6 +307,10 @@
                             <?php } else { ?>
                                 <td align="right"><?php echo number_format((round($KGBAGI,2) - round($r['berat_tot'] - $r['berat_kosong_tot'], 2)), 2); ?></td>
                             <?php } ?>
+							<td><?php if($r['proses']=="PRE1" and $r['ket']=="after"){ echo round(((round($KGBAGI,2)-(round($r['berat'] - $r['berat_kosong'], 2)))/round($KGBAGI,2))*100,2);} ?></td>
+                            <td><?php if($r['proses']=="INS3" and $r['ket']=="after"){ echo round(((round($KGBAGI,2)-(round($r['berat'] - $r['berat_kosong'], 2)))/round($KGBAGI,2))*100,2);} ?></td>
+							<td><?php if($r['proses']=="INS3" and $r['ket']=="after"){ echo round($rowMutasi['mutasi'], 2);} ?></td>
+							<td><?php if($r['proses']=="INS3" and $r['ket']=="after"){ echo round(((round($KGBAGI,2)-(round($rowMutasi['mutasi'], 2)))/round($KGBAGI,2))*100,2);} ?></td>
                             <td><?php if ($r['tgl_timbang'] != "") {
                                     echo $r['tgl_timbang'];
                                 } else {
