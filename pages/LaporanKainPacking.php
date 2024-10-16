@@ -139,19 +139,19 @@ sort($processList);
     <tbody>
 	<?php 
 	if($NoDemand!=""){
-	$where2 = " AND nodemand='$NoDemand' ";	
+	$where2 = " AND trim(nodemand)='$NoDemand' ";	
 	}else{
 	$where2 = " ";	
 	}
 
 	if($ProdOrder!=""){
-	$where3 = " AND nokk='$ProdOrder' ";	
+	$where3 = " AND trim(nokk)='$ProdOrder' ";	
 	}else{
 	$where3 = " ";	
 	}
 
 	if($NoHanger!=""){
-	$where4 = " AND no_item LIKE '%$NoHanger%' ";	
+	$where4 = " AND trim(no_hanger) LIKE '%$NoHanger%' ";	
 	}else{
 	$where4 = " ";	
 	}		
@@ -175,23 +175,24 @@ if ($jamA!="" or $jamAr!=""){
 	$Where = " ";
 }	
     if ($Tgl == "" and $Tgl2 == "" and $NoDemand =="" and $ProdOrder == "" and $NoHanger =="") {
-            $qry1 = mysqli_query($conq, "SELECT DISTINCT nodemand,nokk,no_item FROM tbl_lap_inspeksi WHERE DATE_FORMAT( tgl_update , '%Y-%m-%d') between '1990-10-10' and '1990-10-10' and `dept`='PACKING' ORDER BY id ASC");
+            $qry1 = mysqli_query($conq, "SELECT DISTINCT trim(nodemand) as nodemand, trim(nokk) as nokk, trim(no_hanger) as no_hanger FROM tbl_lap_inspeksi WHERE DATE_FORMAT( tgl_update , '%Y-%m-%d') between '1990-10-10' and '1990-10-10' and `dept`='PACKING' ORDER BY id ASC");
           } else {
-            $qry1 = mysqli_query($conq, "SELECT DISTINCT nodemand,nokk,no_item FROM tbl_lap_inspeksi WHERE $Where `dept`='PACKING' $where2 $where3 $where4 ORDER BY id ASC");
+            $qry1 = mysqli_query($conq, "SELECT DISTINCT trim(nodemand) as nodemand, trim(nokk) as nokk, trim(no_hanger) as no_hanger FROM tbl_lap_inspeksi WHERE $Where `dept`='PACKING' $where2 $where3 $where4 ORDER BY id ASC");
           }
           while ($row1 = mysqli_fetch_array($qry1)) { 
 
 	$queryMutasi = "
 		select
 			nodemand,
+			sum(jml_mutasi) as roll,
 			sum(mutasi) as mutasi
 		from
 			tbl_lap_inspeksi
 		where
-			nodemand = '".$row1['nodemand']."'
+			trim(nodemand) = '".trim($row1['nodemand'])."'
 			and dept = 'PACKING'
 		group by
-			nodemand
+			trim(nodemand)
 	";
 
 	$resultMutasi = mysqli_query($conq, $queryMutasi);
@@ -209,9 +210,9 @@ if ($jamA!="" or $jamAr!=""){
 		kain_proses
 	WHERE
 		(ket = 'before' OR ket = 'after')
-		and no_demand='".$row1['nodemand']."'
-		and prod_order='".$row1['nokk']."'
-		and no_hanger='".$row1['no_item']."'
+		and trim(no_demand)='".trim($row1['nodemand'])."'
+		and trim(prod_order)='".trim($row1['nokk'])."'
+		and trim(no_hanger)='".trim($row1['no_hanger'])."'
 	GROUP BY
 		proses, ket, prod_order, no_demand, no_step
 	ORDER BY
@@ -286,11 +287,14 @@ if ($jamA!="" or $jamAr!=""){
 
 	// baris terakhir untuk langkah terakhir
 	$lastRow 	 = $data[count($data) - 1];
-	$selisihPack = $lastRow['x_berat_kain'] - $rowMutasi['mutasi'];
+//	$selisihPack = $lastRow['x_berat_kain'] - $rowMutasi['mutasi'];
+	$selisihPack = 0;		  
 	$outputRow['PACK'] = round($selisihPack, 2);
 	
 	$header[] = "PACK";
 	$headerProcess[] = "PACK";
+			  
+			  
 			  
 $sqlto = " SELECT 
 COUNT(e.ELEMENTCODE) AS TOTAL_ROLL,
@@ -305,7 +309,7 @@ GROUP BY
     PRODUCTIONORDERCODE,
     PRODUCTIONDEMANDCODE) a 
 LEFT OUTER JOIN ELEMENTSINSPECTION e ON a.PRODUCTIONDEMANDCODE =e.DEMANDCODE AND e.INSPECTIONSTATION='Inspect Pa'
-WHERE a.PRODUCTIONORDERCODE ='".$outputRow['prod_order']."'";			
+WHERE a.PRODUCTIONORDERCODE ='".trim($outputRow['prod_order'])."'";			
 $stmt2 = db2_exec($conn1, $sqlto, array('cursor' => DB2_SCROLLABLE));
 $rowto = db2_fetch_assoc($stmt2);
 
@@ -325,21 +329,21 @@ LEFT OUTER JOIN ADSTORAGE a2 ON
 LEFT OUTER JOIN USERGENERICGROUP u ON
 	u.CODE = a2.VALUESTRING
 WHERE
-	p.CODE = '".$outputRow['no_demand']."'";			
+	p.CODE = '".trim($outputRow['no_demand'])."'";			
 $stmt2S = db2_exec($conn1, $sqlto1, array('cursor' => DB2_SCROLLABLE));
 $rowto1 = db2_fetch_assoc($stmt2S);
 
 $sqlDB21  = " SELECT DISTINCT 
 			x.INITIALUSERPRIMARYQUANTITY AS KG_BAGIKAIN 
 			FROM DB2ADMIN.ITXVIEW_RESERVATION x 
-		WHERE x.PRODUCTIONORDERCODE='".$outputRow['prod_order']."'";
+		WHERE x.PRODUCTIONORDERCODE='".trim($outputRow['prod_order'])."'";
 $stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
 $rowdb21 = db2_fetch_assoc($stmt1);
 
 $sqlDB21S  = " SELECT 
 					x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN,
 					x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1  FROM DB2ADMIN.PRODUCTIONRESERVATION x
-				WHERE x.ORDERCODE = '".$outputRow['no_demand']."' ";
+				WHERE x.ORDERCODE = '".trim($outputRow['no_demand'])."' ";
 $stmt1S   = db2_exec($conn1, $sqlDB21S, array('cursor' => DB2_SCROLLABLE));	
 $rowdb21S = db2_fetch_assoc($stmt1S);	
 // var_dump($sqlDB21S);
@@ -354,12 +358,12 @@ if($rowdb21['KG_BAGIKAIN']>0){
       <tr>
         <td align="left"><?php if($outputRow['pelanggan']!=""){echo $outputRow['pelanggan'];}else{echo $row1['pelanggan'];} ?></td>
         <td align="left"><?php if($outputRow['warna']!=""){echo $outputRow['warna'];}else{echo $row1['warna'];} ?></td>
-        <td><?php if($outputRow['no_hanger']!=""){echo $outputRow['no_hanger'];}else{echo $row1['no_item'];} ?></td>
+        <td><?php if($outputRow['no_hanger']!=""){echo $outputRow['no_hanger'];}else{echo $row1['no_hanger'];} ?></td>
         <td><?php echo $rowdb21['ROL_BAGI']; //$outputRow['rol_bagi']; ?></td>
         <td align="right"><?php echo round($KGBAGI,2); ?></td>
         <td><?php if($outputRow['lot']!=""){echo $outputRow['lot'];}else{echo $row1['lot_lgcy'];} ?></td>
-        <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $row1['nodemand']; ?>&prod_order=<?php echo $row1['nokk']; ?>">`<?php echo $row1['nodemand']; ?></a></td>
-        <td><a href="#" class="show_detail" id="<?php echo $row1['nokk'].", "; ?>"><?php echo $row1['nokk']; ?></a></td>
+        <td><a target="_BLANK" href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?php echo $row1['nodemand']; ?>&prod_order=<?php echo trim($row1['nokk']); ?>">`<?php echo $row1['nodemand']; ?></a></td>
+        <td><a href="#" class="show_detail" id="<?php echo trim($row1['nokk']).", "; ?>"><?php echo trim($row1['nokk']); ?></a></td>
         
 		<?php
 			foreach ($processList as $process) {
@@ -372,9 +376,9 @@ if($rowdb21['KG_BAGIKAIN']>0){
 		<?php } ?>
 
         <td align="center"><?php if($outputRow['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($outputRow['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_ROLL']>0){echo $rowto['TOTAL_ROLL'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo $rowto['TOTAL_KG'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowto['TOTAL_KG']>0){echo round((round($outputRow['bagi_kain'],2)-$rowto['TOTAL_KG'])/$rowto['TOTAL_KG'],4)*10;}else {echo "0";} ?></td>
+        <td align="center"><?php if($rowMutasi['roll']>0){echo $rowMutasi['roll'];}else{echo "0";} ?></td>
+        <td align="center"><?php if($rowMutasi['mutasi']>0){echo $rowMutasi['mutasi'];}else{echo "0";} ?></td>
+        <td align="center"><?php if($rowMutasi['mutasi']>0){echo round((round($KGBAGI,2)-$rowMutasi['mutasi'])/round($KGBAGI,2),4)*100;}else {echo "0";} ?></td>
         <td align="left"><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
         <td align="left"><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
       </tr>
