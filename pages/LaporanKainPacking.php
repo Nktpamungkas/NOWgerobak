@@ -184,6 +184,14 @@ if ($jamA!="" or $jamAr!=""){
           }
           while ($row1 = mysqli_fetch_array($qry1)) { 
 
+	function convertToFloat($value) {
+		// Menghapus koma dari string
+		$value = str_replace(',', '', $value);
+		
+		// Mengonversi ke float
+		return (float) $value;
+	}
+
 	$queryMutasi = "
 		select
 			nodemand,
@@ -236,7 +244,7 @@ if ($jamA!="" or $jamAr!=""){
 	
 	// Loop untuk menghitung selisih berat
 	for ($i = 0; $i < count($data) - 1; $i++) {
-		$selisih = $data[$i]['x_berat_kain'] - $data[$i + 1]['x_berat_kain'];
+		$selisih = convertToFloat($data[$i]['x_berat_kain']) - convertToFloat($data[$i + 1]['x_berat_kain']);
 		
 		// Build the result based on proses
 		$proses = $data[$i + 1]['proses'];
@@ -290,8 +298,7 @@ if ($jamA!="" or $jamAr!=""){
 
 	// baris terakhir untuk langkah terakhir
 	$lastRow 	 = $data[count($data) - 1];
-//	$selisihPack = $lastRow['x_berat_kain'] - $rowMutasi['mutasi'];
-	$selisihPack = 0;		  
+	$selisihPack = $lastRow['x_berat_kain'] - $rowMutasi['mutasi'];  
 	$outputRow['PACK'] = round($selisihPack, 2);
 	
 	$header[] = "PACK";
