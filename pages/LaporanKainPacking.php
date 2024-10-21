@@ -10,7 +10,11 @@ $Tgl2	= isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
 $processList = [
 	"BAT2",
 	"SCO1",
+	"DYE1",
 	"DYE2",
+	"DYE3",
+	"DYE4",
+	"HEW1",
 	"OVN1",
 	"OVD",
 	"PRE1",
@@ -30,7 +34,6 @@ $processList = [
 	"INS3",
 	"PACK",
 	"RLX1",
-	"DYE2",
 	"RDC1",
 	"FNJ2",
 	"CBL1",
@@ -106,7 +109,7 @@ sort($processList);
   	
   <!-- /.card-header -->
   <div class="card-body">  	  
-  <table id="example1" class="table table-sm table-bordered table-striped" style="font-size: 11px; text-align: center;">
+  <table id="example4" class="table table-sm table-bordered table-striped nowrap" style="font-size: 11px; text-align: center; width: 100%;">
     <thead>
       <tr>
         <th rowspan="2" valign="middle" style="text-align: center">Pelanggan</th>
@@ -340,6 +343,7 @@ $sqlDB21  = " SELECT DISTINCT
 $stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
 $rowdb21 = db2_fetch_assoc($stmt1);
 
+			  
 $sqlDB21S  = " SELECT 
 					x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN,
 					x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1  FROM DB2ADMIN.PRODUCTIONRESERVATION x
@@ -351,8 +355,12 @@ if($rowdb21['KG_BAGIKAIN']>0){
 	$KGBAGI=$rowdb21['KG_BAGIKAIN'];
 }else if($rowdb21S['KG_BAGIKAIN1']>0){
 	$KGBAGI=$rowdb21S['KG_BAGIKAIN1'];
-}			  
-
+}	
+if($rowMutasi['mutasi']>0 and $KGBAGI>0){
+	$loss=round((round($KGBAGI,2)-$rowMutasi['mutasi'])/round($KGBAGI,2),4)*100;
+}else {
+	$loss="0";
+}			 
 			  
 	?>		  
       <tr>
@@ -378,7 +386,7 @@ if($rowdb21['KG_BAGIKAIN']>0){
         <td align="center"><?php if($outputRow['bagi_kain']>0 and $rowto['TOTAL_KG']>0) {echo (round($outputRow['bagi_kain'],2)-$rowto['TOTAL_KG']);}else{echo "0";} ?></td>
         <td align="center"><?php if($rowMutasi['roll']>0){echo $rowMutasi['roll'];}else{echo "0";} ?></td>
         <td align="center"><?php if($rowMutasi['mutasi']>0){echo $rowMutasi['mutasi'];}else{echo "0";} ?></td>
-        <td align="center"><?php if($rowMutasi['mutasi']>0){echo round((round($KGBAGI,2)-$rowMutasi['mutasi'])/round($KGBAGI,2),4)*100;}else {echo "0";} ?></td>
+        <td align="center"><?php echo $loss;//if($rowMutasi['mutasi']>0){echo round((round($KGBAGI,2)-$rowMutasi['mutasi'])/round($KGBAGI,2),4)*100;}else {echo "0";} ?></td>
         <td align="left"><?php echo $rowto1['ORIGINALPDCODE']; ?></td>
         <td align="left"><?php echo $rowto1['LONGDESCRIPTION']; ?></td>
       </tr>
