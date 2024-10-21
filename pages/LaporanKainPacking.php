@@ -298,7 +298,7 @@ if ($jamA!="" or $jamAr!=""){
 
 	// baris terakhir untuk langkah terakhir
 	$lastRow 	 = $data[count($data) - 1];
-	$selisihPack = $lastRow['x_berat_kain'] - $rowMutasi['mutasi'];  
+	$selisihPack = convertToFloat($lastRow['x_berat_kain']) - convertToFloat($rowMutasi['mutasi']);  
 	$outputRow['PACK'] = round($selisihPack, 2);
 	
 	$header[] = "PACK";
