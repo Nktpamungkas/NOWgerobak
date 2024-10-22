@@ -1,5 +1,5 @@
 <?php 
-ini_set("error_reporting", 0);
+// ini_set("error_reporting", 0);
 $NoDemand 	= isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
 $ProdOrder	= isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
 $NoHanger	= isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
@@ -41,6 +41,14 @@ $processList = [
 ];
 
 sort($processList);
+
+function convertToFloat($value) {
+	// Menghapus koma dari string
+	$value = str_replace(',', '', $value);
+	
+	// Mengonversi ke float
+	return (float) $value;
+}
 
 ?>
 <!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
@@ -183,14 +191,6 @@ if ($jamA!="" or $jamAr!=""){
             $qry1 = mysqli_query($conq, "SELECT DISTINCT trim(nodemand) as nodemand, trim(nokk) as nokk, trim(no_hanger) as no_hanger FROM tbl_lap_inspeksi WHERE $Where `dept`='PACKING' $where2 $where3 $where4 ORDER BY id ASC");
           }
           while ($row1 = mysqli_fetch_array($qry1)) { 
-
-	function convertToFloat($value) {
-		// Menghapus koma dari string
-		$value = str_replace(',', '', $value);
-		
-		// Mengonversi ke float
-		return (float) $value;
-	}
 
 	$queryMutasi = "
 		select
