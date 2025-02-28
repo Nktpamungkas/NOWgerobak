@@ -300,7 +300,14 @@ $(document).on('click', '.detail_timeend', function (e) {
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "pageLength": 50,
       "buttons": ["copy", "excel", "pdf"]
-    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');   
+    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)'); 
+	$("#example4").DataTable({
+    "responsive": false,
+    "lengthChange": false,
+    "autoWidth": false,
+    "scrollX": true, // Tambahkan scroll horizontal
+    "buttons": ["copy", "excel", "pdf"]
+}).buttons().container().appendTo('#example4_wrapper .col-md-6:eq(0)');  
   });
 </script>
 <script>

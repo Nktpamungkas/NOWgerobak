@@ -83,6 +83,19 @@
               <a href="LaporanKain" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+		  <div class="col-lg-2 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>LKP</h3>
+
+                <p>Laporan Kain Packing</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="LaporanKainPacking" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>	
 		  <?php if($_SESSION['userPRD']!=""){ ?>	
 		  <div class="col-lg-2 col-6">
             <div class="small-box bg-danger">

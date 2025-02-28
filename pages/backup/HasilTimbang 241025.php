@@ -1,17 +1,11 @@
 <?php
-ini_set("error_reporting", 0);
-$Gerobak   = isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
-$Tgl      = isset($_POST['tgl']) ? $_POST['tgl'] : '';
-$Tgl2      = isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
-$NoHanger  = isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
-$ProdOrder  = isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
-$NoDemand   = isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
-
-$ProdOrder = isset($_GET['prodorder']) ? $_GET['prodorder'] : $ProdOrder;
-if (empty($ProdOrder)) {
-    // Jika kosong, tampilkan input ProdOrder
-    $ProdOrder = isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
-}
+    ini_set("error_reporting", 0);
+    $Gerobak   = isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
+    $Tgl      = isset($_POST['tgl']) ? $_POST['tgl'] : '';
+    $Tgl2      = isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
+    $NoHanger  = isset($_POST['nohanger']) ? $_POST['nohanger'] : '';
+    $ProdOrder  = isset($_POST['prodorder']) ? $_POST['prodorder'] : '';
+    $NoDemand   = isset($_POST['nodemand']) ? $_POST['nodemand'] : '';
 ?>
 <!-- <center><h1 style="color: red;">MAINTENANCE PROGRAM</h1></center> -->
 <form role="form" method="post" enctype="multipart/form-data" name="form1">
@@ -62,7 +56,7 @@ if (empty($ProdOrder)) {
                 <div class="form-group row">
                     <label for="prodorder" class="col-sm-1 control-label">Prod. Order</label>
                     <div class="col-sm-3">
-                        <input name="prodorder" type="text" class="form-control pull-right" id="prodorder" placeholder="Prod. Order" value="<?php echo $ProdOrder; ?>" autocomplete="off" />
+                        <input name="prodorder" type="text" class="form-control pull-right" id="prodorder" placeholder="Prod. Order" value="<?php echo $ProdOrder;  ?>" autocomplete="off" />
                     </div>
                     <!-- /.input group -->
                 </div>
@@ -106,51 +100,51 @@ if (empty($ProdOrder)) {
                         <th valign="middle" style="text-align: center">Roll</th>
                         <th valign="middle" style="text-align: center">Bagi Kain</th>
                         <th valign="middle" style="text-align: center">Selisih</th>
-                        <th valign="middle" style="text-align: center">Loss Preset %</th>
+						<th valign="middle" style="text-align: center">Loss Preset %</th>
                         <th valign="middle" style="text-align: center">Loss Inspek %</th>
-                        <th valign="middle" style="text-align: center">Packing</th>
-                        <th valign="middle" style="text-align: center">Loss RMP %</th>
+						<th valign="middle" style="text-align: center">Packing</th>
+						<th valign="middle" style="text-align: center">Loss RMP %</th>
                         <th valign="middle" style="text-align: center">Tgl Update</th>
                         <th valign="middle" style="text-align: center">UserID</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $no = 1;
-                    $c = 0;
+                        $no = 1;
+                        $c = 0;
 
-                    if ($Tgl != "") {
-                        $where1 = " AND DATE_FORMAT(tgl_update, '%Y-%m-%d') BETWEEN '$Tgl' AND '$Tgl2' ";
-                    } else {
-                        $where1 = " ";
-                    }
+                        if ($Tgl != "") {
+                            $where1 = " AND DATE_FORMAT(tgl_update, '%Y-%m-%d') BETWEEN '$Tgl' AND '$Tgl2' ";
+                        } else {
+                            $where1 = " ";
+                        }
 
-                    if ($NoHanger != "") {
-                        $where2 = " AND no_hanger='$NoHanger' ";
-                    } else {
-                        $where2 = " ";
-                    }
+                        if ($NoHanger != "") {
+                            $where2 = " AND no_hanger='$NoHanger' ";
+                        } else {
+                            $where2 = " ";
+                        }
 
-                    if ($ProdOrder != "") {
-                        $where3 = " AND prod_order='$ProdOrder' ";
-                    } else {
-                        $where3 = " ";
-                    }
+                        if ($ProdOrder != "") {
+                            $where3 = " AND prod_order='$ProdOrder' ";
+                        } else {
+                            $where3 = " ";
+                        }
 
-                    if ($NoDemand != "") {
-                        $where4 = " AND no_demand='$NoDemand' ";
-                    } else {
-                        $where4 = " ";
-                    }
+                        if ($NoDemand != "") {
+                            $where4 = " AND no_demand='$NoDemand' ";
+                        } else {
+                            $where4 = " ";
+                        }
 
-                    if ($Gerobak != "") {
-                        $where5 = " AND no_gerobak='$Gerobak' ";
-                    } else {
-                        $where5 = " ";
-                    }
+                        if ($Gerobak != "") {
+                            $where5 = " AND no_gerobak='$Gerobak' ";
+                        } else {
+                            $where5 = " ";
+                        }
 
-                    if ($Tgl == "" and $NoHanger == "" and $ProdOrder == "" and $NoDemand == "" and $NoGerobak) {
-                        $query = "SELECT
+                        if ($Tgl == "" and $NoHanger == "" and $ProdOrder == "" and $NoDemand == "" and $NoGerobak) {
+                            $query = "SELECT
                                             *,
 											sum(jml_rol) AS rol_tot,
                                             sum( berat ) AS berat_tot,
@@ -169,10 +163,10 @@ if (empty($ProdOrder)) {
                                         ORDER BY
                                             id DESC 
                                             LIMIT 500";
-                    } else if ($Gerobak != "") {
-                        $query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 $where4 $where5 ORDER BY id DESC";
+                        } else if ($Gerobak != "") {
+                            $query = " SELECT * FROM kain_proses WHERE (ket='before' or ket='after') $where1 $where2 $where3 $where4 $where5 ORDER BY id DESC";
                         } else if ($where1 != " " OR $where2 != " "  OR $where3 != " "  OR $where4 != " " ){
-                        $query = "SELECT
+                            $query = "SELECT
                                         *,
 										sum(jml_rol) AS rol_tot,
                                         sum( berat ) AS berat_tot,
@@ -192,7 +186,7 @@ if (empty($ProdOrder)) {
                                     ORDER BY
                                         prod_order, no_step ASC";
                         }else{
-                        $query = "SELECT
+                            $query = "SELECT
                                         *,
 										sum(jml_rol) AS rol_tot,
                                         sum( berat ) AS berat_tot,
@@ -211,49 +205,49 @@ if (empty($ProdOrder)) {
                                         no_step 
                                     ORDER BY
                                         prod_order, no_step ASC";
-                    }
+                        }
 
-                    $sql = mysqli_query($conr, $query);
-                    while ($r = mysqli_fetch_array($sql)) {
-                        $sqlDB2 = "SELECT x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN, x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1 FROM DB2ADMIN.PRODUCTIONRESERVATION x
+                        $sql = mysqli_query($conr, $query);
+                        while ($r = mysqli_fetch_array($sql)) {
+						$sqlDB2 = "SELECT x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN, x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1 FROM DB2ADMIN.PRODUCTIONRESERVATION x
 									WHERE x.ORDERCODE ='".$r['no_demand']."'";
-                        $stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));
-                        $rowdb2 = db2_fetch_assoc($stmt);
-                        //						$sqlDB21F = "SELECT
-                        //										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
-                        //										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
-                        //									FROM
-                        //										VIEWPRODUCTIONRESERVATION
-                        //									WHERE
-                        //										PRODUCTIONORDERCODE = '".$r['prod_order']."'
-                        //										AND ITEMTYPEAFICODE = 'KFF'";
-                        //          				$stmt1F   = db2_exec($conn1, $sqlDB21F, array('cursor' => DB2_SCROLLABLE));	
-                        //						$rowdb21F = db2_fetch_assoc($stmt1F);	
-                        //							
-                        //						$sqlDB21 = "SELECT
-                        //										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
-                        //										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
-                        //									FROM
-                        //										VIEWPRODUCTIONRESERVATION
-                        //									WHERE
-                        //										PRODUCTIONORDERCODE = '".$r['prod_order']."'
-                        //										AND ITEMTYPEAFICODE = 'KGF'";
-                        //          				$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
-                        //						$rowdb21 = db2_fetch_assoc($stmt1);
-                        //							
-                        //						if($rowdb21['KG_BAGIKAIN']>0){
-                        //							$KGBAGI=$rowdb21['KG_BAGIKAIN'];
-                        //						}else if($rowdb21['KG_BAGIKAIN1']>0){
-                        //							$KGBAGI=$rowdb21['KG_BAGIKAIN1'];
-                        //						}else if($rowdb21F['KG_BAGIKAIN']>0){
-                        //							$KGBAGI=$rowdb21F['KG_BAGIKAIN'];
-                        //						}else if($rowdb21F['KG_BAGIKAIN1']>0){
-                        //							$KGBAGI=$rowdb21F['KG_BAGIKAIN1'];
-                        //						}	
-                        $queryMutasi = "
+          				$stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));	
+						$rowdb2 = db2_fetch_assoc($stmt);	
+//						$sqlDB21F = "SELECT
+//										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
+//										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
+//									FROM
+//										VIEWPRODUCTIONRESERVATION
+//									WHERE
+//										PRODUCTIONORDERCODE = '".$r['prod_order']."'
+//										AND ITEMTYPEAFICODE = 'KFF'";
+//          				$stmt1F   = db2_exec($conn1, $sqlDB21F, array('cursor' => DB2_SCROLLABLE));	
+//						$rowdb21F = db2_fetch_assoc($stmt1F);	
+//							
+//						$sqlDB21 = "SELECT
+//										USERPRIMARYQUANTITY AS KG_BAGIKAIN1,
+//										USEDBASEPRIMARYQUANTITY AS KG_BAGIKAIN
+//									FROM
+//										VIEWPRODUCTIONRESERVATION
+//									WHERE
+//										PRODUCTIONORDERCODE = '".$r['prod_order']."'
+//										AND ITEMTYPEAFICODE = 'KGF'";
+//          				$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
+//						$rowdb21 = db2_fetch_assoc($stmt1);
+//							
+//						if($rowdb21['KG_BAGIKAIN']>0){
+//							$KGBAGI=$rowdb21['KG_BAGIKAIN'];
+//						}else if($rowdb21['KG_BAGIKAIN1']>0){
+//							$KGBAGI=$rowdb21['KG_BAGIKAIN1'];
+//						}else if($rowdb21F['KG_BAGIKAIN']>0){
+//							$KGBAGI=$rowdb21F['KG_BAGIKAIN'];
+//						}else if($rowdb21F['KG_BAGIKAIN1']>0){
+//							$KGBAGI=$rowdb21F['KG_BAGIKAIN1'];
+//						}	
+						$queryMutasi = "
 		select
 			nodemand,
-			sum(netto) as mutasi
+			sum(mutasi) as mutasi
 		from
 			tbl_lap_inspeksi
 		where
@@ -263,27 +257,27 @@ if (empty($ProdOrder)) {
 			nodemand
 	";
 
-                        $resultMutasi = mysqli_query($conq, $queryMutasi);
+	$resultMutasi = mysqli_query($conq, $queryMutasi);
 	$rowMutasi	  = mysqli_fetch_assoc($resultMutasi);
-                        $sqlDB21  = " SELECT DISTINCT 
+						$sqlDB21  = " SELECT DISTINCT 
 										x.INITIALUSERPRIMARYQUANTITY AS KG_BAGIKAIN 
 										FROM DB2ADMIN.ITXVIEW_RESERVATION x 
 									WHERE x.PRODUCTIONORDERCODE='".$r['prod_order']."'";
-                        $stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));
-                        $rowdb21 = db2_fetch_assoc($stmt1);
-
-                        $sqlDB21S  = " SELECT 
+          				$stmt1   = db2_exec($conn1, $sqlDB21, array('cursor' => DB2_SCROLLABLE));	
+						$rowdb21 = db2_fetch_assoc($stmt1);
+							
+						$sqlDB21S  = " SELECT 
                                             x.USEDUSERPRIMARYQUANTITY AS KG_BAGIKAIN,
 	                                        x.USERPRIMARYQUANTITY AS KG_BAGIKAIN1  FROM DB2ADMIN.PRODUCTIONRESERVATION x
 									    WHERE x.ORDERCODE = '".$r['no_demand']."' ";
-                        $stmt1S   = db2_exec($conn1, $sqlDB21S, array('cursor' => DB2_SCROLLABLE));
-                        $rowdb21S = db2_fetch_assoc($stmt1S);
+          				$stmt1S   = db2_exec($conn1, $sqlDB21S, array('cursor' => DB2_SCROLLABLE));	
+						$rowdb21S = db2_fetch_assoc($stmt1S);	
                         // var_dump($sqlDB21S);
 						if($rowdb21['KG_BAGIKAIN']>0){
 							$KGBAGI=$rowdb21['KG_BAGIKAIN'];
 						}else if($rowdb21S['KG_BAGIKAIN1']>0){
 							$KGBAGI=$rowdb21S['KG_BAGIKAIN1'];
-                        }
+						}
                     ?>
                         <tr>
                             <td><?php if ($Gerobak != "") {
@@ -295,11 +289,11 @@ if (empty($ProdOrder)) {
                             <td><?php echo $r['no_step']; ?></td>
                             <td><?php echo $r['proses']; ?></td>
                             <td><?php echo $r['ket']; ?></td>
-                            <?php if ($Gerobak == "") { ?>
-                                <td><?php echo $r['rol_tot']; ?></td>
-                            <?php } ?>
+							<?php if ($Gerobak == "") { ?>
+                            <td><?php echo $r['rol_tot']; ?></td>
+							<?php } ?>
                             <?php if ($Gerobak != "") { ?>
-                                <td><a data-pk="<?php echo $r['id']; ?>" data-value="<?php echo $r['jml_rol']; ?>" class="jml_rol" href="javascipt:void(0)"><?php echo $r['jml_rol']; ?></a></td>
+								<td><a data-pk="<?php echo $r['id']; ?>" data-value="<?php echo $r['jml_rol']; ?>" class="jml_rol" href="javascipt:void(0)"><?php echo $r['jml_rol']; ?></a></td>
                                 <td align="right"><?php echo $r['berat']; ?></td>
                                 <td align="right"><?php echo $r['berat_kosong']; ?></td>
                                 <td align="right"><?php echo number_format(round($r['berat'] - $r['berat_kosong'], 2), 2); ?></td>
