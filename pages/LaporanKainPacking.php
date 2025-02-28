@@ -195,13 +195,8 @@ if ($jamA!="" or $jamAr!=""){
 	$queryMutasi = "
 		select
 			nodemand,
-<<<<<<< HEAD
 			sum(jml_netto) as roll,
 			sum(netto) as mutasi
-=======
-			sum(jml_mutasi) as roll,
-			sum(mutasi) as mutasi
->>>>>>> 29bf671a9a76f1c6bd48199f4bc79114f32ec1dc
 		from
 			tbl_lap_inspeksi
 		where
