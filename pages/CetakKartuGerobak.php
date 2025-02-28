@@ -1,50 +1,50 @@
 <?php
 // $Demand	= isset($_POST['demand']) ? $_POST['demand'] : '';
-$Demand	= isset($_GET['demand']) ? $_GET['demand'] : '';
+$Demand    = isset($_GET['demand']) ? $_GET['demand'] : '';
 ?>
 <!-- Main content -->
-      <div class="container-fluid">
-		<form role="form" method="post" enctype="multipart/form-data" name="form1">  
-		<div class="card card-success">
-          <div class="card-header">
-            <h3 class="card-title">Filter Data Production Demand</h3>
+<div class="container-fluid">
+    <form role="form" method="post" enctype="multipart/form-data" name="form1">
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Filter Data Production Demand</h3>
 
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
-          </div>
-          <!-- /.card-header -->		  
-          <div class="card-body">
-            <div class="form-group row">
-               <label for="demand" class="col-md-1 col-form-label">Prod. Demand</label>  
-				          <div class="col-sm-2">
-                 	  <input class="form-control form-control-sm" onchange="window.location='CetakKartuGerobak-'+this.value" value="<?php echo $_GET['demand'];?>" type="text" name="demand" id="demand" placeholder="" required>	
-				          </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="demand" class="col-md-1 col-form-label">Prod. Demand</label>
+                    <div class="col-sm-2">
+                        <input class="form-control form-control-sm" onchange="window.location='CetakKartuGerobak-'+this.value" value="<?php echo $_GET['demand']; ?>" type="text" name="demand" id="demand" placeholder="" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-12">*Note : Setelah memasukan Prod. Demand, silahkan di <b>TAB</b> saja. Tidak perlu di <b>ENTER</b>. Terimakasih</label>
+                </div>
+                <!-- <button class="btn btn-info" type="submit">Cari Data</button> -->
             </div>
-            <div class="form-group row">
-                <label class="col-md-12">*Note : Setelah memasukan Prod. Demand, silahkan di <b>TAB</b> saja. Tidak perlu di <b>ENTER</b>. Terimakasih</label>  
-            </div>
-            <!-- <button class="btn btn-info" type="submit">Cari Data</button> -->
-      </div> 
-			  
-          </div>		  
-		  <!-- /.card-body -->          
-        </div>  
-			
-		<div class="card card-warning">
-              <div class="card-header">
-                <h3 class="card-title">Detail Data Production Demand</h3>				 
-          </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-sm table-bordered table-striped" style="font-size: 13px; text-align: center;">
-                  <thead>
-                  <tr>
+
+        </div>
+        <!-- /.card-body -->
+</div>
+
+<div class="card card-warning">
+    <div class="card-header">
+        <h3 class="card-title">Detail Data Production Demand</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-sm table-bordered table-striped" style="font-size: 13px; text-align: center;">
+            <thead>
+                <tr>
                     <th rowspan="2" valign="middle" style="text-align: center">No</th>
                     <th rowspan="2" valign="middle" style="text-align: center">Aksi</th>
                     <th rowspan="2" valign="middle" style="text-align: center">Status</th>
@@ -60,20 +60,20 @@ $Demand	= isset($_GET['demand']) ? $_GET['demand'] : '';
                     <th rowspan="2" valign="middle" style="text-align: center">Status Terakhir</th>
                     <th rowspan="2" valign="middle" style="text-align: center">External Reference</th>
                     <th rowspan="2" valign="middle" style="text-align: center">Internal Reference</th>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                     <th valign="middle" style="text-align: center">KG</th>
                     <th valign="middle" style="text-align: center">Yard</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-				  <?php
-	 
-$no=1;   
-$c=0;
+                </tr>
+            </thead>
+            <tbody>
+                <?php
 
-if($Demand!=''){
-$sqlDB2 ="SELECT 
+                $no = 1;
+                $c = 0;
+
+                if ($Demand != '') {
+                    $sqlDB2 = "SELECT 
 PRODUCTIONDEMAND.CODE,
 A.PRODUCTIONORDERCODE,
 PRODUCTIONDEMAND.ITEMTYPEAFICODE,
@@ -146,10 +146,10 @@ LEFT JOIN ORDERPARTNER ORDERPARTNER
   PRODUCTIONDEMAND.ORIGDLVSALORDLINESALORDERCODE = SALESORDER.CODE 
   LEFT JOIN ORDERPARTNERBRAND ORDERPARTNERBRAND ON 
   SALESORDER.ORDERPARTNERBRANDCODE = ORDERPARTNERBRAND.CODE AND SALESORDER.ORDPRNCUSTOMERSUPPLIERCODE = ORDERPARTNERBRAND.ORDPRNCUSTOMERSUPPLIERCODE
-WHERE PRODUCTIONDEMAND.CODE='$Demand'";	
-	$stmt   = db2_exec($conn1,$sqlDB2, array('cursor'=>DB2_SCROLLABLE));
-}else{
-  $sqlDB2 ="SELECT 
+WHERE PRODUCTIONDEMAND.CODE='$Demand'";
+                    $stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));
+                } else {
+                    $sqlDB2 = "SELECT 
   PRODUCTIONDEMAND.CODE,
   A.PRODUCTIONORDERCODE,
   PRODUCTIONDEMAND.ITEMTYPEAFICODE,
@@ -223,12 +223,12 @@ WHERE PRODUCTIONDEMAND.CODE='$Demand'";
   LEFT JOIN ORDERPARTNERBRAND ORDERPARTNERBRAND ON 
   SALESORDER.ORDERPARTNERBRANDCODE = ORDERPARTNERBRAND.CODE AND SALESORDER.ORDPRNCUSTOMERSUPPLIERCODE = ORDERPARTNERBRAND.ORDPRNCUSTOMERSUPPLIERCODE
   WHERE PRODUCTIONDEMAND.CODE='$Demand'
-  ORDER BY PRODUCTIONDEMAND.CODE ASC";	
-	$stmt   = db2_exec($conn1,$sqlDB2, array('cursor'=>DB2_SCROLLABLE));
-}
-	//}				  
-    while($rowdb2 = db2_fetch_assoc($stmt)){
-      $sqlBK="SELECT 
+  ORDER BY PRODUCTIONDEMAND.CODE ASC";
+                    $stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));
+                }
+                //}				  
+                while ($rowdb2 = db2_fetch_assoc($stmt)) {
+                    $sqlBK = "SELECT 
       PRODUCTIONORDER.CODE,
       PRODUCTIONRESERVATION.PRODUCTIONORDERCODE,
       PRODUCTIONRESERVATION.ITEMTYPEAFICODE,
@@ -246,11 +246,11 @@ WHERE PRODUCTIONDEMAND.CODE='$Demand'";
       PRODUCTIONRESERVATION.PRODUCTIONORDERCODE,
       PRODUCTIONRESERVATION.ITEMTYPEAFICODE,
       PRODUCTIONRESERVATION.USERPRIMARYUOMCODE,
-      PRODUCTIONRESERVATION.USERSECONDARYUOMCODE";	
-      $stmt1   = db2_exec($conn1,$sqlBK, array('cursor'=>DB2_SCROLLABLE));	
-      $rowBK = db2_fetch_assoc($stmt1);
+      PRODUCTIONRESERVATION.USERSECONDARYUOMCODE";
+                    $stmt1   = db2_exec($conn1, $sqlBK, array('cursor' => DB2_SCROLLABLE));
+                    $rowBK = db2_fetch_assoc($stmt1);
 
-      $q_deteksi_status_close = db2_exec($conn1, "SELECT 
+                    $q_deteksi_status_close = db2_exec($conn1, "SELECT 
         p.PRODUCTIONORDERCODE AS PRODUCTIONORDERCODE, 
         p.PRODUCTIONDEMANDCODE AS PRODUCTIONDEMANDCODE, 
         p.GROUPSTEPNUMBER AS GROUPSTEPNUMBER
@@ -259,9 +259,9 @@ WHERE PRODUCTIONDEMAND.CODE='$Demand'";
           WHERE
         p.PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]' AND p.PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'
         AND p.PROGRESSSTATUS = '3' ORDER BY p.GROUPSTEPNUMBER DESC LIMIT 1");
-      $row_status_close = db2_fetch_assoc($q_deteksi_status_close);
+                    $row_status_close = db2_fetch_assoc($q_deteksi_status_close);
 
-      $q_StatusTerakhir = db2_exec($conn1, "SELECT 
+                    $q_StatusTerakhir = db2_exec($conn1, "SELECT 
       p.PRODUCTIONORDERCODE, 
       p.PRODUCTIONDEMANDCODE, 
       p.GROUPSTEPNUMBER, 
@@ -283,87 +283,91 @@ WHERE PRODUCTIONDEMAND.CODE='$Demand'";
       AND (p.PROGRESSSTATUS = '0' OR p.PROGRESSSTATUS = '1' OR p.PROGRESSSTATUS ='2') 
       AND p.GROUPSTEPNUMBER > '$row_status_close[GROUPSTEPNUMBER]'
   ORDER BY p.GROUPSTEPNUMBER ASC LIMIT 1");
-  $rowST = db2_fetch_assoc($q_StatusTerakhir);
+                    $rowST = db2_fetch_assoc($q_StatusTerakhir);
 
-  $sqlPOrder=db2_exec($conn1,"SELECT PRODUCTIONORDER.CODE, PRODUCTIONORDER.PROGRESSSTATUS FROM PRODUCTIONORDER PRODUCTIONORDER
+                    $sqlPOrder = db2_exec($conn1, "SELECT PRODUCTIONORDER.CODE, PRODUCTIONORDER.PROGRESSSTATUS FROM PRODUCTIONORDER PRODUCTIONORDER
   WHERE PRODUCTIONORDER.CODE='$row_status_close[PRODUCTIONORDERCODE]'");
-  $rowPO = db2_fetch_assoc($sqlPOrder);
-?>
-	  <tr>
-	    <td style="text-align: center"><?php echo $no;?></td>
-      <td style="text-align: center"><div class="btn-group">
-        <!-- <a href="pages/cetak/cetak_kartu_gerobak.php?demand=<?php echo $rowdb2['CODE']; ?>&" target="_blank" class="btn btn-sm btn-danger"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Cetak"></i></a> -->
-        <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?php echo TRIM($rowdb2['CODE']); ?>&nokk=<?= TRIM($rowdb2['PRODUCTIONORDERCODE']); ?>" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Salinan"></i></a>
-      </div>
-      </td>
-	    <td style="text-align: center"><a href="IdentitasGerobak-<?php echo $rowdb2['CODE']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-lightbulb"></i> </a></td>
-      <td style="text-align: center"><?php echo $rowdb2['CODE']; ?></td>
-      <td style="text-align: center"><?php echo $rowdb2['PRODUCTIONORDERCODE']; ?></td>
-      <td style="text-align: center"><?php echo $rowdb2['DELIVERYDATE']; ?></td>
-      <td style="text-align: left"><?php echo $rowdb2['LANGGANAN'].'/'.$rowdb2['BUYER']; ?></td>
-      <td style="text-align: left"><?php echo $rowdb2['SUBCODE01'].'-'.$rowdb2['SUBCODE02'].'-'.$rowdb2['SUBCODE03'].'-'.$rowdb2['SUBCODE04'].'-'.$rowdb2['SUBCODE05'].'-'.$rowdb2['SUBCODE06'].'-'.$rowdb2['SUBCODE07'].'-'.$rowdb2['SUBCODE08'].'-'.$rowdb2['SUBCODE09'].'-'.$rowdb2['SUBCODE09'].'-'.$rowdb2['SUBCODE10']; ?></td>
-      <td style="text-align: left"><?php echo $rowdb2['JENIS_KAIN']; ?></td> 
-      <td style="text-align: center"><?php echo $rowdb2['WARNA']; ?></td>
-      <td style="text-align: center"><?php echo $rowdb2['ORIGDLVSALORDLINESALORDERCODE']; ?></td>
-      <td style="text-align: center"><?php echo number_format($rowBK['USERPRIMARYQUANTITY'],2)." ".$rowBK['USERPRIMARYUOMCODE']; ?></td>
-      <td style="text-align: center"><?php echo number_format($rowBK['USERSECONDARYQUANTITY'],2)." ".$rowBK['USERSECONDARYUOMCODE']; ?></td>
-      <td style="text-align: center"><?php if($rowPO['PROGRESSSTATUS']!='6' AND $rowST['LONGDESCRIPTION']==''){echo "KK Oke<span class='badge bg-red blink_me'>(Segera Closed Production Order)</span>";}else if($rowPO['PROGRESSSTATUS']=='6' AND $rowST['LONGDESCRIPTION']==''){echo "KK Oke";}else{echo $rowST['LONGDESCRIPTION'];} ?></td>
-      <td style="text-align: center"><?php echo $rowdb2['EXTERNALREFERENCE']; ?></td>
-      <td style="text-align: center"><?php echo $rowdb2['INTERNALREFERENCE']; ?></td>
-    </tr>
-	  				  
-	<?php 
-	 $no++; 
-	} ?>
-	</tbody>
-                  
-</table>
+                    $rowPO = db2_fetch_assoc($sqlPOrder);
+                ?>
+                    <tr>
+                        <td style="text-align: center"><?php echo $no; ?></td>
+                        <td style="text-align: center">
+                            <div class="btn-group">
+                                <!-- <a href="pages/cetak/cetak_kartu_gerobak.php?demand=<?php echo $rowdb2['CODE']; ?>&" target="_blank" class="btn btn-sm btn-danger"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Cetak"></i></a> -->
+                                <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?php echo TRIM($rowdb2['CODE']); ?>&nokk=<?= TRIM($rowdb2['PRODUCTIONORDERCODE']); ?>" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Salinan"></i></a>
+                            </div>
+                        </td>
+                        <td style="text-align: center"><a href="IdentitasGerobak-<?php echo $rowdb2['CODE']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-lightbulb"></i> </a></td>
+                        <td style="text-align: center"><?php echo $rowdb2['CODE']; ?></td>
+                        <td style="text-align: center"><?php echo $rowdb2['PRODUCTIONORDERCODE']; ?></td>
+                        <td style="text-align: center"><?php echo $rowdb2['DELIVERYDATE']; ?></td>
+                        <td style="text-align: left"><?php echo $rowdb2['LANGGANAN'] . '/' . $rowdb2['BUYER']; ?></td>
+                        <td style="text-align: left"><?php echo $rowdb2['SUBCODE01'] . '-' . $rowdb2['SUBCODE02'] . '-' . $rowdb2['SUBCODE03'] . '-' . $rowdb2['SUBCODE04'] . '-' . $rowdb2['SUBCODE05'] . '-' . $rowdb2['SUBCODE06'] . '-' . $rowdb2['SUBCODE07'] . '-' . $rowdb2['SUBCODE08'] . '-' . $rowdb2['SUBCODE09'] . '-' . $rowdb2['SUBCODE09'] . '-' . $rowdb2['SUBCODE10']; ?></td>
+                        <td style="text-align: left"><?php echo $rowdb2['JENIS_KAIN']; ?></td>
+                        <td style="text-align: center"><?php echo $rowdb2['WARNA']; ?></td>
+                        <td style="text-align: center"><?php echo $rowdb2['ORIGDLVSALORDLINESALORDERCODE']; ?></td>
+                        <td style="text-align: center"><?php echo number_format($rowBK['USERPRIMARYQUANTITY'], 2) . " " . $rowBK['USERPRIMARYUOMCODE']; ?></td>
+                        <td style="text-align: center"><?php echo number_format($rowBK['USERSECONDARYQUANTITY'], 2) . " " . $rowBK['USERSECONDARYUOMCODE']; ?></td>
+                        <td style="text-align: center"><?php if ($rowPO['PROGRESSSTATUS'] != '6' and $rowST['LONGDESCRIPTION'] == '') {
+                                                            echo "KK Oke<span class='badge bg-red blink_me'>(Segera Closed Production Order)</span>";
+                                                        } else if ($rowPO['PROGRESSSTATUS'] == '6' and $rowST['LONGDESCRIPTION'] == '') {
+                                                            echo "KK Oke";
+                                                        } else {
+                                                            echo $rowST['LONGDESCRIPTION'];
+                                                        } ?></td>
+                        <td style="text-align: center"><?php echo $rowdb2['EXTERNALREFERENCE']; ?></td>
+                        <td style="text-align: center"><?php echo $rowdb2['INTERNALREFERENCE']; ?></td>
+                    </tr>
+
+                <?php
+                    $no++;
+                } ?>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- /.card-body -->
 </div>
-<!-- /.card-body -->
-</div> 
-</form>		
+</form>
 </div><!-- /.container-fluid -->
-    <!-- /.content -->
+<!-- /.content -->
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
-<script src="plugins/toastr/toastr.min.js"></script>	
+<script src="plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
 <script>
-	$(function () {
-		//Datepicker
-    $('#datepicker').datetimepicker({
-      format: 'YYYY-MM-DD'
+    $(function() {
+        //Datepicker
+        $('#datepicker').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#datepicker1').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+        $('#datepicker2').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+
     });
-    $('#datepicker1').datetimepicker({
-      format: 'YYYY-MM-DD'
-    });
-    $('#datepicker2').datetimepicker({
-      format: 'YYYY-MM-DD'
-    });
-	
-});		
 </script>
 <script type="text/javascript">
-function checkAll(form1){
-    for (var i=0;i<document.forms['form1'].elements.length;i++)
-    {
-        var e=document.forms['form1'].elements[i];
-        if ((e.name !='allbox') && (e.type=='checkbox'))
-        {
-            e.checked=document.forms['form1'].allbox.checked;
-			
+    function checkAll(form1) {
+        for (var i = 0; i < document.forms['form1'].elements.length; i++) {
+            var e = document.forms['form1'].elements[i];
+            if ((e.name != 'allbox') && (e.type == 'checkbox')) {
+                e.checked = document.forms['form1'].allbox.checked;
+
+            }
         }
     }
-}
 </script>
 <script>
-		$(document).ready(function() {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
-
-	</script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
