@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-12">*Note : Setelah memasukan Prod. Demand, silahkan di <b>TAB</b> saja. Tidak perlu di <b>ENTER</b>. Terimakasih</label>
+                    <label class="col-md-12">*Note : Setelah memasukan Prod. Order, silahkan di <b>TAB</b> saja. Tidak perlu di <b>ENTER</b>. Terimakasih</label>
                 </div>
                 <!-- <button class="btn btn-info" type="submit">Cari Data</button> -->
             </div>
