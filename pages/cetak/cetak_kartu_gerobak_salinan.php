@@ -354,7 +354,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 								:
 							</td>
 							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
-								03
+								04
 							</td>
 						</tr>
 						<tr>
@@ -365,7 +365,8 @@ $rowket4 = db2_fetch_assoc($stmt4);
 								:
 							</td>
 							<td style="border-top:0px #000000 solid; border-bottom:0px #000000 solid; border-left:0px #000000 solid; border-right:0px #000000 solid;">
-								26 July 2024
+								<!-- Dikosongin Dulu Nunggu Form Dari QA -->
+									<!-- 26 July 2024 -->
 							</td>
 						</tr>
 					</tbody>
