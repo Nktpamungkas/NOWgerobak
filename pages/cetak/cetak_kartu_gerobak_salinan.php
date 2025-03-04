@@ -658,7 +658,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 
 					<th width="10%">Alur Proses</th>
 					<th width="8%">TGL</th>
-					<th colspan="12">No.Gerobak</th>
+					<th colspan="16">No.Gerobak</th>
 
 				</tr>
 			</thead>
@@ -729,7 +729,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 						// Split and trim values
 						$isigerobak = array_filter(array_map('trim', explode(',', $rowdb3['GEROBAK'])));
 						// Fixed number of columns after the date
-						$maxColumns = 12;
+						$maxColumns = 16;
 				?>
 						<tr>
 							<td width="10%" align="center">
@@ -749,14 +749,14 @@ $rowket4 = db2_fetch_assoc($stmt4);
 							</td>
 							<?php if (in_array($rowdb3['OPERATIONCODE'], $operationCodes)) { ?>
 								<?php for ($i = 0; $i < $maxColumns; $i++) { ?>
-									<td width="7%" align="center">
+									<td width="5%" align="center">
 										<?php if (isset($isigerobak[$i]) && $isigerobak[$i] != 'Tidak Perlu Gerobak') {
 											echo $isigerobak[$i];
 										} ?>
 									</td>
 								<?php } ?>
 							<?php } else { ?>
-								<td width="7%" align="center"></td>
+								<td width="5%" align="center"></td>
 								<?php for ($i = 0; $i < $maxColumns - 1; $i++) { ?>
 									<td></td>
 								<?php } ?>
