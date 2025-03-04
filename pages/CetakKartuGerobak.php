@@ -1,13 +1,44 @@
 <?php
-// $Demand	= isset($_POST['demand']) ? $_POST['demand'] : '';
-$Demand    = isset($_GET['demand']) ? $_GET['demand'] : '';
+    $Prod_order = isset($_GET['prod_order']) ? $_GET['prod_order'] : '';
 ?>
+<head>
+    <style>
+        .button-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .new-label {
+            background-color: yellow; /* Warna latar belakang label */
+            color: black; /* Warna teks label */
+            padding: 5px 10px; /* Padding untuk label */
+            border-radius: 5px; /* Sudut melengkung */
+            position: absolute; /* Posisi absolut untuk label */
+            top: -15px; /* Atur posisi vertikal */
+            right: -80px; /* Atur posisi horizontal */
+            font-weight: bold; /* Tebal */
+            font-size: 12px; /* Ukuran font */
+        }
+        
+        .new-label-tabel {
+            background-color: yellow; /* Warna latar belakang label */
+            color: black; /* Warna teks label */
+            padding: 5px 10px; /* Padding untuk label */
+            border-radius: 5px; /* Sudut melengkung */
+            position: absolute; /* Posisi absolut untuk label */
+            top: -10px; /* Atur posisi vertikal */
+            right: -40px; /* Atur posisi horizontal */
+            font-weight: bold; /* Tebal */
+            font-size: 12px; /* Ukuran font */
+        }
+    </style>
+</head>
 <!-- Main content -->
 <div class="container-fluid">
     <form role="form" method="post" enctype="multipart/form-data" name="form1">
         <div class="card card-success">
             <div class="card-header">
-                <h3 class="card-title">Filter Data Production Demand</h3>
+                <h3 class="card-title">Filter Data Production Order</h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -21,9 +52,12 @@ $Demand    = isset($_GET['demand']) ? $_GET['demand'] : '';
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="form-group row">
-                    <label for="demand" class="col-md-1 col-form-label">Prod. Demand</label>
+                    <label for="demand" class="col-md-1 col-form-label">Prod. Order</label>
                     <div class="col-sm-2">
-                        <input class="form-control form-control-sm" onchange="window.location='CetakKartuGerobak-'+this.value" value="<?php echo $_GET['demand']; ?>" type="text" name="demand" id="demand" placeholder="" required>
+                        <div class="button-container">
+                            <input class="form-control form-control-sm" onchange="window.location = 'CetakKartuGerobak-'+this.value" value="<?= $Prod_order; ?>" type="text" name="prod_order" id="prod_order" placeholder="" required>
+                            <span class="new-label">Perubahan Fitur Pencarian</span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -38,7 +72,7 @@ $Demand    = isset($_GET['demand']) ? $_GET['demand'] : '';
 
 <div class="card card-warning">
     <div class="card-header">
-        <h3 class="card-title">Detail Data Production Demand</h3>
+        <h3 class="card-title">Detail Data Production Order</h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -67,263 +101,58 @@ $Demand    = isset($_GET['demand']) ? $_GET['demand'] : '';
                 </tr>
             </thead>
             <tbody>
-                <?php
-
+            <?php
                 $no = 1;
                 $c = 0;
+                $dataMain = "SELECT * FROM ITXVIEW_MEMOPENTINGPPC WHERE NO_KK = '$Prod_order'";
+                $resultMain   = db2_exec($conn1, $dataMain);
+                while ($dataMain = db2_fetch_assoc($resultMain)) {
+                    $resultStatusTerakhir = db2_exec($conn1, "SELECT
+                                                                    *
+                                                                FROM
+                                                                    ITXVIEW_POSISI_KARTU_KERJA ipkk
+                                                                WHERE
+                                                                    PRODUCTIONORDERCODE = '$dataMain[NO_KK]'
+                                                                    AND PRODUCTIONDEMANDCODE = '$dataMain[DEMAND]'
+                                                                    AND (STATUS_OPERATION = 'Entered' OR STATUS_OPERATION = 'Progress')
+                                                                ORDER BY
+                                                                    STEPNUMBER ASC LIMIT 1");
+                    $dataStatusTerakhir = db2_fetch_assoc($resultStatusTerakhir);
 
-                if ($Demand != '') {
-                    $sqlDB2 = "SELECT 
-PRODUCTIONDEMAND.CODE,
-A.PRODUCTIONORDERCODE,
-PRODUCTIONDEMAND.ITEMTYPEAFICODE,
-PRODUCTIONDEMAND.SUBCODE01,
-PRODUCTIONDEMAND.SUBCODE02,
-PRODUCTIONDEMAND.SUBCODE03,
-PRODUCTIONDEMAND.SUBCODE04,
-PRODUCTIONDEMAND.SUBCODE05,
-PRODUCTIONDEMAND.SUBCODE06,
-PRODUCTIONDEMAND.SUBCODE07,
-PRODUCTIONDEMAND.SUBCODE08,
-PRODUCTIONDEMAND.SUBCODE09,
-PRODUCTIONDEMAND.SUBCODE10,
-PRODUCT.LONGDESCRIPTION AS JENIS_KAIN,
-PRODUCTIONDEMAND.PROJECTCODE,
-PRODUCTIONDEMAND.ORIGDLVSALORDLINESALORDERCODE,
-PRODUCTIONDEMAND.ORIGDLVSALORDERLINEORDERLINE,
-PRODUCTIONDEMAND.DLVSALORDERLINESALESORDERCODE,
-PRODUCTIONDEMAND.DLVSALESORDERLINEORDERLINE,
-PRODUCTIONDEMAND.FINALPLANNEDDATE,
-PRODUCTIONDEMAND.EXTERNALREFERENCE,
-PRODUCTIONDEMAND.INTERNALREFERENCE,
-PRODUCTIONDEMAND.USERPRIMARYQUANTITY,
-PRODUCTIONDEMAND.USERPRIMARYUOMCODE,
-PRODUCTIONDEMAND.USERSECONDARYQUANTITY,
-PRODUCTIONDEMAND.USERSECONDARYUOMCODE,
-ITXVIEWCOLOR.WARNA, 
-SALESORDERDELIVERY.DELIVERYDATE,
-  BUSINESSPARTNER.LEGALNAME1 AS LANGGANAN,
-  ORDERPARTNERBRAND.LONGDESCRIPTION AS BUYER
-FROM PRODUCTIONDEMAND PRODUCTIONDEMAND
-LEFT JOIN ITXVIEWCOLOR ITXVIEWCOLOR
-ON PRODUCTIONDEMAND.ITEMTYPEAFICODE = ITXVIEWCOLOR.ITEMTYPECODE AND 
-PRODUCTIONDEMAND.SUBCODE01 = ITXVIEWCOLOR.SUBCODE01 AND 
-PRODUCTIONDEMAND.SUBCODE02 = ITXVIEWCOLOR.SUBCODE02 AND 
-PRODUCTIONDEMAND.SUBCODE03 = ITXVIEWCOLOR.SUBCODE03 AND 
-PRODUCTIONDEMAND.SUBCODE04 = ITXVIEWCOLOR.SUBCODE04 AND 
-PRODUCTIONDEMAND.SUBCODE05 = ITXVIEWCOLOR.SUBCODE05 AND 
-PRODUCTIONDEMAND.SUBCODE06 = ITXVIEWCOLOR.SUBCODE06 AND 
-PRODUCTIONDEMAND.SUBCODE07 = ITXVIEWCOLOR.SUBCODE07 AND 
-PRODUCTIONDEMAND.SUBCODE08 = ITXVIEWCOLOR.SUBCODE08 AND 
-PRODUCTIONDEMAND.SUBCODE09 = ITXVIEWCOLOR.SUBCODE09 AND 
-PRODUCTIONDEMAND.SUBCODE10 = ITXVIEWCOLOR.SUBCODE10
-LEFT JOIN PRODUCT PRODUCT 
-ON PRODUCTIONDEMAND.ITEMTYPEAFICODE = PRODUCT.ITEMTYPECODE AND 
-PRODUCTIONDEMAND.SUBCODE01 = PRODUCT.SUBCODE01 AND 
-PRODUCTIONDEMAND.SUBCODE02 = PRODUCT.SUBCODE02 AND 
-PRODUCTIONDEMAND.SUBCODE03 = PRODUCT.SUBCODE03 AND 
-PRODUCTIONDEMAND.SUBCODE04 = PRODUCT.SUBCODE04 AND 
-PRODUCTIONDEMAND.SUBCODE05 = PRODUCT.SUBCODE05 AND 
-PRODUCTIONDEMAND.SUBCODE06 = PRODUCT.SUBCODE06 AND 
-PRODUCTIONDEMAND.SUBCODE07 = PRODUCT.SUBCODE07 AND 
-PRODUCTIONDEMAND.SUBCODE08 = PRODUCT.SUBCODE08 AND 
-PRODUCTIONDEMAND.SUBCODE09 = PRODUCT.SUBCODE09 AND 
-PRODUCTIONDEMAND.SUBCODE10 = PRODUCT.SUBCODE10
-LEFT JOIN (
-	SELECT PRODUCTIONDEMANDSTEP.PRODUCTIONORDERCODE,
-	PRODUCTIONDEMANDSTEP.PRODUCTIONDEMANDCODE
-	FROM PRODUCTIONDEMANDSTEP PRODUCTIONDEMANDSTEP
-	GROUP BY PRODUCTIONDEMANDSTEP.PRODUCTIONORDERCODE,
-	PRODUCTIONDEMANDSTEP.PRODUCTIONDEMANDCODE
-) A ON PRODUCTIONDEMAND.CODE = A.PRODUCTIONDEMANDCODE 
-LEFT JOIN SALESORDERDELIVERY SALESORDERDELIVERY ON PRODUCTIONDEMAND.ORIGDLVSALORDLINESALORDERCODE = SALESORDERDELIVERY.SALESORDERLINESALESORDERCODE AND 
-PRODUCTIONDEMAND.ORIGDLVSALORDERLINEORDERLINE = SALESORDERDELIVERY.SALESORDERLINEORDERLINE
-LEFT JOIN ORDERPARTNER ORDERPARTNER 
-  ON PRODUCTIONDEMAND.CUSTOMERCODE = ORDERPARTNER.CUSTOMERSUPPLIERCODE 
-  LEFT JOIN BUSINESSPARTNER BUSINESSPARTNER 
-  ON ORDERPARTNER.ORDERBUSINESSPARTNERNUMBERID = BUSINESSPARTNER.NUMBERID 
-  LEFT JOIN SALESORDER SALESORDER ON 
-  PRODUCTIONDEMAND.ORIGDLVSALORDLINESALORDERCODE = SALESORDER.CODE 
-  LEFT JOIN ORDERPARTNERBRAND ORDERPARTNERBRAND ON 
-  SALESORDER.ORDERPARTNERBRANDCODE = ORDERPARTNERBRAND.CODE AND SALESORDER.ORDPRNCUSTOMERSUPPLIERCODE = ORDERPARTNERBRAND.ORDPRNCUSTOMERSUPPLIERCODE
-WHERE PRODUCTIONDEMAND.CODE='$Demand'";
-                    $stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));
-                } else {
-                    $sqlDB2 = "SELECT 
-  PRODUCTIONDEMAND.CODE,
-  A.PRODUCTIONORDERCODE,
-  PRODUCTIONDEMAND.ITEMTYPEAFICODE,
-  PRODUCTIONDEMAND.SUBCODE01,
-  PRODUCTIONDEMAND.SUBCODE02,
-  PRODUCTIONDEMAND.SUBCODE03,
-  PRODUCTIONDEMAND.SUBCODE04,
-  PRODUCTIONDEMAND.SUBCODE05,
-  PRODUCTIONDEMAND.SUBCODE06,
-  PRODUCTIONDEMAND.SUBCODE07,
-  PRODUCTIONDEMAND.SUBCODE08,
-  PRODUCTIONDEMAND.SUBCODE09,
-  PRODUCTIONDEMAND.SUBCODE10,
-  PRODUCT.LONGDESCRIPTION AS JENIS_KAIN,
-  PRODUCTIONDEMAND.PROJECTCODE,
-  PRODUCTIONDEMAND.ORIGDLVSALORDLINESALORDERCODE,
-  PRODUCTIONDEMAND.ORIGDLVSALORDERLINEORDERLINE,  
-  PRODUCTIONDEMAND.DLVSALORDERLINESALESORDERCODE,
-  PRODUCTIONDEMAND.DLVSALESORDERLINEORDERLINE,
-  PRODUCTIONDEMAND.FINALPLANNEDDATE,
-  PRODUCTIONDEMAND.EXTERNALREFERENCE,
-  PRODUCTIONDEMAND.INTERNALREFERENCE,
-  PRODUCTIONDEMAND.USERPRIMARYQUANTITY,
-  PRODUCTIONDEMAND.USERPRIMARYUOMCODE,
-  PRODUCTIONDEMAND.USERSECONDARYQUANTITY,
-  PRODUCTIONDEMAND.USERSECONDARYUOMCODE,
-  ITXVIEWCOLOR.WARNA, 
-  SALESORDERDELIVERY.DELIVERYDATE,
-  BUSINESSPARTNER.LEGALNAME1 AS LANGGANAN,
-  ORDERPARTNERBRAND.LONGDESCRIPTION AS BUYER
-  FROM PRODUCTIONDEMAND PRODUCTIONDEMAND
-  LEFT JOIN ITXVIEWCOLOR ITXVIEWCOLOR
-  ON PRODUCTIONDEMAND.ITEMTYPEAFICODE = ITXVIEWCOLOR.ITEMTYPECODE AND 
-  PRODUCTIONDEMAND.SUBCODE01 = ITXVIEWCOLOR.SUBCODE01 AND 
-  PRODUCTIONDEMAND.SUBCODE02 = ITXVIEWCOLOR.SUBCODE02 AND 
-  PRODUCTIONDEMAND.SUBCODE03 = ITXVIEWCOLOR.SUBCODE03 AND 
-  PRODUCTIONDEMAND.SUBCODE04 = ITXVIEWCOLOR.SUBCODE04 AND 
-  PRODUCTIONDEMAND.SUBCODE05 = ITXVIEWCOLOR.SUBCODE05 AND 
-  PRODUCTIONDEMAND.SUBCODE06 = ITXVIEWCOLOR.SUBCODE06 AND 
-  PRODUCTIONDEMAND.SUBCODE07 = ITXVIEWCOLOR.SUBCODE07 AND 
-  PRODUCTIONDEMAND.SUBCODE08 = ITXVIEWCOLOR.SUBCODE08 AND 
-  PRODUCTIONDEMAND.SUBCODE09 = ITXVIEWCOLOR.SUBCODE09 AND 
-  PRODUCTIONDEMAND.SUBCODE10 = ITXVIEWCOLOR.SUBCODE10
-  LEFT JOIN PRODUCT PRODUCT 
-  ON PRODUCTIONDEMAND.ITEMTYPEAFICODE = PRODUCT.ITEMTYPECODE AND 
-  PRODUCTIONDEMAND.SUBCODE01 = PRODUCT.SUBCODE01 AND 
-  PRODUCTIONDEMAND.SUBCODE02 = PRODUCT.SUBCODE02 AND 
-  PRODUCTIONDEMAND.SUBCODE03 = PRODUCT.SUBCODE03 AND 
-  PRODUCTIONDEMAND.SUBCODE04 = PRODUCT.SUBCODE04 AND 
-  PRODUCTIONDEMAND.SUBCODE05 = PRODUCT.SUBCODE05 AND 
-  PRODUCTIONDEMAND.SUBCODE06 = PRODUCT.SUBCODE06 AND 
-  PRODUCTIONDEMAND.SUBCODE07 = PRODUCT.SUBCODE07 AND 
-  PRODUCTIONDEMAND.SUBCODE08 = PRODUCT.SUBCODE08 AND 
-  PRODUCTIONDEMAND.SUBCODE09 = PRODUCT.SUBCODE09 AND 
-  PRODUCTIONDEMAND.SUBCODE10 = PRODUCT.SUBCODE10
-  LEFT JOIN (
-    SELECT PRODUCTIONDEMANDSTEP.PRODUCTIONORDERCODE,
-    PRODUCTIONDEMANDSTEP.PRODUCTIONDEMANDCODE
-    FROM PRODUCTIONDEMANDSTEP PRODUCTIONDEMANDSTEP
-    GROUP BY PRODUCTIONDEMANDSTEP.PRODUCTIONORDERCODE,
-    PRODUCTIONDEMANDSTEP.PRODUCTIONDEMANDCODE
-  ) A ON PRODUCTIONDEMAND.CODE = A.PRODUCTIONDEMANDCODE 
-  LEFT JOIN SALESORDERDELIVERY SALESORDERDELIVERY ON PRODUCTIONDEMAND.ORIGDLVSALORDLINESALORDERCODE = SALESORDERDELIVERY.SALESORDERLINESALESORDERCODE AND 
-  PRODUCTIONDEMAND.ORIGDLVSALORDERLINEORDERLINE = SALESORDERDELIVERY.SALESORDERLINEORDERLINE
-  LEFT JOIN ORDERPARTNER ORDERPARTNER 
-  ON PRODUCTIONDEMAND.CUSTOMERCODE = ORDERPARTNER.CUSTOMERSUPPLIERCODE 
-  LEFT JOIN BUSINESSPARTNER BUSINESSPARTNER 
-  ON ORDERPARTNER.ORDERBUSINESSPARTNERNUMBERID = BUSINESSPARTNER.NUMBERID 
-  LEFT JOIN SALESORDER SALESORDER ON 
-  PRODUCTIONDEMAND.ORIGDLVSALORDLINESALORDERCODE = SALESORDER.CODE 
-  LEFT JOIN ORDERPARTNERBRAND ORDERPARTNERBRAND ON 
-  SALESORDER.ORDERPARTNERBRANDCODE = ORDERPARTNERBRAND.CODE AND SALESORDER.ORDPRNCUSTOMERSUPPLIERCODE = ORDERPARTNERBRAND.ORDPRNCUSTOMERSUPPLIERCODE
-  WHERE PRODUCTIONDEMAND.CODE='$Demand'
-  ORDER BY PRODUCTIONDEMAND.CODE ASC";
-                    $stmt   = db2_exec($conn1, $sqlDB2, array('cursor' => DB2_SCROLLABLE));
-                }
-                //}				  
-                while ($rowdb2 = db2_fetch_assoc($stmt)) {
-                    $sqlBK = "SELECT 
-      PRODUCTIONORDER.CODE,
-      PRODUCTIONRESERVATION.PRODUCTIONORDERCODE,
-      PRODUCTIONRESERVATION.ITEMTYPEAFICODE,
-      SUM(PRODUCTIONRESERVATION.USEDUSERPRIMARYQUANTITY) AS USERPRIMARYQUANTITY,
-      PRODUCTIONRESERVATION.USERPRIMARYUOMCODE,
-      SUM(PRODUCTIONRESERVATION.USEDUSERSECONDARYQUANTITY) AS USERSECONDARYQUANTITY,
-      PRODUCTIONRESERVATION.USERSECONDARYUOMCODE
-      FROM PRODUCTIONORDER PRODUCTIONORDER
-      LEFT JOIN PRODUCTIONRESERVATION PRODUCTIONRESERVATION 
-      ON PRODUCTIONORDER.CODE = PRODUCTIONRESERVATION.PRODUCTIONORDERCODE 
-      WHERE (PRODUCTIONRESERVATION.ITEMTYPEAFICODE ='KGF' OR PRODUCTIONRESERVATION.ITEMTYPEAFICODE ='KFF')
-      AND PRODUCTIONORDER.CODE='$rowdb2[PRODUCTIONORDERCODE]'
-      GROUP BY 
-      PRODUCTIONORDER.CODE,
-      PRODUCTIONRESERVATION.PRODUCTIONORDERCODE,
-      PRODUCTIONRESERVATION.ITEMTYPEAFICODE,
-      PRODUCTIONRESERVATION.USERPRIMARYUOMCODE,
-      PRODUCTIONRESERVATION.USERSECONDARYUOMCODE";
-                    $stmt1   = db2_exec($conn1, $sqlBK, array('cursor' => DB2_SCROLLABLE));
-                    $rowBK = db2_fetch_assoc($stmt1);
-
-                    $q_deteksi_status_close = db2_exec($conn1, "SELECT 
-        p.PRODUCTIONORDERCODE AS PRODUCTIONORDERCODE, 
-        p.PRODUCTIONDEMANDCODE AS PRODUCTIONDEMANDCODE, 
-        p.GROUPSTEPNUMBER AS GROUPSTEPNUMBER
-          FROM 
-        PRODUCTIONDEMANDSTEP p
-          WHERE
-        p.PRODUCTIONORDERCODE = '$rowdb2[PRODUCTIONORDERCODE]' AND p.PRODUCTIONDEMANDCODE = '$rowdb2[CODE]'
-        AND p.PROGRESSSTATUS = '3' ORDER BY p.GROUPSTEPNUMBER DESC LIMIT 1");
-                    $row_status_close = db2_fetch_assoc($q_deteksi_status_close);
-
-                    $q_StatusTerakhir = db2_exec($conn1, "SELECT 
-      p.PRODUCTIONORDERCODE, 
-      p.PRODUCTIONDEMANDCODE, 
-      p.GROUPSTEPNUMBER, 
-      p.OPERATIONCODE, 
-      p.LONGDESCRIPTION AS LONGDESCRIPTION, 
-      CASE
-          WHEN p.PROGRESSSTATUS = 0 THEN 'Entered'
-          WHEN p.PROGRESSSTATUS = 1 THEN 'Planned'
-          WHEN p.PROGRESSSTATUS = 2 THEN 'Progress'
-          WHEN p.PROGRESSSTATUS = 3 THEN 'Closed'
-      END AS STATUS_OPERATION,
-      wc.LONGDESCRIPTION AS DEPT, 
-      p.WORKCENTERCODE
-  FROM 
-      PRODUCTIONDEMANDSTEP p
-  LEFT JOIN WORKCENTER wc ON wc.CODE = p.WORKCENTERCODE
-  WHERE 
-      p.PRODUCTIONORDERCODE = '$row_status_close[PRODUCTIONORDERCODE]' AND p.PRODUCTIONDEMANDCODE = '$row_status_close[PRODUCTIONDEMANDCODE]' 
-      AND (p.PROGRESSSTATUS = '0' OR p.PROGRESSSTATUS = '1' OR p.PROGRESSSTATUS ='2') 
-      AND p.GROUPSTEPNUMBER > '$row_status_close[GROUPSTEPNUMBER]'
-  ORDER BY p.GROUPSTEPNUMBER ASC LIMIT 1");
-                    $rowST = db2_fetch_assoc($q_StatusTerakhir);
-
-                    $sqlPOrder = db2_exec($conn1, "SELECT PRODUCTIONORDER.CODE, PRODUCTIONORDER.PROGRESSSTATUS FROM PRODUCTIONORDER PRODUCTIONORDER
-  WHERE PRODUCTIONORDER.CODE='$row_status_close[PRODUCTIONORDERCODE]'");
-                    $rowPO = db2_fetch_assoc($sqlPOrder);
-                ?>
-                    <tr>
-                        <td style="text-align: center"><?php echo $no; ?></td>
-                        <td style="text-align: center">
-                            <div class="btn-group">
-                                <!-- <a href="pages/cetak/cetak_kartu_gerobak.php?demand=<?php echo $rowdb2['CODE']; ?>&" target="_blank" class="btn btn-sm btn-danger"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Cetak"></i></a> -->
-                                <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?php echo TRIM($rowdb2['CODE']); ?>&nokk=<?= TRIM($rowdb2['PRODUCTIONORDERCODE']); ?>" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-print" data-toggle="tooltip" data-placement="top" title="Salinan"></i></a>
-                            </div>
-                        </td>
-                        <td style="text-align: center"><a href="IdentitasGerobak-<?php echo $rowdb2['CODE']; ?>" class="btn btn-sm btn-success" target="_blank"><i class="fa fa-lightbulb"></i> </a></td>
-                        <td style="text-align: center"><?php echo $rowdb2['CODE']; ?></td>
-                        <td style="text-align: center"><?php echo $rowdb2['PRODUCTIONORDERCODE']; ?></td>
-                        <td style="text-align: center"><?php echo $rowdb2['DELIVERYDATE']; ?></td>
-                        <td style="text-align: left"><?php echo $rowdb2['LANGGANAN'] . '/' . $rowdb2['BUYER']; ?></td>
-                        <td style="text-align: left"><?php echo $rowdb2['SUBCODE01'] . '-' . $rowdb2['SUBCODE02'] . '-' . $rowdb2['SUBCODE03'] . '-' . $rowdb2['SUBCODE04'] . '-' . $rowdb2['SUBCODE05'] . '-' . $rowdb2['SUBCODE06'] . '-' . $rowdb2['SUBCODE07'] . '-' . $rowdb2['SUBCODE08'] . '-' . $rowdb2['SUBCODE09'] . '-' . $rowdb2['SUBCODE09'] . '-' . $rowdb2['SUBCODE10']; ?></td>
-                        <td style="text-align: left"><?php echo $rowdb2['JENIS_KAIN']; ?></td>
-                        <td style="text-align: center"><?php echo $rowdb2['WARNA']; ?></td>
-                        <td style="text-align: center"><?php echo $rowdb2['ORIGDLVSALORDLINESALORDERCODE']; ?></td>
-                        <td style="text-align: center"><?php echo number_format($rowBK['USERPRIMARYQUANTITY'], 2) . " " . $rowBK['USERPRIMARYUOMCODE']; ?></td>
-                        <td style="text-align: center"><?php echo number_format($rowBK['USERSECONDARYQUANTITY'], 2) . " " . $rowBK['USERSECONDARYUOMCODE']; ?></td>
-                        <td style="text-align: center"><?php if ($rowPO['PROGRESSSTATUS'] != '6' and $rowST['LONGDESCRIPTION'] == '') {
-                                                            echo "KK Oke<span class='badge bg-red blink_me'>(Segera Closed Production Order)</span>";
-                                                        } else if ($rowPO['PROGRESSSTATUS'] == '6' and $rowST['LONGDESCRIPTION'] == '') {
-                                                            echo "KK Oke";
-                                                        } else {
-                                                            echo $rowST['LONGDESCRIPTION'];
-                                                        } ?></td>
-                        <td style="text-align: center"><?php echo $rowdb2['EXTERNALREFERENCE']; ?></td>
-                        <td style="text-align: center"><?php echo $rowdb2['INTERNALREFERENCE']; ?></td>
-                    </tr>
-
-                <?php
-                    $no++;
-                } ?>
+                    $resultDemand = db2_exec($conn1, "SELECT INTERNALREFERENCE, EXTERNALREFERENCE FROM PRODUCTIONDEMAND p WHERE CODE = '$dataMain[DEMAND]'");
+                    $dataDemand = db2_fetch_assoc($resultDemand);
+            ?>
+                <tr>
+                    <td style="text-align: center"><?= $no++; ?></td>
+                    <td style="text-align: center">
+                        <div class="btn-group">
+                            <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?= $dataMain['DEMAND'] ?>&nokk=<?= $Prod_order; ?>" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-print" data-toggle="tooltip" data-placement="top"></i></a>
+                        </div>
+                    </td>
+                    <td style="text-align: center">
+                        <div class="button-container">
+                            <a href="http://online.indotaichen.com/laporan/ppc_filter_steps.php?demand=<?= TRIM($dataMain['DEMAND']); ?>&prod_order=<?= TRIM($Prod_order); ?>" class="btn btn-sm btn-success" target="_blank">
+                                <i class="fa fa-lightbulb"></i>
+                            </a>
+                            <span class="new-label-tabel">Baru</span>
+                        </div>
+                    </td>
+                    <td style="text-align: center"><?= $dataMain['DEMAND']; ?></td>
+                    <td style="text-align: center"><?= $dataMain['NO_KK']; ?></td>
+                    <td style="text-align: center"><?= $dataMain['DELIVERY']; ?></td>
+                    <td style="text-align: left"><?= $dataMain['LANGGANAN']; ?> / <?= $dataMain['BUYER']; ?></td>
+                    <td style="text-align: left"><?= $dataMain['KETERANGAN_PRODUCT']; ?></td>
+                    <td style="text-align: left"><?= $dataMain['JENIS_KAIN']; ?></td>
+                    <td style="text-align: center"><?= $dataMain['WARNA']; ?></td>
+                    <td style="text-align: center"><?= $dataMain['NO_ORDER']; ?></td>
+                    <td style="text-align: center"><?= $dataMain['QTY_BAGIKAIN']; ?></td>
+                    <td style="text-align: center"><?= $dataMain['QTY_BAGIKAIN_YD_MTR']; ?></td>
+                    <td style="text-align: center"><?= !empty($dataStatusTerakhir['LONGDESCRIPTION']) ? $dataStatusTerakhir['LONGDESCRIPTION'] : 'KK OKE'; ?></td>
+                    <td style="text-align: center"><?= $dataDemand['EXTERNALREFERENCE'] ?></td>
+                    <td style="text-align: center"><?= $dataDemand['INTERNALREFERENCE'] ?></td>
+                </tr>
+            <?php $no++; } ?>
             </tbody>
-
         </table>
     </div>
     <!-- /.card-body -->
