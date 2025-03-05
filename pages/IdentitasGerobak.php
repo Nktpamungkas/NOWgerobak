@@ -151,7 +151,7 @@ $sqlBK ="SELECT
                   </div>				   
               </div>
               <a href="pages/cetak/cetak_kartu_gerobak.php?demand=<?php echo $demand; ?>&" target="_blank" class="btn btn-sm btn-danger <?php if($demand==""){echo "disabled";}?>"><i class="fa fa-print"></i> Cetak Kartu Gerobak</a>	
-              <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?php echo $demand; ?>&" target="_blank" class="btn btn-sm btn-warning <?php if($demand==""){echo "disabled";}?>"><i class="fa fa-print"></i> Cetak Kartu Gerobak Salinan</a>
+              <a href="pages/cetak/cetak_kartu_gerobak_salinan.php?demand=<?php echo $demand; ?>&nokk=<?php echo $rowdb2['PRODUCTIONORDERCODE']; ?>" target="_blank" class="btn btn-sm btn-warning <?php if($demand==""){echo "disabled";}?>"><i class="fa fa-print"></i> Cetak Kartu Gerobak Salinan</a>
               <!-- <a href="pages/cetak/cetak_demandstep_detaiL_qa.php?demand=<?php echo $demand; ?>&" target="_blank" class="btn btn-sm btn-success <?php if($demand==""){echo "disabled";}?>"><i class="fa fa-print"></i> Cetak Detail Demand Step</a>	 -->
               <!-- <button class="btn btn-info" type="submit">Cari Data</button>		  -->
         </div>
