@@ -588,7 +588,7 @@ $rowket4 = db2_fetch_assoc($stmt4);
 							<tr>
 								<td width="20%" align="right">KETERANGAN</td>
 								<td width="5%" align="left">:</td>
-								<td width="70%" align="left">Saat kain berpindah gerobak, "Identitas Product" ini</td>
+								<td width="70%" align="left">Saat kain berpindah gerobak, "Kartu Gerobak" ini</td>
 							</tr>
 						</tbody>
 					</table>
