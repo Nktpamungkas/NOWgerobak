@@ -26,6 +26,12 @@ else{
 $conq=mysqli_connect("10.0.0.10","dit","4dm1n","db_qc");
 $conr=mysqli_connect("10.0.0.10","dit","4dm1n","dbnow_gerobak");
 $con=mysqli_connect("10.0.0.10","dit","4dm1n","dbnow_qcf");
+$hostSVR19     = "10.0.0.221";
+$usernameSVR19 = "sa";
+$passwordSVR19 = "Ind@taichen2024";
+$nowprd        = "nowprd";
+$nowprdd = ["Database" => $nowprd, "UID" => $usernameSVR19, "PWD" => $passwordSVR19];
+$con_nowprd = sqlsrv_connect($hostSVR19, $nowprdd);
 if (mysqli_connect_errno()) {
 printf("Connect failed: %s\n", mysqli_connect_error());
 exit();

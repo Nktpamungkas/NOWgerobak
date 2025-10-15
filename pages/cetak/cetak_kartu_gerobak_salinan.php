@@ -382,6 +382,18 @@ $rowket4 = db2_fetch_assoc($stmt4);
 				</td>
 				<td width="45%" scope="col" align="center">
 					<h3>Production Order</h3>
+					<?php
+						$cek_keterangan     = sqlsrv_query($con_nowprd, "SELECT * FROM nowprd.posisikk_keterangan 
+																				WHERE 
+																					productionorder = '$_GET[nokk]' 
+																					AND productiondemand = '$_GET[demand]'");
+						$data_keterangan    = sqlsrv_fetch_array($cek_keterangan);
+					?>
+					<?php if (trim($data_keterangan['keterangan']) == 'HARUS TIMBANG') { ?>
+						<h4 style="color: #b71c1c; background: #fff3cd; padding: 8px 0; border-radius: 6px; border: 2px solid #b71c1c; font-weight: bold; letter-spacing: 1px; font-size: 16px;">
+							<?php echo htmlspecialchars($data_keterangan['keterangan']); ?>
+						</h4>
+					<?php } ?>
 				</td>
 				<td width="50%" scope="col" align="right">
 					<?php
