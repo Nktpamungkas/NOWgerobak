@@ -145,16 +145,16 @@
                                                                     STEPNUMBER ASC
                                                                     LIMIT 1");
                     // Old Query
-                    // $resultStatusTerakhir = db2_exec($conn1, "SELECT
-                    //                                                 *
-                    //                                             FROM
-                    //                                                 ITXVIEW_POSISI_KARTU_KERJA ipkk
-                    //                                             WHERE
-                    //                                                 PRODUCTIONORDERCODE = '$dataMain[NO_KK]'
-                    //                                                 AND PRODUCTIONDEMANDCODE = '$dataMain[DEMAND]'
-                    //                                                 AND (STATUS_OPERATION = 'Entered' OR STATUS_OPERATION = 'Progress')
-                    //                                             ORDER BY
-                    //                                                 STEPNUMBER ASC LIMIT 1");
+                        // $resultStatusTerakhir = db2_exec($conn1, "SELECT
+                        //                                                 *
+                        //                                             FROM
+                        //                                                 ITXVIEW_POSISI_KARTU_KERJA ipkk
+                        //                                             WHERE
+                        //                                                 PRODUCTIONORDERCODE = '$dataMain[NO_KK]'
+                        //                                                 AND PRODUCTIONDEMANDCODE = '$dataMain[DEMAND]'
+                        //                                                 AND (STATUS_OPERATION = 'Entered' OR STATUS_OPERATION = 'Progress')
+                        //                                             ORDER BY
+                        //                                                 STEPNUMBER ASC LIMIT 1");
                     // End
 
                     $dataStatusTerakhir = db2_fetch_assoc($resultStatusTerakhir);
@@ -206,19 +206,19 @@
                             </div>
                         </div>
                     <!-- End Modal -->
-                    <td style="text-align: center"><?php echo $dataMain['DEMAND'];?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo $dataMain['DEMAND']; ?></td>
                     <td style="text-align: center"><?php echo $dataMain['NO_KK'];?></td>
-                    <td style="text-align: center"><?php echo $dataMain['DELIVERY'];?></td>
-                    <td style="text-align: left"><?php echo $dataMain['LANGGANAN'];?> / <?php echo $dataMain['BUYER'];?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo $dataMain['DELIVERY'];?></td>
+                    <td style="text-align: left"><?php echo $dataMain['LANGGANAN'];?></td>
                     <td style="text-align: left"><?php echo $dataMain['KETERANGAN_PRODUCT'];?></td>
                     <td style="text-align: left"><?php echo $dataMain['JENIS_KAIN'];?></td>
                     <td style="text-align: center"><?php echo $dataMain['WARNA'];?></td>
-                    <td style="text-align: center"><?php echo $dataMain['NO_ORDER'];?></td>
-                    <td style="text-align: center"><?php echo $dataMain['QTY_BAGIKAIN'];?></td>
-                    <td style="text-align: center"><?php echo $dataMain['QTY_BAGIKAIN_YD_MTR'];?></td>
-                    <td style="text-align: center"><?php echo ! empty($dataStatusTerakhir['LONGDESCRIPTION']) ? $dataStatusTerakhir['LONGDESCRIPTION'] : 'KK OKE';?></td>
-                    <td style="text-align: center"><?php echo $dataDemand['EXTERNALREFERENCE']?></td>
-                    <td style="text-align: center"><?php echo $dataDemand['INTERNALREFERENCE']?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo $dataMain['NO_ORDER'];?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo $dataMain['QTY_BAGIKAIN'];?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo $dataMain['QTY_BAGIKAIN_YD_MTR'];?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo ! empty($dataStatusTerakhir['LONGDESCRIPTION']) ? $dataStatusTerakhir['LONGDESCRIPTION'] : 'KK OKE';?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo $dataMain['EXTERNALREFERENCE']?></td>
+                    <td style="text-align: center" title="Permintaan Baru"><?php echo $dataMain['INTERNALREFERENCE']?></td>
                 </tr>
             <?php $no++;
             }?>
