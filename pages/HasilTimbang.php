@@ -106,6 +106,8 @@ if (empty($ProdOrder)) {
                         <th valign="middle" style="text-align: center">Roll</th>
                         <th valign="middle" style="text-align: center">Bagi Kain</th>
                         <th valign="middle" style="text-align: center">Selisih</th>
+                        <th valign="middle" style="text-align: center">Selisih Proses</th>
+                        <th valign="middle" style="text-align: center">Loss Selisih %</th>
                         <th valign="middle" style="text-align: center">Loss Preset %</th>
                         <th valign="middle" style="text-align: center">Loss Inspek %</th>
                         <th valign="middle" style="text-align: center">Packing</th>
@@ -308,6 +310,8 @@ if (empty($ProdOrder)) {
                             <?php } ?>
                             <td><?php echo $rowdb21['ROL_BAGI']//echo $r['rol_bagi']; ?></td>
                             <td><?php echo round($KGBAGI,2);//echo $r['bagi_kain']; ?></td>
+                            <td align="right">&nbsp;</td>
+                            <td align="right">&nbsp;</td>
                             <?php if ($Gerobak != "") { ?>
                                 <td align="right"><?php echo number_format((round($KGBAGI,2) - round($r['berat'] - $r['berat_kosong'], 2)), 2); ?></td>
                             <?php } else { ?>

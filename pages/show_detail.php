@@ -112,13 +112,15 @@ $dt = explode(",",$modal_id);
 	<!-- /.modal-content -->
 </div>
 <!-- /.modal-dialog -->
+
 <script>
   $(function () {
     $('#lookup1').DataTable({
       "searching": true,
       "info": true,
       "responsive": true,
-    }); 	 
+	  "buttons": ["copy", "excel", "pdf"]	
+    }).buttons().container().appendTo('#lookup1_wrapper .col-md-6:eq(0)');	 	 
   
   });
 </script>

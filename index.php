@@ -281,8 +281,10 @@ $(document).on('click', '.detail_timeend', function (e) {
 	$('#lookup1').DataTable({
       "searching": false,
       "info": true,
-      "responsive": true,
-    });  
+      "responsive": true,,
+	  "buttons": ["copy", "excel", "pdf"]	
+    }).buttons().container().appendTo('#lookup1_wrapper .col-md-6:eq(0)');	 
+	  
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "excel", "pdf"]
