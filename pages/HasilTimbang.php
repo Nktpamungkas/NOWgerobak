@@ -1,5 +1,5 @@
 <?php
-ini_set("error_reporting", 0);
+//ini_set("error_reporting", 0);
 $Gerobak   = isset($_POST['gerobak']) ? $_POST['gerobak'] : '';
 $Tgl      = isset($_POST['tgl']) ? $_POST['tgl'] : '';
 $Tgl2      = isset($_POST['tgl2']) ? $_POST['tgl2'] : '';
@@ -72,12 +72,14 @@ if (empty($ProdOrder)) {
                         <input name="nodemand" type="text" class="form-control pull-right" id="nodemand" placeholder="No Demand" value="<?php echo $NoDemand;  ?>" autocomplete="off" />
                     </div>
                     <!-- /.input group -->
-                </div>
-                <button class="btn btn-info" type="submit">Cari Data</button>
+                </div>                
             </div>
+			<div class="card-footer">
+				<button class="btn btn-info" type="submit">Cari Data</button>
+			</div>	
         </div>
     </div>
-
+</form>
     <div class="card card-warning">
         <div class="card-header">
             <h3 class="card-title">Detail Data Gerobak <?php if ($Tgl != "") {
@@ -85,35 +87,35 @@ if (empty($ProdOrder)) {
                                                         } ?></h3>
         </div>
         <div class="card-body">
-            <table id="example1" class="table table-sm table-bordered table-striped" style="font-size: 13px; text-align: center;">
+            <table id="example3" class="table table-sm table-bordered table-striped" style="font-size: 13px; text-align: center;">
                 <thead>
                     <tr>
-                        <th valign="middle" style="text-align: center">No Gerobak</th>
-                        <th valign="middle" style="text-align: center">Prod. Order</th>
-                        <th valign="middle" style="text-align: center">Prod. Demand</th>
-                        <th valign="middle" style="text-align: center">No Hanger</th>
-                        <th valign="middle" style="text-align: center">No Step</th>
-                        <th valign="middle" style="text-align: center">Proses</th>
-                        <th valign="middle" style="text-align: center">Ket.</th>
-                        <th valign="middle" style="text-align: center">Jml Rol</th>
+                        <th width="73" valign="middle" style="text-align: center">No Gerobak</th>
+                        <th width="56" valign="middle" style="text-align: center">Prod. Order</th>
+                        <th width="66" valign="middle" style="text-align: center">Prod. Demand</th>
+                        <th width="53" valign="middle" style="text-align: center">No Hanger</th>
+                        <th width="36" valign="middle" style="text-align: center">No Step</th>
+                        <th width="38" valign="middle" style="text-align: center">Proses</th>
+                        <th width="22" valign="middle" style="text-align: center">Ket.</th>
+                        <th width="37" valign="middle" style="text-align: center">Jml Rol</th>
                         <?php if ($Gerobak != "") { ?>
-                            <th valign="middle" style="text-align: center">Berat </th>
-                            <th valign="middle" style="text-align: center">Berat Kosong</th>
-                            <th valign="middle" style="text-align: center">Berat Kain</th>
+                            <th width="34" valign="middle" style="text-align: center">Berat </th>
+                            <th width="65" valign="middle" style="text-align: center">Berat Kosong</th>
+                            <th width="52" valign="middle" style="text-align: center">Berat Kain</th>
                         <?php } else { ?>
-                            <th valign="middle" style="text-align: center">Berat Kain</th>
+                            <th width="52" valign="middle" style="text-align: center">Berat Kain</th>
                         <?php } ?>
-                        <th valign="middle" style="text-align: center">Roll</th>
-                        <th valign="middle" style="text-align: center">Bagi Kain</th>
-                        <th valign="middle" style="text-align: center">Selisih</th>
-                        <th valign="middle" style="text-align: center">Selisih Proses</th>
-                        <th valign="middle" style="text-align: center">Loss Selisih %</th>
-                        <th valign="middle" style="text-align: center">Loss Preset %</th>
-                        <th valign="middle" style="text-align: center">Loss Inspek %</th>
-                        <th valign="middle" style="text-align: center">Packing</th>
-                        <th valign="middle" style="text-align: center">Loss RMP %</th>
-                        <th valign="middle" style="text-align: center">Tgl Update</th>
-                        <th valign="middle" style="text-align: center">UserID</th>
+                        <th width="23" valign="middle" style="text-align: center">Roll</th>
+                        <th width="47" valign="middle" style="text-align: center">Bagi Kain</th>
+                        <th width="39" valign="middle" style="text-align: center">Selisih</th>
+						<th width="69" valign="middle" style="text-align: center">Selisih Proses</th>
+                        <th width="58" valign="middle" style="text-align: center">Loss Proses %</th>
+                        <th width="70" valign="middle" style="text-align: center">Loss Preset %</th>
+                        <th width="71" valign="middle" style="text-align: center">Loss Inspek %</th>
+                        <th width="46" valign="middle" style="text-align: center">Packing</th>
+                        <th width="62" valign="middle" style="text-align: center">Loss RMP %</th>
+                        <th width="51" valign="middle" style="text-align: center">Tgl Update</th>
+                        <th width="39" valign="middle" style="text-align: center">UserID</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -286,6 +288,33 @@ if (empty($ProdOrder)) {
 						}else if($rowdb21S['KG_BAGIKAIN1']>0){
 							$KGBAGI=$rowdb21S['KG_BAGIKAIN1'];
                         }
+						// Berat Kain sekarang
+						$beratKainNow = ($Gerobak != "")
+							? round($r['berat'] - $r['berat_kosong'], 2)
+							: round($r['berat_tot'] - $r['berat_kosong_tot'], 2);
+
+						// key per alur (biasanya per prod_order + no_demand)
+						$keyFlow = $r['prod_order'].'|'.$r['no_demand'];
+
+						// Selisih Proses = BeratKain sekarang - BeratKain sebelumnya
+						if ($Gerobak != "") {
+                                $sl= ((round($KGBAGI,2) - round($r['berat'] - $r['berat_kosong'], 2)));
+                         } else { 
+                                $sl= ((round($KGBAGI,2) - round($r['berat_tot'] - $r['berat_kosong_tot'], 2))); 
+                             } 
+						// Selisih Proses
+						$selisihProses = $sl;
+						if (isset($prevBeratKain[$keyFlow])) {
+							$selisihProses = round($beratKainNow - $prevBeratKain[$keyFlow], 2);
+						}
+						// Loss Proses %
+						$lossProses = ($sl/$beratKainNow)*100;
+						if (isset($prevBeratKain[$keyFlow])) {
+							$lossProses = (round($beratKainNow - $prevBeratKain[$keyFlow], 2)/$beratKainNow) * 100;
+						}
+						$prevBeratKain[$keyFlow] = $beratKainNow;
+						
+					
                     ?>
                         <tr>
                             <td><?php if ($Gerobak != "") {
@@ -310,23 +339,23 @@ if (empty($ProdOrder)) {
                             <?php } ?>
                             <td><?php echo $rowdb21['ROL_BAGI']//echo $r['rol_bagi']; ?></td>
                             <td><?php echo round($KGBAGI,2);//echo $r['bagi_kain']; ?></td>
-                            <td align="right">&nbsp;</td>
-                            <td align="right">&nbsp;</td>
                             <?php if ($Gerobak != "") { ?>
                                 <td align="right"><?php echo number_format((round($KGBAGI,2) - round($r['berat'] - $r['berat_kosong'], 2)), 2); ?></td>
                             <?php } else { ?>
                                 <td align="right"><?php echo number_format((round($KGBAGI,2) - round($r['berat_tot'] - $r['berat_kosong_tot'], 2)), 2); ?></td>
                             <?php } ?>
+							<td valign="middle" style="text-align: center"><?php if ($NoDemand != "" or $NoHanger != "") { echo ($selisihProses === '' ? '' : number_format($selisihProses, 2)); } ?></td>
+                            <td valign="middle" style="text-align: center"><?php if ($NoDemand != "" or $NoHanger != "") { echo ($lossProses === '' ? '' : number_format($lossProses, 2)); } ?></td>
 							<td><?php if($r['proses']=="PRE1" and $r['ket']=="after"){ echo round(((round($KGBAGI,2)-(round($r['berat'] - $r['berat_kosong'], 2)))/round($KGBAGI,2))*100,2);} ?></td>
                             <td><?php if($r['proses']=="INS3" and $r['ket']=="after"){ echo round(((round($KGBAGI,2)-(round($r['berat'] - $r['berat_kosong'], 2)))/round($KGBAGI,2))*100,2);} ?></td>
 							<td><?php if($r['proses']=="INS3" and $r['ket']=="after"){ echo round($rowMutasi['mutasi'], 2);} ?></td>
 							<td><?php if($r['proses']=="INS3" and $r['ket']=="after"){ echo round(((round($KGBAGI,2)-(round($rowMutasi['mutasi'], 2)))/round($KGBAGI,2))*100,2);} ?></td>
-                            <td><?php if ($r['tgl_timbang'] != "") {
+                            <td width="6"><?php if ($r['tgl_timbang'] != "") {
                                     echo $r['tgl_timbang'];
                                 } else {
                                     echo $r['tgl_update'];
                                 } ?></td>
-                            <td align="left"><?php echo $r['user_gabung']; ?></td>
+                            <td width="18" align="left"><?php echo $r['user_gabung']; ?></td>
                         </tr>
                     <?php
                         $no++;
@@ -336,8 +365,6 @@ if (empty($ProdOrder)) {
             </table>
         </div>
     </div>
-</form>
-</div>
 
 <div id="DetailShow" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 </div>
