@@ -290,8 +290,8 @@ if (empty($ProdOrder)) {
                         }
 						// Berat Kain sekarang
 						$beratKainNow = ($Gerobak != "")
-							? round($r['berat'] - $r['berat_kosong'], 2)
-							: round($r['berat_tot'] - $r['berat_kosong_tot'], 2);
+							? round(($r['berat'] ?? 0) - ($r['berat_kosong'] ?? 0), 2)
+							: round(($r['berat_tot'] ?? 0) - ($r['berat_kosong_tot'] ?? 0), 2);
 
 						// key per alur (biasanya per prod_order + no_demand)
 						$keyFlow = $r['prod_order'].'|'.$r['no_demand'];
@@ -308,9 +308,13 @@ if (empty($ProdOrder)) {
 							$selisihProses = round($beratKainNow - $prevBeratKain[$keyFlow], 2);
 						}
 						// Loss Proses %
+						if ($beratKainNow > 0) {
 						$lossProses = ($sl/$beratKainNow)*100;
 						if (isset($prevBeratKain[$keyFlow])) {
 							$lossProses = (round($beratKainNow - $prevBeratKain[$keyFlow], 2)/$beratKainNow) * 100;
+						}
+						}else{
+							$lossProses = 0;
 						}
 						$prevBeratKain[$keyFlow] = $beratKainNow;
 						
